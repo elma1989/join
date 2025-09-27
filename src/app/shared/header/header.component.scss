@@ -1,0 +1,148 @@
+@use './../../../../public/styles/all_styles.scss' as all;
+
+header {
+	height: 10vh;
+	background: white;
+
+	.content {
+		height: 10vh;
+		@include all.fl($alit: end);
+
+		.smallHeader {
+			@include all.fl($flexdir: row);
+			gap: 10%;
+			margin-right: 2%;
+			cursor: pointer;
+
+			.help {
+				width: 24px;
+				height: 24px;
+				cursor: pointer;
+			}
+
+			img {
+				width: 64px;
+				height: 64px;
+			}
+		}
+
+		aside {
+			width: 200px;
+			height: 100dvh;
+			position: fixed;
+			z-index: 20;
+			left: 0;
+			top: 0;
+			@include all.fl($jc: space-between);
+			padding: 50px 0;
+			background: #2a3647;
+
+			@include all.tablet {
+				width: 100%;
+				height: 5rem;
+				flex-direction: row;
+				bottom: 0;
+				top: auto;
+			}
+
+			img {
+				width: 100px;
+				height: 110px;
+
+				@include all.tablet {
+					display: none;
+					}
+			}
+
+			nav {
+				width: 100%;
+				height: 40dvh;
+				border: 2px solid red;
+
+				@include all.tablet {
+					height: 5rem;
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					justify-content: center;
+					flex: 1;
+					gap: 5rem;
+					}
+
+				@include all.mobile {
+					gap: 1rem;
+				}
+
+				@include all.smart {
+					gap: 0;
+				}
+
+				li {
+					height: 5dvh;
+					display: flex;
+					align-items: center;
+					margin: 1rem 0;
+					padding-left: 20%;
+					gap: 5%;
+					cursor: pointer;
+					border: 2px solid green;
+
+					@include all.tablet {
+						width: 5rem;
+						justify-content: center;
+						flex-direction: column;
+						height: 5rem;
+						margin: 0;
+						padding: 0;
+						gap: 0.5rem;
+						border-radius: 10px;
+					}
+
+					&:hover {
+						background: #2f3f57;
+					}
+					
+					a {
+						color: white;
+					}
+
+					img {
+						display: flex;
+						width: 24px;
+						height: 24px;
+					}
+				}
+			}
+				
+			.links {
+				width: 100%;
+				height: 8dvh;
+
+				@include all.tablet {
+						display: none;
+					}
+
+				li {
+					height: 8dvh;
+					@include all.fl();
+
+					@include all.tablet {
+						display: none;
+					}
+
+					a {
+						width: 100%;
+						color: grey;
+						text-align: center;
+						padding: 5px 0;
+						margin: 5px 0;
+
+							&:hover {
+							color: rgb(17, 119, 227);
+						}
+					}
+				}
+			}
+		}
+	}
+}
