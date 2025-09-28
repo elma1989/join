@@ -3,7 +3,7 @@ import { HeaderComponent } from '../shared/header/header.component';
 import { ContactsComponent } from './contacts/contacts.component';
 
 @Component({
-  selector: 'app-main-section',
+  selector: 'app-main-content',
   imports: [
     HeaderComponent,
     ContactsComponent

@@ -1,20 +1,24 @@
 @use './../../../../public/styles/all_styles.scss' as all;
 
-:host {
-	height: 10vh;
-	background: white;
+// Hier hatte ich den header-Selctor zu host geändert.
+// Mit :host kann man in Angular die gesamte Komponente stylen.
 
-	.content {
+.content {
+
+	.smallHeader {
+		position: absolute;
+		width: 100%;
 		height: 10vh;
-		@include all.fl($alit: end);
+		z-index: 10;
+		display: flex;
+		justify-content: end;
+		align-items: center;
+		gap: 10px;
+		padding-right: 1rem;
+		cursor: pointer;
+		background-color: white;
 
-		.smallHeader {
-			@include all.fl($flexdir: row);
-			gap: 10%;
-			margin-right: 2%;
-			cursor: pointer;
-
-			.help {
+		.help {
 				width: 24px;
 				height: 24px;
 				cursor: pointer;
@@ -28,15 +32,12 @@
 				width: 64px;
 				height: 64px;
 			}
-		}
+	}
 
-		aside {
+	aside {
 			width: 200px;
 			height: 100dvh;
-			position: fixed;
-			z-index: 20;
-			left: 0;
-			top: 0;
+			z-index: 10;
 			@include all.fl($jc: space-between);
 			padding: 50px 0;
 			background: #2a3647;
@@ -45,6 +46,7 @@
 				width: 100%;
 				height: 5rem;
 				flex-direction: row;
+				position: fixed;
 				bottom: 0;
 				top: auto;
 			}
@@ -66,56 +68,21 @@
 					height: 5rem;
 					@include all.fl($flexdir: row);
 					flex: 1;
-					gap: 5rem;
+					gap: 8rem;
 					}
 
 				@include all.mobile {
-					gap: 3rem;
+					gap: 2.5rem;
 				}
 
 				@include all.smart {
-					gap: 0;
-				}
-
-				li {
-					height: 5dvh;
-					display: flex;
-					align-items: center;
-					margin: 1rem 0;
-					padding-left: 20%;
-					gap: 5%;
-					cursor: pointer;
-
-					@include all.tablet {
-						width: 5rem;
-						height: 5rem;
-						@include all.fl();
-						margin: 0;
-						padding: 0;
-						gap: 0.5rem;
-						border-radius: 10px;
-					}
-
-					&:hover {
-						background: #2f3f57;
-					}
-					
-					a {
-						color: white;
-						font-size: clamp(16px, 1dvw, 32px);
-					}
-
-					img {
-						display: flex;
-						width: 24px;
-						height: 24px;
-					}
+					gap: 1.5rem;
 				}
 			}
 				
 			.links {
 				width: 100%;
-				height: 8dvh;
+				height: 16dvh; //Erhöht auf 16dvh wegen 2 mal li, passt sonst nicht rein
 
 				@include all.tablet {
 						display: none;
@@ -135,6 +102,7 @@
 						text-align: center;
 						padding: 5px 0;
 						margin: 5px 0;
+						font-size: clamp(16px, 0.8dvw, 32px);
 
 							&:hover {
 							color: rgb(17, 119, 227);
@@ -143,5 +111,12 @@
 				}
 			}
 		}
+
+	#main {
+		width: 100%;
+		height: 100vh;
+		background: rgb(211, 211, 211, 0.4);
+		flex-direction: column;
+		padding-top: 10vh;
 	}
 }
