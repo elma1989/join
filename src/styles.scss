@@ -1,4 +1,5 @@
-/* You can add global styles to this file, and also import other style files */
+// TODO: Font Roboto muss hier noch eingebunden und herunter geladen werden.
+
 *{
     position: relative;
     margin: 0;
@@ -9,7 +10,26 @@
     list-style: none;
 }
 
+html {
+    font-size: 10px; // für Verwendung von rem, 1rem = 10px
+}
+
+body {
+	background: rgb(211, 211, 211, 0.4);
+    font-family: 'Roboto', sans-serif;
+}
+
+button, input {
+    border: unset; // Vorgabe in Checkliste
+}
+
+button {
+    cursor: pointer; // Vorgabe in Checklist
+}
+
 .content {
+        // Diese Eigenshaften gelten für alle Elemente, 
+        // die die Klasse Kontent haben, egal in welcher Strutue
         width: 100%;
         max-width: 1920px;
         height: 100dvh;
@@ -20,11 +40,24 @@
 		footer {
 			width: 100%;
 			display: flex;
-			justify-content: left;
+			// justify-content: left; flex-start, ist default Wert
 	}
 }
 
-body {
-	background: rgb(211, 211, 211, 0.4);
-    font-family: 'Roboto', sans-serif;
+.overlay { // Elternelement
+    
+    justify-content: center;
+    .content { // Kindelement
+        //  Hier kann man noch spezielle Eigenschafen festgelegt werden,
+        // die eintreten genau dann wenn .content ein Kind von .overlay ist.
+        display: flex;
+        justify-content: center;
+        // Das würde ich hier nicht weiter verschachteln, 
+        // speziellere Eigenschaften werden in den Komponenten festgelegt
+    }
+}
+
+// Sollte global definiert werden, damit es überall verwendent werden kann.
+.d-none {
+    display: none;
 }
