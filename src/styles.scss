@@ -49,10 +49,6 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
-.d_none {
-    display: none;
-}
-
 button {
     cursor: pointer;
     border: unset;
@@ -65,4 +61,22 @@ input {
 @font-face {
     font-family: "Roboto";
     src: url("/assets/Fonts/Roboto/static/Roboto-Medium.ttf") format("truetype");
+}
+
+.overlay { // Elternelement
+    
+    justify-content: center;
+    .content { // Kindelement
+        //  Hier kann man noch spezielle Eigenschafen festgelegt werden,
+        // die eintreten genau dann wenn .content ein Kind von .overlay ist.
+        display: flex;
+        justify-content: center;
+        // Das würde ich hier nicht weiter verschachteln, 
+        // speziellere Eigenschaften werden in den Komponenten festgelegt
+    }
+}
+
+// Sollte global definiert werden, damit es überall verwendent werden kann.
+.d-none {
+    display: none;
 }
