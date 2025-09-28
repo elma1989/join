@@ -9,21 +9,19 @@
     list-style: none;
 }
 
-header,
-section,
-footer {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-
-    .content {
+.content {
         width: 100%;
         max-width: 1920px;
         height: 100dvh;
-        padding: 30px;
         display: flex;
-        flex-direction: column;
-    }
+
+		header,
+		section,
+		footer {
+			width: 100%;
+			display: flex;
+			justify-content: left;
+	}
 }
 
 body {

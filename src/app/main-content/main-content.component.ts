@@ -4,8 +4,8 @@ import { HeaderComponent } from '../shared/header/header.component';
 @Component({
   selector: 'app-main-section',
   imports: [
-    HeaderComponent
-  ],
+    HeaderComponent,
+],
   templateUrl: './main-content.component.html',
   styleUrl: './main-content.component.scss'
 })
