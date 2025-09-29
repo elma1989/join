@@ -3,7 +3,8 @@
 // Hier hatte ich den header-Selctor zu host geändert.
 // Mit :host kann man in Angular die gesamte Komponente stylen.
 
-    .content {
+:host {
+	.content {
         display: grid;
         grid-template-columns: 20rem 1fr;
         grid-template-rows: 10vh 1fr; 
@@ -19,7 +20,6 @@
         grid-column: 1;
         grid-row: 1 / 3;
     }
-:host { //header ist bereits im Content enthalten, das wäre eine doppelte Contentbegrenzung, daher Selector geändet zu host.
 
     .smallHeader {
         grid-column: 2;
