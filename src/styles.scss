@@ -28,20 +28,10 @@ button {
 }
 
 .content {
-        // Diese Eigenshaften gelten für alle Elemente, 
-        // die die Klasse Kontent haben, egal in welcher Strutue
-        width: 100%;
-        max-width: 1920px;
-        height: 100dvh;
-        display: flex;
-
-		header,
-		section,
-		footer {
-			width: 100%;
-			display: flex;
-			// justify-content: left; flex-start, ist default Wert
-	}
+        display: grid;
+        grid-template-columns: 20rem 1fr;
+        grid-template-rows: 10vh 1fr; 
+        height: 100vh; 
 }
 
 body {
@@ -52,15 +42,6 @@ body {
 
 .d_none {
     display: none;
-}
-
-button {
-    cursor: pointer;
-    border: unset;
-}
-
-input {
-    border: unset;
 }
 
 h1 {
@@ -77,15 +58,10 @@ h1 {
     src: url("/assets/Fonts/Inter_28pt-Bold.ttf") format("truetype");
 }
 
-.overlay { // Elternelement
-    
+.overlay {
     justify-content: center;
-    .content { // Kindelement
-        //  Hier kann man noch spezielle Eigenschafen festgelegt werden,
-        // die eintreten genau dann wenn .content ein Kind von .overlay ist.
+    .content { 
         display: flex;
         justify-content: center;
-        // Das würde ich hier nicht weiter verschachteln, 
-        // speziellere Eigenschaften werden in den Komponenten festgelegt
     }
 }
