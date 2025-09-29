@@ -1,11 +1,7 @@
 @use './../../../../public/styles/all_styles.scss' as all;
 
-// // Hier hatte ich den header-Selctor zu host geändert.
-// // Mit :host kann man in Angular die gesamte Komponente stylen.
-
-:host {
-    height: 100vh;
-    width: 100%;
+// Hier hatte ich den header-Selctor zu host geändert.
+// Mit :host kann man in Angular die gesamte Komponente stylen.
 
     .content {
         display: grid;
@@ -23,6 +19,7 @@
         grid-column: 1;
         grid-row: 1 / 3;
     }
+:host { //header ist bereits im Content enthalten, das wäre eine doppelte Contentbegrenzung, daher Selector geändet zu host.
 
     .smallHeader {
         grid-column: 2;
