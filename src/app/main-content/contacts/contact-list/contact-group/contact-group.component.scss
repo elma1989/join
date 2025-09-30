@@ -5,11 +5,8 @@ hr {
     border: 1px solid rgba(0,0,0,0.1);
 }
 
-// TODO: Use Mixin
 .letter {
-    // @include all.fl($alit: center);
-    display: flex;
-    align-items: center;
+    @include all.fl($alit: center);
     height: 58px;
     padding-left: 36px;
     font-size: 2rem;
