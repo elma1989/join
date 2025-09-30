@@ -17,6 +17,7 @@ export class ContactListComponent {
   protected groups:string[] = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
   private contacts:Contact[];
 
+  // TODO: Replace Dummy
   constructor(private dcs:DummyContactService) {
     this.contacts = dcs.contacts;
   }
