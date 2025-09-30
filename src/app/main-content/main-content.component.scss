@@ -1,0 +1,16 @@
+@use './../../../public/styles/all_styles.scss' as all;
+.content {
+
+    app-aside {
+        grid-area: aside;
+    }
+
+    .smallHeader {
+        grid-area: header;
+        height: 10vh;
+    }
+
+    main {
+        grid-area: main;
+    }
+}
