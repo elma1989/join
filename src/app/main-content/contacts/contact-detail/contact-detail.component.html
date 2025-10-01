@@ -1,10 +1,66 @@
-<div class="contactDetail">
+<div class="contactInfo">
+	
 	<div class="iconName">
 		<h1>Contacts</h1>
 		<hr>
 		<h2>Better with a team</h2>
 	</div>
-	<div class="userInfo">
-		
+
+	<div class="contactDetail">
+
+		<div class="contactIcon">
+
+			<img src="assets/Icons/User profile initials.png" alt="">
+			
+			<div class="editDelete">
+				<span>Marcus Gühne</span>
+
+				<div class="iconMain">
+					<button (click)="toggleEditContactModal()" type="button"><img src="assets/Icons/help.png" alt="">edit</button>
+					<button><img src="assets/Icons/help.png" alt="">delete</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="contactIcon">
+			<app-contact-icon class="{{ contact.iconColor }}" [contact]="contact"></app-contact-icon>
+		</div>		
+
+		<div class="contactEditDelete">
+			
+		<p class="name">{{ contact.firstName }} {{ contact.lastName }}</p>
+		</div>
+
+		<aside id="addContactModal" class="addContactModalContainer" [style.visibility]=addContactModalVisiblity>
+
+			<div class="leftSide">
+				<img src="assets/Icons/JoinLogoWhite.png" alt="">
+				<h1>Edit Contact</h1>
+			</div>
+
+			<div class="rightSide">
+				<div class="lineCloseBtn">
+				<button type="button" (click)="toggleEditContactModal()">x</button>
+			</div>
+			
+			<div class="lineForm">
+				<img src="assets/Icons/contact_icon_grey.png" alt="">
+            
+				<form action="submit" method="post">
+					<input type="text" name="" id="">
+					<input type="email" name="" id="">
+					<input type="tel" name="" id="">
+
+                <div class="formBtnContainer">
+                    <button type="button" (click)="toggleEditContactModal()">Delete</button>
+                    <button type="submit" (submit)="deleteContact()">Save ✓</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</aside>  
+
 	</div>
+
 </div>
