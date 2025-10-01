@@ -1,85 +1,86 @@
 .contactInfo {
+    width: 100%;
+    height: 89.5vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-.iconName {
-		display: flex;
-		align-items: center;
+    .iconName {
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        gap: 2rem;
+        margin-top: 10rem;
 
-		h2 {
-			font-size: clamp(16px, 1.5vw, 32px);
-		}
+        hr {
+            width: 0.5rem;
+            height: 7dvh;
+            background: rgb(17, 148, 213);
+        }
+    }
 
-		hr {
-			height: 8vh;
-			width: 0.4vw;
-			background: rgb(46, 164, 248);
-			margin: 0 2vw;
-		}
-	}
+    .contactDetail {
+        width: 100%;
+        height: auto;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 3rem;
+        margin-top: 3rem;
 
-.contactDetail {
-	width: 50%;
+        .contactIcon {
+            width: 6dvw;
+        }
 
-	.contactIcon {
-		width: 60%;
-		height: 10vh;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		padding: 10px;
-		gap: 20px;
+    .editDelete {
+        width: 70%;
+        display: flex;
+        flex-direction: column;
 
-		span {
-			width: 100%;
-			font-size: clamp(16px, 2dvw, 32px);
-			font-weight: bold;
-		}
+        .name {
+            display: flex;
+            align-items: center;
+            height: 6dvh;
+            font-size: clamp(16px, 2dvw, 48px);
+            font-weight: bold;
+        }
 
-		img {
-			width: 60px;
-			height: 60px;
-		}
-	}
+        .iconMain {
+            height: 6dvh;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
 
-	.iconMain {
-		display: flex;
-		align-items: center;
-		width: 100%;
+            button {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+            }
+        }
+    }
 
-		button {
-			width: 30%;
-			height: 3vh;
-			display: flex;
-			justify-content: start;
-			align-items: center;
-			gap: 5px;
-		}
+    .lastInfo {
+        
+        h2 {
+            margin: 3rem 0;
+        }
 
-		img {
-			width: 16px;
-			height: 16px;
-		}
-	}
-
-	.editDelete {
-		border: 2px solid red;
-		width: 100%;
-		height: 7vh;
-		display: flex;
-		align-items: center;
-		flex-direction: column;
-		}
-	}
+        h3 {
+            margin: 1.5rem 0;
+        }
+    }
+    }
+}
 
 #addContactModal {
     width: 60vw;
     height: 60vh;
 
     position: absolute;
-    z-index: 100000;
+    z-index: 10;
     border-radius: 8px;
  
-    left: 10dvw;
-    top: 10dvh;
+    left: -25dvh;
+    top: 5dvh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -118,7 +119,7 @@
     .rightSide {
         width: 100%;
         height: 100%;
-        padding: 2rem 5rem;
+        padding: 1rem 2rem;
 
         display: flex;
         flex-direction: column;
@@ -138,8 +139,8 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 4rem;
             margin: 4rem 0;
+            gap: 10px;
             
             img {
                 width: 12rem;
@@ -152,8 +153,9 @@
                 flex-direction: column;
                 align-items: start;
                 gap: 3rem;
+
                 input {
-                    width: 25vw;
+                    width: 22vw;
                     height: 3.5rem;
                     background-color: lightgray;
                     border-radius: 8px;
@@ -166,7 +168,6 @@
                     gap: 2rem;
 
                     button {
-                        // width: 13rem;
                         padding: 12px;
                         border-radius: 8px;
                         border: 1px solid grey;
@@ -177,4 +178,5 @@
 
     }
 }
-}
+
+// TODO include and changes font-size edit and delete icons
