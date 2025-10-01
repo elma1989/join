@@ -126,12 +126,13 @@ button, input {
 
 button {
     cursor: pointer; // Vorgabe in Checklist
+    background: transparent;
 }
 
 .content {
     display: grid;
     grid-template-columns: 20rem 1fr;
-    grid-template-rows: auto 1fr;
+    grid-template-rows: 10dvh 90dvh;
     grid-template-areas: "aside header" "aside main";
     height: 100dvh;
 
@@ -154,6 +155,11 @@ body {
 
 .d_none {
     display: none;
+}
+
+.d_flex {
+    display: flex;
+    z-index: 1000;
 }
 
 h1 {
