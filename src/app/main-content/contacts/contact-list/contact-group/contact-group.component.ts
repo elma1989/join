@@ -1,8 +1,9 @@
 import { Component, input} from '@angular/core';
 import { Contact } from '../../../../shared/classes/contact';
-import { DummyContactService } from '../dummy-contact.service';
 import { CommonModule } from '@angular/common';
 import { SingleContactComponent } from './single-contact/single-contact.component';
+import { FireContactService } from '../../../../shared/services/fire-contact.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-contact-group',
@@ -15,19 +16,23 @@ import { SingleContactComponent } from './single-contact/single-contact.componen
 })
 export class ContactGroupComponent {
   public letter = input.required<string>();
-  private allContacts: Contact[];
+  private allContacts: Contact[] = [];
 
-  // TODO: replatce Dummy
-  constructor(private dcs:DummyContactService) {
-    this.allContacts = dcs.contacts;
-  }
+  constructor(private fcs: FireContactService) {}
+
+  // getMembers(): Observable<Contact[]> {
+  //   return this.fcs.getMembers(this.letter());
+  // }
+
 
   /**
    * Gets contacts of group.
    * @returns - List with contacts oof group.
    */
   getContacts():Contact[] {
-    return this.dcs.getContactsByGroup(this.letter());
+    // this.fcs.subGroupContactList('M');
+    // return this.fcs.getMembers();
+    return [];
   }
 
   /**
@@ -39,7 +44,7 @@ export class ContactGroupComponent {
       this.allContacts[i].selected = false;
       if (this.allContacts[i].equals(selectedContact)) {
         this.allContacts[i].selected = true;
-        this.dcs.selectedContact = selectedContact;
+        this.fcs.currentContact = selectedContact;
       }
     }
   }
