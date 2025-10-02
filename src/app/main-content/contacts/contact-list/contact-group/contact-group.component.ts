@@ -1,9 +1,8 @@
-import { Component, input} from '@angular/core';
+import { Component, input } from '@angular/core';
 import { Contact } from '../../../../shared/classes/contact';
 import { CommonModule } from '@angular/common';
 import { SingleContactComponent } from './single-contact/single-contact.component';
 import { FireContactService } from '../../../../shared/services/fire-contact.service';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-contact-group',

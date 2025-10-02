@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ContactGroupComponent } from './contact-group/contact-group.component';
-import { Contact } from '../../../shared/classes/contact';
 import { FireContactService } from '../../../shared/services/fire-contact.service';
 
 @Component({
@@ -15,11 +14,9 @@ import { FireContactService } from '../../../shared/services/fire-contact.servic
 })
 export class ContactListComponent {
 
+  constructor(private fcs:FireContactService) {}
 
-
-  constructor(private fcs:FireContactService) {
-    
-  }
+  /** Gets Groups from FireContactService */
   getGroups():string[] {
     return this.fcs.getGroups();
   }

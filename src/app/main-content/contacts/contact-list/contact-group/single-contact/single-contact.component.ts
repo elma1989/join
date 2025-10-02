@@ -11,5 +11,9 @@ import { ContactIconComponent } from '../../../contact-icon/contact-icon.compone
   styleUrl: './single-contact.component.scss'
 })
 export class SingleContactComponent {
+<<<<<<< HEAD
   contact = input.required<Contact>();  
+=======
+  contact = input.required<Contact>();
+>>>>>>> add-contact-modal
 }
