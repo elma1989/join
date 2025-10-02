@@ -1,7 +1,7 @@
 import { Component, input, inject } from '@angular/core';
-import { Firestore } from '@angular/fire/firestore';
 import { Contact } from './../../../shared/classes/contact';
 import { ContactIconComponent } from '../contact-icon/contact-icon.component';
+import { FireContactService } from '../../../shared/services/fire-contact.service';
 
 @Component({
   selector: 'app-contact-detail',
@@ -13,23 +13,26 @@ export class ContactDetailComponent {
   // contact = input.required<Contact>();
   
   contact = new Contact({id:'', firstName:'Anton', lastName:'Mayer', group:'A', email:'antonm@gmail.com',tel: '0171 123456789', iconColor:null});
-  private firestore: Firestore = inject(Firestore);
+  private firestore: FireContactService = inject(FireContactService);
 
-  addContactModalVisiblity: "hidden" | "visible" = "hidden";
+  editModalState: 'closed' | 'open' = 'closed';
 
   toggleEditContactModal() {
-    // console.log('Add contact');
-    if(this.addContactModalVisiblity === "hidden"){
-      this.addContactModalVisiblity = "visible";
-
-    } else {
-      this.addContactModalVisiblity = "hidden";
-    }
+    this.editModalState = this.editModalState === 'closed' ? 'open' : 'closed';
   }
 
   deleteContact() {
-    // inputfields values
-    // set contact
-    // add to firestore
+    // Hier kommt später Ihre Logik für Firestore zum Löschen des Kontakts hin
+    console.log('Contact to be deleted:', this.contact); 
+    this.editModalState = 'closed';
+  }
+
+  /**
+   * Platzhalterfunktion zum Speichern (Aktualisieren) des Kontakts.
+   */
+  saveContact() {
+    // Hier kommt später Ihre Logik für Firestore zum Speichern des Kontakts hin
+    console.log('Contact to be saved:', this.contact);
+    this.editModalState = 'closed';
   }
 }

@@ -1,5 +1,4 @@
 <div class="contactInfo">
-	<div class="align">
 	<div class="iconName">
 		<h1>Contacts</h1>
 		<hr>
@@ -13,10 +12,10 @@
 
 		<div class="editDelete">
 			<p class="name">{{ contact.firstName }} {{ contact.lastName }}</p>
-
+<!-- this.firestore.currentContact anstatt contact. -->
 			<div class="iconMain">
-				<button (click)="toggleEditContactModal()" type="button"><img src="assets/Icons/help.png" alt="" />Edit</button>
-				<button><img src="assets/Icons/help.png" alt="" />Delete</button>
+				<button (click)="toggleEditContactModal()" type="button"><img src="assets/Icons/digitaler-controller.png" alt="" />Edit</button>
+				<button><img class="deleteBtn" src="assets/Icons/—Pngtree—vector trash icon_4152654.png" alt="" />Delete</button>
 			</div>
 		</div>
 
@@ -25,7 +24,7 @@
 
 		<div class="emailPhone">
 			<h3>Email</h3>
-			{{ contact.email }}
+			<a href="mailto:{{ contact.email }}">{{ contact.email }}</a>
 			<h3>Phone</h3>
 			{{ contact.tel }}
 		</div>
@@ -33,10 +32,13 @@
 	</div>
 </div>
 
-<aside id="addContactModal" class="addContactModalContainer" [style.visibility]="addContactModalVisiblity">
+<aside id="editContactModal" class="editContactModalContainer {{ editModalState }}">
 
 	<div class="leftSide">
-		<img src="assets/Icons/JoinLogoWhite.png" alt="" />
+		<img src="assets/Icons/JoinLogoWhite.png" alt=""/>
+		<div class="lineCloseBtn d_none">
+			<button type="button" (click)="toggleEditContactModal()">x</button>
+		</div>
 		<h1>Edit Contact</h1>
     </div>
 
@@ -46,7 +48,7 @@
 		</div>
 
 		<div class="lineForm">
-			<app-contact-icon class="{{ contact.iconColor }}" [contact]="contact"></app-contact-icon>
+			<app-contact-icon class="{{ contact.iconColor }} singleIcon" [contact]="contact"></app-contact-icon>
 
 			<form action="submit" method="post">
 				<input type="text" name="" id="" />
@@ -55,10 +57,9 @@
 
 			<div class="formBtnContainer">
 				<button type="button" (click)="toggleEditContactModal()">Delete</button>
-				<button type="submit" (submit)="deleteContact()">Save ✓</button>
+				<button type="button" (submit)="deleteContact()">Save ✓</button>
 			</div>
 			</form>
 		</div>
     </div>
 </aside>
-</div>

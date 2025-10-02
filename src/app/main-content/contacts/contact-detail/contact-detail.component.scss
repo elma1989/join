@@ -1,14 +1,13 @@
+@use './../../../../../public/styles/all_styles.scss' as all;
+
 .contactInfo {
     width: 100%;
     height: 89.5vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    @include all.fl($flexdir: column, $alit: start);
+    padding-left: 3rem;
 
     .iconName {
-        display: flex;
-        align-items: center;
-        justify-content: start;
+        @include all.fl($jc: start);
         gap: 2rem;
         margin-top: 10rem;
 
@@ -28,7 +27,13 @@
         margin-top: 3rem;
 
         .contactIcon {
-            width: 6dvw;
+            width: 110px;
+
+            @include all.notebook {
+                width: 70px;
+                height: 70px;
+                margin-top: 2rem;
+            }
         }
 
     .editDelete {
@@ -37,8 +42,7 @@
         flex-direction: column;
 
         .name {
-            display: flex;
-            align-items: center;
+            @include all.fl($jc: start);
             height: 6dvh;
             font-size: clamp(16px, 2dvw, 48px);
             font-weight: bold;
@@ -46,14 +50,26 @@
 
         .iconMain {
             height: 6dvh;
-            display: flex;
-            align-items: center;
+            @include all.fl($jc: start);
             gap: 1rem;
 
             button {
-                display: flex;
-                align-items: center;
+                @include all.fl();
                 gap: 5px;
+
+                .deleteBtn {
+                    width: 24px;
+                    height: 24px;
+                }
+
+                img {
+                    width: 16px;
+                    height: 16px;
+                }
+
+                &:hover {
+                    color: rgb(31, 135, 246);
+                }
             }
         }
     }
@@ -67,116 +83,177 @@
         h3 {
             margin: 1.5rem 0;
         }
+
+        .emailPhone {
+
+            a {
+                color: rgb(31, 135, 246);
+            }
+        }
     }
     }
 }
 
-#addContactModal {
-    width: 60vw;
-    height: 60vh;
-
-    position: absolute;
+.editContactModalContainer {
+    position: fixed;
+    top: 20rem;
+    right: 0;
+    width: 70%; 
+    height: 50vh;
     z-index: 10;
-    border-radius: 8px;
- 
-    left: -25dvh;
-    top: 5dvh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: white;
+    display: flex; 
+    background-color: white; 
+    transform: translateX(100%);
+    transition: transform 0.8s ease-out;
 
+    @include all.notebook {
+        width: 80%;
+    }
 
-    .leftSide {
-        width: 33vw;
-        height: 100%;
-        border-top-left-radius: 16px;
-        border-bottom-left-radius: 16px;
-        background-color: #2a3647;
-        gap: 2rem;
-        padding: 0 2rem;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
+    @include all.tablet {
 
-        img {
-            width: 6.4rem;
-            height: 6.4rem;
+        @include all.fl($flexdir: column);
+        width: 50%;
+    }
+}
+
+.editContactModalContainer.open {
+    transform: translate(-15%, 0%);
+    border-radius: 16px;
+    
+    @include all.tablet {
+        height: 60dvh;
+        width: 70%;
+    }
+
+    @include all.smart {
+        width: 100%;
+        height: 85dvh;
+        transform: translateX(0);
+        // right: -6.08rem;
+        top: 0;
+    }
+}
+
+.leftSide {
+    width: 23vw;
+    height: 100%;
+    background-color: #2a3647;
+    gap: 2rem;
+    padding: 0 2rem;
+    border-radius: 16px 0 0 16px;
+    @include all.fl($flexdir: column, $alit: start);
+
+        @include all.tablet {
+            width: 100%;
+            height: 50%;
+            border-radius: 16px 16px 0 0;
+            padding: 0;
         }
 
-        h1, h2 {
-            color: white;
-        }
+    .lineCloseBtn {
+        width: 100%;
+        @include all.fl($jc: end);
+        margin: 4rem 0;
+        border: 2px solid red;
+        display: none;
 
-        h1 {
-            font-size: 48px;
-        }
-        h2 {
-            font-size: 20px;
+        @include all.tablet {
+            display: flex;
+            margin-top: -4rem;
+            padding-right: 2rem;
         }
     }
 
-    .rightSide {
-        width: 100%;
-        height: 100%;
-        padding: 1rem 2rem;
+    img {
+        width: 6.4rem;
+        height: 6.4rem;
 
-        display: flex;
-        flex-direction: column;
-        justify-content: start;
-        align-items: start;
+        @include all.tablet {
+            display: none;
+        }
+    }
 
-        .lineCloseBtn {
-            width: 100%;
-            display: flex;
-            justify-content: end;
-            align-items: center;
-            margin: 4rem 0;
+    h1 {
+        color: white;
+        font-size: clamp(16px, 2.5rem, 36px);
+    }
+}
+
+.rightSide {
+    width: 100%; 
+    height: 100%;
+    padding: 1rem 2rem;
+    @include all.fl($flexdir: column);
+
+        @include all.tablet {
+            padding: 0;
         }
 
-        .lineForm {
+    .lineCloseBtn {
+        width: 100%;
+        @include all.fl($jc: end);
+        margin: 4rem 0;
+
+        @include all.tablet {
+            display: none;
+        }
+    }
+
+    .lineForm {
+        border: 2px solid green;
+        width: 100%;
+        @include all.fl();
+        margin: 4rem 0;
+        padding: 20px;
+        gap: 60px;
+
+        @include all.tablet {
+            flex-direction: column;
+            margin: 1rem 0;
+        }
+
+        @include all.smart {
             width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin: 4rem 0;
-            gap: 10px;
-            
-            img {
-                width: 12rem;
-                height: 12rem;
             }
 
-            form {
-                width: 100%;
-                display: flex;
-                flex-direction: column;
-                align-items: start;
-                gap: 3rem;
+        .singleIcon {
+            border: 2px solid green;
+            margin-top: -7.5rem;
+            width: 200px;
+            height: 140px;
 
-                input {
-                    width: 22vw;
-                    height: 3.5rem;
-                    background-color: lightgray;
-                    border-radius: 8px;
-                }
-
-                .formBtnContainer {
-                    display: flex;
-                    width: 100%;
-                    justify-content: start;
-                    gap: 2rem;
-
-                    button {
-                        padding: 12px;
-                        border-radius: 8px;
-                        border: 1px solid grey;
-                    }
-                }
-            }   
+            @include all.tablet {
+                width: 100px;
+                height: 100px;
+            }
         }
 
+        form {
+            width: 100%;
+            @include all.fl($alit: start, $flexdir: column);
+            gap: 3rem;
+
+            input {
+                width: 100%;
+                height: 3.5rem;
+                background-color: lightgray;
+                border-radius: 8px;
+            }
+
+            .formBtnContainer {
+                width: 100%;
+                @include all.fl($jc: start);
+                gap: 2rem;
+
+                button {
+                    padding: 12px;
+                    border-radius: 8px;
+                    border: 1px solid grey;
+                }
+            }
+        } 
     }
 }
 
-// TODO include and changes font-size edit and delete icons
+// TODO changes font-size

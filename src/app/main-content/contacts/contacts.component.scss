@@ -1,6 +1,7 @@
 #contact {
 	display: grid;
-    grid-template-columns: 20dvw 1fr;
+    grid-template-columns: 27dvw 1fr;
     grid-template-rows: auto;
+	grid-area: "contact-list contactInfo";
 	gap: 5rem;
 }
