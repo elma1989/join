@@ -10,7 +10,6 @@ import { FireContactService } from '../../../shared/services/fire-contact.servic
   styleUrl: './contact-detail.component.scss'
 })
 export class ContactDetailComponent {
-  // contact = input.required<Contact>();
   
   contact = new Contact({id:'', firstName:'Anton', lastName:'Mayer', group:'A', email:'antonm@gmail.com',tel: '0171 123456789', iconColor:null});
   private firestore: FireContactService = inject(FireContactService);
@@ -36,3 +35,5 @@ export class ContactDetailComponent {
     this.editModalState = 'closed';
   }
 }
+//this.firestore.currentContact anstatt contact.
+// output schreiben
