@@ -1,9 +1,8 @@
-import { Component, input} from '@angular/core';
+import { Component, input } from '@angular/core';
 import { Contact } from '../../../../shared/classes/contact';
 import { CommonModule } from '@angular/common';
 import { SingleContactComponent } from './single-contact/single-contact.component';
 import { FireContactService } from '../../../../shared/services/fire-contact.service';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-contact-group',
@@ -18,21 +17,12 @@ export class ContactGroupComponent {
   public letter = input.required<string>();
   private allContacts: Contact[] = [];
 
-  constructor(private fcs: FireContactService) {}
+  constructor(private fcs: FireContactService) {
+    this.allContacts = fcs.getContacts();
+  }
 
-  // getMembers(): Observable<Contact[]> {
-  //   return this.fcs.getMembers(this.letter());
-  // }
-
-
-  /**
-   * Gets contacts of group.
-   * @returns - List with contacts oof group.
-   */
-  getContacts():Contact[] {
-    // this.fcs.subGroupContactList('M');
-    // return this.fcs.getMembers();
-    return [];
+  getMembers(): Contact[] {
+    return this.fcs.getMembers(this.letter());
   }
 
   /**

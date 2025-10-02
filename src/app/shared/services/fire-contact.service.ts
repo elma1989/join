@@ -2,7 +2,6 @@ import { inject, Injectable, OnDestroy } from '@angular/core';
 import { addDoc, collection, deleteDoc, doc, Firestore, onSnapshot, Unsubscribe, updateDoc } from '@angular/fire/firestore';
 import { Contact } from '../classes/contact';
 
-
 /***
  * FireContactService is a service to manage communication between firebase database 
  * and this project
