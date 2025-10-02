@@ -105,34 +105,11 @@
     background-color: white; 
     transform: translateX(100%);
     transition: transform 0.8s ease-out;
-
-    @include all.notebook {
-        width: 80%;
-    }
-
-    @include all.tablet {
-
-        @include all.fl($flexdir: column);
-        width: 50%;
-    }
 }
 
 .editContactModalContainer.open {
     transform: translate(-15%, 0%);
     border-radius: 16px;
-    
-    @include all.tablet {
-        height: 60dvh;
-        width: 70%;
-    }
-
-    @include all.smart {
-        width: 100%;
-        height: 85dvh;
-        transform: translateX(0);
-        // right: -6.08rem;
-        top: 0;
-    }
 }
 
 .leftSide {
@@ -144,34 +121,17 @@
     border-radius: 16px 0 0 16px;
     @include all.fl($flexdir: column, $alit: start);
 
-        @include all.tablet {
-            width: 100%;
-            height: 50%;
-            border-radius: 16px 16px 0 0;
-            padding: 0;
-        }
-
     .lineCloseBtn {
         width: 100%;
         @include all.fl($jc: end);
         margin: 4rem 0;
         border: 2px solid red;
         display: none;
-
-        @include all.tablet {
-            display: flex;
-            margin-top: -4rem;
-            padding-right: 2rem;
-        }
     }
 
     img {
         width: 6.4rem;
         height: 6.4rem;
-
-        @include all.tablet {
-            display: none;
-        }
     }
 
     h1 {
@@ -186,18 +146,10 @@
     padding: 1rem 2rem;
     @include all.fl($flexdir: column);
 
-        @include all.tablet {
-            padding: 0;
-        }
-
     .lineCloseBtn {
         width: 100%;
         @include all.fl($jc: end);
         margin: 4rem 0;
-
-        @include all.tablet {
-            display: none;
-        }
     }
 
     .lineForm {
@@ -208,25 +160,11 @@
         padding: 20px;
         gap: 60px;
 
-        @include all.tablet {
-            flex-direction: column;
-            margin: 1rem 0;
-        }
-
-        @include all.smart {
-            width: 100%;
-            }
-
         .singleIcon {
             border: 2px solid green;
             margin-top: -7.5rem;
             width: 200px;
             height: 140px;
-
-            @include all.tablet {
-                width: 100px;
-                height: 100px;
-            }
         }
 
         form {
