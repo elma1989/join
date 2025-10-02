@@ -18,21 +18,12 @@ export class ContactGroupComponent {
   public letter = input.required<string>();
   private allContacts: Contact[] = [];
 
-  constructor(private fcs: FireContactService) {}
+  constructor(private fcs: FireContactService) {
+    this.allContacts = fcs.getContacts();
+  }
 
   getMembers(): Contact[] {
     return this.fcs.getMembers(this.letter());
-  }
-
-
-  /**
-   * Gets contacts of group.
-   * @returns - List with contacts oof group.
-   */
-  getContacts():Contact[] {
-    // this.fcs.subGroupContactList('M');
-    // return this.fcs.getMembers();
-    return [];
   }
 
   /**
