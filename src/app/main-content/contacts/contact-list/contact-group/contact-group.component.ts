@@ -20,7 +20,7 @@ export class ContactGroupComponent {
 
   constructor(private fcs: FireContactService) {}
 
-  getMembers(): Observable<Contact[]> {
+  getMembers(): Contact[] {
     return this.fcs.getMembers(this.letter());
   }
 
