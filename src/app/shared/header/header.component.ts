@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { NavItemData } from './../interfaces/navitemdata';
+import { NavItemComponent } from "../nav-item/nav-item.component";
 
 @Component({
   /* Wenn der Selector so in eckige Klammern gesceiben wird,

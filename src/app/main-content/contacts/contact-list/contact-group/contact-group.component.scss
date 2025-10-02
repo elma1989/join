@@ -1,0 +1,17 @@
+@use '../../../../../../public/styles/all_styles' as all;
+
+:host {
+    width: 100%;
+}
+
+hr {
+    margin: 8px 0;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+.letter {
+    @include all.fl($alit: center);
+    height: 58px;
+    padding-left: 36px;
+    font-size: 2rem;
+}
