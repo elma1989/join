@@ -2,6 +2,7 @@ import { inject, Injectable, OnDestroy } from '@angular/core';
 import { addDoc, collection, deleteDoc, doc, Firestore, onSnapshot, Unsubscribe, updateDoc } from '@angular/fire/firestore';
 import { Contact } from '../classes/contact';
 
+
 /***
  * FireContactService is a service to manage communication between firebase database 
  * and this project
@@ -24,8 +25,9 @@ import { Contact } from '../classes/contact';
 })
 export class FireContactService implements OnDestroy {
 
-  private contacts: Array<Contact> = [];
+  private contacts: Contact[] = [];
   private firestore: Firestore = inject(Firestore);
+  public currentContact: Contact | null = null;
   
   unsubContacts: Unsubscribe;
 
@@ -44,19 +46,33 @@ export class FireContactService implements OnDestroy {
    * Return and Array<Contact>
    * @returns an array of all loaded Contact-objects 
    */
-  getContacts() {
+  getContacts(): Contact[] {
     return this.contacts;
   }
 
   /**
+   * Gets all groups.
+   * @returns - All group letter.
+   */
+  getGroups(): string[] {
+    const groups: string[] = [];
+    for (let i = 0; i < this.contacts.length; i++) {
+      const tempLetter = this.contacts[i].firstName[0];
+      if (!groups.includes(tempLetter)) {
+        groups.push(tempLetter);
+      }
+    }
+    return groups.sort();
+  }
+
+  /**
    * Filters the current loaded Contact-object-List for the group of them.
-   *  
+   * 
    * @param group the group to filter contacts.
    * @returns an Array of Contact-objects filtered by group
    */
-  getContactsByGroup(group: string) {
-    const sortedList = this.contacts.filter((contact) => contact.group == group);
-    return sortedList;
+  getMembers(group:string): Contact[] {
+    return this.contacts.filter(contact => contact.group == group);
   }
 
   /**
@@ -97,10 +113,11 @@ export class FireContactService implements OnDestroy {
    */
   subContactsList() {
     return onSnapshot(this.getContactsRef(), (resultList) => {
-      this.contacts = [];
+      const contacts:Contact[] = [];
       resultList.forEach(contact => {
-        this.contacts.push(this.mapResponseToContact(contact.data()));
+        contacts.push(this.mapResponseToContact(contact.data()));
       });
+      this.contacts = contacts.sort();
     });
   }
 
@@ -130,7 +147,7 @@ export class FireContactService implements OnDestroy {
    * @returns returns the created contact object.
    */
   mapResponseToContact(obj: any): Contact {
-    const contact = new Contact(obj);
+    const contact = new Contact({id: obj.id, firstName: obj.firstname, lastName: obj.lastname, group: obj.firstname[0], email: obj.email, tel: obj.telnr, iconColor: obj.bgcolor});
     return contact;
   }
 }

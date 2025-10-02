@@ -1,14 +1,14 @@
-@mixin marpad($pad, $mar) {
+@mixin marpad($pad: 0, $mar: 0) {
 	padding: $pad;
 	margin: $mar;
 }
 
-@mixin fl($jc: center, $alit: center, $flexdir: row, $gap: 0, $rgap: 0, $cgap: 0) {
+@mixin fl($jc: flex-start, $alit: flex-start, $flexdir: row, $gap: 0, $rgap: 0, $cgap: 0, ) {
 	display: flex;
 	justify-content: $jc;
 	align-items: $alit;
 	flex-direction: $flexdir;
-	gap: $gap;
 	row-gap: $rgap;
 	column-gap: $cgap;
+	gap: $gap;
 }

@@ -7,6 +7,7 @@ import { Contact } from '../../../shared/classes/contact';
 export class DummyContactService {
   
   contacts: Contact[];
+  selectedContact: Contact | null = null;
 
   constructor() {
     this.contacts = DummyContactService.getAllContacts();
