@@ -1,14 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ContactListComponent } from './contact-list/contact-list.component';
 import { AddContactComponent } from "../../shared/add-contact/add-contact.component";
 import { Contact } from '../../shared/classes/contact';
+import { ContactDetailComponent } from "./contact-detail/contact-detail.component";
 
 @Component({
   selector: 'section[contacts]',
   imports: [
     ContactListComponent,
-    AddContactComponent
-  ],
+    AddContactComponent,
+    ContactDetailComponent
+],
   templateUrl: './contacts.component.html',
   styleUrl: './contacts.component.scss'
 })

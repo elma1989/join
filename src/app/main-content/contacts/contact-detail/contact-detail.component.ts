@@ -10,8 +10,8 @@ import { FireContactService } from '../../../shared/services/fire-contact.servic
   styleUrl: './contact-detail.component.scss'
 })
 export class ContactDetailComponent {
-  
-  contact = new Contact({id:'', firstName:'Anton', lastName:'Mayer', group:'A', email:'antonm@gmail.com',tel: '0171 123456789', iconColor:null});
+  contact = input.required<Contact>();
+
   private firestore: FireContactService = inject(FireContactService);
 
   editModalState: 'closed' | 'open' = 'closed';
@@ -21,16 +21,11 @@ export class ContactDetailComponent {
   }
 
   deleteContact() {
-    // Hier kommt später Ihre Logik für Firestore zum Löschen des Kontakts hin
     console.log('Contact to be deleted:', this.contact); 
     this.editModalState = 'closed';
   }
 
-  /**
-   * Platzhalterfunktion zum Speichern (Aktualisieren) des Kontakts.
-   */
   saveContact() {
-    // Hier kommt später Ihre Logik für Firestore zum Speichern des Kontakts hin
     console.log('Contact to be saved:', this.contact);
     this.editModalState = 'closed';
   }

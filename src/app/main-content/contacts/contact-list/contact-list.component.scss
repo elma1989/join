@@ -2,10 +2,10 @@
 
 :host { 
     // @include all.fl($flexdir: column);
-    width: 456px;
+    width: 470px;
     height: 100%;
     overflow-y: auto;
-    @include all.marpad($pad: 0 24px, $mar: 0 24px);
+    @include all.marpad($pad: 0 4px);
     @include all.mobile {
         @include all.marpad($pad: 0 24px);
         width: 100%;

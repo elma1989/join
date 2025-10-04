@@ -7,11 +7,11 @@
 
 	<div class="contactDetail">
 		<div class="contactIcon">
-			<app-contact-icon class="{{ contact.iconColor }}" [contact]="contact"></app-contact-icon>
+			<app-contact-icon class="{{ contact().iconColor }}" [contact]="contact()"></app-contact-icon>
 		</div>
 
 		<div class="editDelete">
-			<p class="name">{{ contact.firstName }} {{ contact.lastName }}</p>
+			<p class="name">{{ contact().firstName }} {{ contact().lastName }}</p>
 
 			<div class="iconMain">
 				<button (click)="toggleEditContactModal()" type="button"><img src="assets/Icons/digitaler-controller.png" alt="" />Edit</button>
@@ -24,9 +24,9 @@
 
 		<div class="emailPhone">
 			<h3>Email</h3>
-			<a href="mailto:{{ contact.email }}">{{ contact.email }}</a>
+			<a href="mailto:{{ contact().email }}">{{ contact().email }}</a>
 			<h3>Phone</h3>
-			{{ contact.tel }}
+			{{ contact().tel }}
 		</div>
 	</div>
 	</div>
@@ -48,7 +48,7 @@
 		</div>
 
 		<div class="lineForm">
-			<app-contact-icon class="{{ contact.iconColor }} singleIcon" [contact]="contact"></app-contact-icon>
+			<app-contact-icon class="{{ contact().iconColor }} singleIcon" [contact]="contact()"></app-contact-icon>
 
 			<form action="submit" method="post">
 				<input type="text" name="" id="" />
