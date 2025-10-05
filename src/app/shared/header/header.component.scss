@@ -9,6 +9,9 @@
 	@include all.fl($jc: end, $alit: center, $gap: 10px);
 	padding-right: 2rem;
 	background: white;
+	@include all.tablet {
+		display: none;
+	}
 
 	img {
 			cursor: pointer;
