@@ -21,6 +21,10 @@ export class ContactGroupComponent {
     this.allContacts = fcs.getContacts();
   }
 
+  /**
+   * Gets the members of this Group.
+   * @returns - Memberlist
+   */
   getMembers(): Contact[] {
     return this.fcs.getMembers(this.letter());
   }
