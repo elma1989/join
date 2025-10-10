@@ -13,9 +13,9 @@ export class ContactService implements OnDestroy {
   // #region properties
 
   private fcs : FireContactService = inject(FireContactService);
-  newContact: Contact = new Contact({ id: '', firstname: '', lastname: '', group: '', email: '', tel: '', iconColor: '' });
   private dss: DisplaySizeService = inject(DisplaySizeService);
   private curSize$: Observable<DisplayType> = this.dss.size();
+
   // add or edit contact modal properties 
 
   private isEditModalOpenBS: BehaviorSubject<boolean> = new BehaviorSubject(false);
@@ -72,11 +72,12 @@ export class ContactService implements OnDestroy {
 
   openModal(kindOfModal: string) {
     if(kindOfModal == 'add') {
-      this.contactToEditBS.next(this.newContact);
+      this.contactToEditBS.next(new Contact({ id: '', firstname: '', lastname: '', group: '', email: '', tel: '', iconColor: '' }));
       this.isEditModalOpenBS.next(false);
       this.isAddModalOpenBS.next(true);
       this.modalHeadlineTxtBS.next('Add');
       this.modalSaveBtnTxtBS.next('Create contact ✓');
+
     } else if (kindOfModal == 'edit') {
       this.isEditModalOpenBS.next(true);
       this.isAddModalOpenBS.next(false);
