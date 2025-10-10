@@ -96,7 +96,6 @@ export class ContactService implements OnDestroy {
   // contact list methods
 
   selectContact(contact:Contact|null = null) {
-    console.log(contact);
     this.currentContactBS.next(contact);
   }
 
