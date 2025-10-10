@@ -1,0 +1,15 @@
+@use './all_styles' as all;
+
+.btn-set {
+    width: 100%;
+    @include all.marpad ($mar: 0 0, $pad: 1rem);
+    @include all.fl($jc: center, $alit: center, $gap: 1rem);
+    color: white;
+    font-size: 2rem;
+    background-color: #2a3647;
+    border-radius: 8px;
+    border: 2px solid #4a5f7c;
+    &:hover {
+        background: #29ABE2;
+    }
+}
