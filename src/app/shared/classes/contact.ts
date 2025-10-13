@@ -33,11 +33,11 @@ export class Contact {
     }) {
         this.id = id;
         this.firstname = firstname,
-            this.lastname = lastname,
-            this.group = group,
-            this.email = email,
-            this.tel = tel,
-            this.iconColor = iconColor ? iconColor : Contact.getRandomIconColor();
+        this.lastname = lastname,
+        this.group = group,
+        this.email = email,
+        this.tel = tel,
+        this.iconColor = iconColor ? iconColor : Contact.getRandomIconColor();
     }
 
     // #region Methods

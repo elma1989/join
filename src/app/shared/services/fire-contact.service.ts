@@ -145,7 +145,7 @@ export class FireContactService implements OnDestroy {
    * @param contact The contact object to add.
    */
   async addContact(contact: Contact): Promise<void> {
-    contact. group = contact.firstname[0];
+    // contact. group = contact.firstname[0];
     if(contact.firstname === '' || contact.lastname === '' || contact.email === '' || contact.tel === '') {
       return;
     }
@@ -162,6 +162,7 @@ export class FireContactService implements OnDestroy {
    * @param contact The contact object with data to update.
    */
   async updateContact(contact: Contact) {
+    contact. group = contact.firstname[0];
     await updateDoc(this.getSingleContactRef(contact.id), contact.toJson());
   }
 
