@@ -3,6 +3,7 @@ import { addDoc, collection, CollectionReference, deleteDoc, doc, DocumentRefere
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { Contact } from '../classes/contact';
 import { ContactGroup } from '../classes/contactGroup';
+import { ToastMsgService } from './toast-msg.service';
 
 /**
  * FireContactService is a service to manage communication between firebase database 
@@ -37,6 +38,7 @@ export class FireContactService implements OnDestroy {
   
   private unsubContacts: Unsubscribe;
   private firestore: Firestore = inject(Firestore);
+  private tms: ToastMsgService = inject(ToastMsgService);
 
   // #endregion properties
 
@@ -145,14 +147,16 @@ export class FireContactService implements OnDestroy {
    * @param contact The contact object to add.
    */
   async addContact(contact: Contact): Promise<void> {
-    // contact. group = contact.firstname[0];
+    contact. group = contact.firstname[0];
     if(contact.firstname === '' || contact.lastname === '' || contact.email === '' || contact.tel === '') {
+      this.tms.add('Could not create Contact', 3000, 'error');
       return;
     }
     const newContactRef = await addDoc(this.getContactsRef(), contact.toJson());
     // update is important to get and save the id inside of component.
     if(newContactRef.id !== ''){
       await updateDoc(newContactRef, {id: newContactRef.id});
+      this.tms.add('Contact created', 3000, 'success');
       this.setCurrentContact(newContactRef.id);
     }
   }
@@ -164,6 +168,7 @@ export class FireContactService implements OnDestroy {
   async updateContact(contact: Contact) {
     contact. group = contact.firstname[0];
     await updateDoc(this.getSingleContactRef(contact.id), contact.toJson());
+    this.tms.add('Contact updated', 3000, 'success');
   }
 
   /**
@@ -172,6 +177,7 @@ export class FireContactService implements OnDestroy {
    */
   async deleteContact(contact: Contact) {
     await deleteDoc(this.getSingleContactRef(contact.id));
+    this.tms.add('Contact deleted', 3000, 'success');
   }
 
   // #endregion

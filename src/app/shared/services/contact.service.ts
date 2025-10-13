@@ -4,6 +4,7 @@ import { Contact } from '../classes/contact';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { ContactGroup } from '../classes/contactGroup';
 import { DisplaySizeService, DisplayType } from './display-size.service';
+import { ToastMsgService } from './toast-msg.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class ContactService implements OnDestroy {
 
   private fcs : FireContactService = inject(FireContactService);
   private dss: DisplaySizeService = inject(DisplaySizeService);
+  private tms: ToastMsgService = inject(ToastMsgService);
 
   // add or edit contact modal properties 
 
