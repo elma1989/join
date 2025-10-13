@@ -141,6 +141,8 @@ export class ContactService implements OnDestroy {
           this.contactToEditBS.next(contact);
           this.selectContact(contact);
           this.classToDisplayBS.next('');
+          console.log('contact.service.ts');
+          
         }
       });
     });
