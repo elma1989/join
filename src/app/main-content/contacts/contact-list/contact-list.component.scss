@@ -7,23 +7,23 @@
     box-shadow: 5px 0 10px -5px grey;
 
     #add-contact-button {
-        @include all.marpad ($mar: 0 3rem 0 0, $pad: 1rem 0);
+        width: 91%;
+        @include all.marpad ($mar: 1rem 0, $pad: 1rem 0);
 
-            @include all.tablet {
-                @include all.size($w: 6.2rem, $minW: 6.2rem, $h: 6.2rem, $minH: 6.2rem);
-                border-radius: 50%;
-                position: absolute;
-                right: 0;
-                bottom: 2rem;
-
-                span {
-                    display: none;
-                }
+        @include all.tablet {
+            @include all.size($w: 6.2rem, $minW: 6.2rem, $h: 6.2rem, $minH: 6.2rem);
+            border-radius: 50%;
+            position: absolute;
+            right: 2rem;
+            bottom: 0;
+                
+            span {
+                display: none;
             }
+        }
 
-    @media(max-width: 376px) {
-        right: 0;
-        bottom: 0.5rem;
+        @media(max-width: 376px) {
+            bottom: 0.5rem;
         }
     }
 
@@ -65,13 +65,13 @@
 
                 .contact-data {
                     @include all.fl($flexdir: column, $jc: center);
-                    @include all.size($w: 250px, $h: 48px);
+                    @include all.size($w: 25rem, $h: 4.8rem);
 
                     .name {
+                        @include all.limiter();
                         margin-bottom: 5px;
-                        font-size: 2.4rem;
+                        font-size: 20px;
                         font-family: 'InterBoldReg', sans-serif;
-                        white-space: nowrap;
 
                         @media(max-width: 376px) {
                             font-size: clamp(16px, 2rem, 32px);
@@ -79,8 +79,9 @@
                     }
 
                     .email {
+                        @include all.limiter();
                         color: #007bed;
-                        font-size: 2rem;
+                        font-size: 16px;
 
                         @media(max-width: 376px) {
                             font-size: clamp(16px, 1.8rem, 32px);

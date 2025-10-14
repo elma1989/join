@@ -13,11 +13,37 @@
 	gap: $gap;
 }
 
-@mixin size($w: 100%, $h: 100%, $minW: 0, $minH: 0, $maxW: 100dvw, $maxH: 100dvh) {
+@mixin size($w: 100%, $h: 100%, $minW: 0, $minH: 0, $maxW: none, $maxH: none) {
 	width: $w;
 	min-width: $minW;
 	max-width: $maxW;
 	height: $h;
 	min-height: $minH;
 	max-height: $maxH;
+}
+
+@mixin absolute($pos: absolute, $top: auto, $left: auto, $bottom: auto, $right: auto) {
+	position: $pos;
+	top: $top;
+	left: $left;
+	bottom: $bottom;
+	right: $right;
+}
+
+@mixin borRad($c: white, $radius: 16px, $thick: 1px) {
+    border: $thick solid $c;
+    border-radius: $radius;
+}
+
+@mixin boxSh($right: 2px, $bottom: 4px, $blur: 2px, $all: 0px, $c: white) {
+    // right , bottom, spread, thick around 
+    box-shadow: $right $bottom $blur $all $c ;
+}
+
+@mixin limiter() {
+	display: inline-block;
+	max-width: 100%;
+	white-space: nowrap;
+	overflow: hidden; 
+	text-overflow: ellipsis;
 }
