@@ -1,4 +1,6 @@
-export class Contact {
+import { DatabaseObject } from "../interfaces/database-object";
+
+export class Contact implements DatabaseObject {
 
     // #region Attributes
     id: string;
@@ -7,9 +9,10 @@ export class Contact {
     group: string;
     email: string;
     tel: string;
-    selected: boolean = false;
     iconColor: string | null;
     active: boolean = false;
+    selectedInContactList: boolean = false; //One Contact Only
+    selectedInTask: boolean = false //More then one Contact can be selected.
     // #endregion
 
     /**
@@ -29,7 +32,8 @@ export class Contact {
         group: string,
         email: string,
         tel: string,
-        iconColor: string | null
+        iconColor: string | null,
+        
     }) {
         this.id = id;
         this.firstname = firstname,
@@ -54,7 +58,7 @@ export class Contact {
      * Gets a JSON-String from Contact.
      * @returns - Contact as JSON.
     */
-    toJson() {
+    toJSObject() {
         return {
             id: this.id || "",
             firstname: this.firstname || "",

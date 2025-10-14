@@ -1,23 +1,27 @@
 import { inject, Injectable, OnDestroy } from '@angular/core';
-import { FireContactService } from './fire-contact.service';
 import { Contact } from '../classes/contact';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, map, Observable, Subscription } from 'rxjs';
 import { ContactGroup } from '../classes/contactGroup';
 import { DisplaySizeService, DisplayType } from './display-size.service';
+import { collectionData } from '@angular/fire/firestore';
+import { FireService } from './fire.service';
 import { ToastMsgService } from './toast-msg.service';
 
 @Injectable({
   providedIn: 'root'
 })
 /** Handles the contact mangegement. */
-export class ContactService implements OnDestroy {
+export class ContactService extends FireService<Contact> implements OnDestroy {
 
   // #region properties
 
-  private fcs : FireContactService = inject(FireContactService);
   private dss: DisplaySizeService = inject(DisplaySizeService);
   private tms: ToastMsgService = inject(ToastMsgService);
 
+  // Contact List
+  private contacts$!: Observable<Contact[]>;
+  private currentContactSubject: BehaviorSubject<Contact | null> = new BehaviorSubject<Contact | null>(null);
+  private currentContact: Observable<Contact | null> = this.currentContactSubject.asObservable();
   // add or edit contact modal properties 
 
   private isEditModalOpenBS: BehaviorSubject<boolean> = new BehaviorSubject(false);
@@ -34,56 +38,58 @@ export class ContactService implements OnDestroy {
   private classToDisplayBS: BehaviorSubject<string> = new BehaviorSubject('');
   classToDisplay$: Observable<string> = this.classToDisplayBS.asObservable();
 
-  curSize$ : Subscription;
+  curSize$: Subscription;
 
-  // fireContactService integration properties
-
-  contactsBS: BehaviorSubject<Array<Contact>> = new BehaviorSubject(new Array<Contact>());
-  contacts: Observable<Array<Contact>> = this.contactsBS.asObservable();
-  contacts$ : Subscription = this.fcs.contacts$.subscribe((contactStream: Array<Contact>) => {
-    this.contactsBS.next(contactStream.sort());
-  });
+    //   this.contactsBS.next(contactStream.sort());
+  // });
 
   contactToEditBS: BehaviorSubject<Contact> = new BehaviorSubject(new Contact({ id: '', firstname: '', lastname: '', group: '', email: '', tel: '', iconColor: '' }));
-  contactToEdit: Observable<Contact> = this.contactToEditBS.asObservable();  
-  
-  private currentContactBS: BehaviorSubject<Contact | null > = new BehaviorSubject<Contact | null>(null);;
+  contactToEdit: Observable<Contact> = this.contactToEditBS.asObservable();
+
+  private currentContactBS: BehaviorSubject<Contact | null> = new BehaviorSubject<Contact | null>(null);;
   currentContact$: Observable<Contact | null> = this.currentContactBS.asObservable();
 
   contactGroupsBS: BehaviorSubject<Array<string>> = new BehaviorSubject(new Array<string>());
   contactGroups: Observable<Array<string>> = this.contactGroupsBS.asObservable();
-  contactGroups$ = this.fcs.getAllGroups$().subscribe((groups: Array<string>) => {
-    this.contactGroupsBS.next(groups);
-  });
+  // contactGroups$ = this.fcs.getAllGroups$().subscribe((groups: Array<string>) => {
+  //   this.contactGroupsBS.next(groups);
+  // });
 
   contactsByGroupBS: BehaviorSubject<Array<ContactGroup>> = new BehaviorSubject(new Array<ContactGroup>());
   contactsByGroup: Observable<Array<ContactGroup>> = this.contactsByGroupBS.asObservable();
 
   // #endregion properties
 
-  constructor() { 
-    this.contactsByGroup = this.fcs.getContactGroups();
+  constructor() {
+    super();
+    this.loadContacts();
     this.curSize$ = this.subscribeWindowSize();
   }
 
   /** Unsubribes all subcriptionss. */
   ngOnDestroy(): void {
-    this.contacts$.unsubscribe();
-    this.contactGroups$.unsubscribe();
+    // this.contacts$.unsubscribe();
+    // this.contactGroups$.unsubscribe();
     this.curSize$.unsubscribe();
   }
 
   // #region methods
+  /** Loads all contacts. */
+  private loadContacts(): void {
+    this.contacts$ = collectionData(this.getCollectionRef('contacts'), { idField: 'id' }).pipe(
+      map(docs => docs.map(data => new Contact({ id: data.id, firstname: data['firstname'], lastname: data['lastname'], group: data['group'], email: data['email'], tel: data['tel'], iconColor: data['iconColor'] })))
+    );
+  }
 
   // detail methods
 
   /** Subscribes the window size form DisplaySizeService. */
-  subscribeWindowSize () {
+  subscribeWindowSize() {
     return this.dss.size().subscribe((size) => {
-      if(size = DisplayType.NOTEBOOK) {
+      if (size = DisplayType.NOTEBOOK) {
         this.classToDisplayBS.next('d_none');
       }
-      else if(size == DisplayType.DESKTOP) {
+      else if (size == DisplayType.DESKTOP) {
         this.classToDisplayBS.next('');
       }
     });
@@ -95,7 +101,7 @@ export class ContactService implements OnDestroy {
    * @param kindOfModal - 'add' or 'edit
    */
   openModal(kindOfModal: string) {
-    if(kindOfModal == 'add') {
+    if (kindOfModal == 'add') {
       this.contactToEditBS.next(new Contact({ id: '', firstname: '', lastname: '', group: '', email: '', tel: '', iconColor: '' }));
       this.isEditModalOpenBS.next(false);
       this.isAddModalOpenBS.next(true);
@@ -124,25 +130,16 @@ export class ContactService implements OnDestroy {
    * Selects a contact.
    * @param contact - Contact to select, null for unselect.
    */
-  selectContact(contact:Contact|null = null) {
-    this.currentContactBS.next(contact);
-  }
-
-  /**
-   * Enabels a contact.
-   * @param id - Id of contact.
-   */
-  async setActiveContact(id: string) {
-    await this.contacts.forEach((contactStream) => {
-      contactStream.forEach((contact) => {
-        contact.selected = false;
-        if(contact.id == id) {
-          contact.selected = true;
-          this.contactToEditBS.next(contact);
-          this.selectContact(contact);
+  async selectContact(contact: Contact | null = null) {
+    await this.contacts$.forEach((contactStream) => {
+      contactStream.forEach((contactO) => {
+        contactO.selectedInContactList = false;
+        if (contactO.equals(contact)) {
+          contactO.selectedInContactList = true;
+          this.contactToEditBS.next(contactO);
+          this.currentContactBS.next(contactO)
           this.classToDisplayBS.next('');
-          console.log('contact.service.ts');
-          
+          this.currentContactSubject.next(contact);
         }
       });
     });
@@ -153,13 +150,13 @@ export class ContactService implements OnDestroy {
    * @param id - Id of contact.
    */
   unselectCurrentContact(id: string) {
-    this.contacts.forEach((contactStream) => {
-      contactStream.forEach((contact) => {
-        if(contact.id == id) {
-          contact.selected = false;
-        }
-      })
-    })
+    this.contacts$.forEach((contactStream) => {
+    contactStream.forEach((contact) => {
+    if(contact.id == id) {
+      contact.selectedInContactList = false;
+    }
+    });
+    });
   }
   // #endregion
 
@@ -170,19 +167,39 @@ export class ContactService implements OnDestroy {
    */
   setDetailVisibility(classname: 'd_none' | '') {
     this.classToDisplayBS.next(classname);
-    if(this.currentContactBS.value) {
+    if (this.currentContactBS.value) {
       this.unselectCurrentContact(this.currentContactBS.value.id);
       this.currentContactBS.next(null);
     }
   }
 
+  // region Groups
+  /**
+   * Gets all groups.
+   * @returns - All group as Observable.
+   */
+  getAllGroups(): Observable<ContactGroup[]> {
+    return this.contacts$.pipe((
+      map(contacts => {
+        const groups = contacts.map(contact => contact.group);
+        const nonEmpty = groups.filter(g => g.length > 0);
+        const letterList = Array.from(new Set(nonEmpty));
+        return letterList.map(letter => new ContactGroup(this, letter))
+      })
+    ))
+  }
+  // #endregion
+
   // #region CRUD methods
+  getAll(): Observable<Contact[]> {
+    return this.contacts$
+  }
   /**
    * Adds a contact into database.
    * @param contact - Contact for add to database.
    */
   async addContactToDB(contact: Contact) {
-    await this.fcs.addContact(contact);
+    await this.add(contact);
   }
 
   /**
@@ -190,7 +207,7 @@ export class ContactService implements OnDestroy {
    * @param contact - Contact for update in database.
    */
   async updateContactInDB(contact: Contact) {
-    await this.fcs.updateContact(contact);
+    await this.update(contact);
   }
 
   /**
@@ -198,7 +215,7 @@ export class ContactService implements OnDestroy {
    * @param contact - Contact to delete
    */
   async deleteContactInDB(contact: Contact) {
-    await this.fcs.deleteContact(contact);
+    await this.delete(contact);
   }
   // #endregion CRUD methods
   // #endregion methods
