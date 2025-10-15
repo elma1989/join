@@ -1,0 +1,50 @@
+@use '../../../../public/styles/all_styles' as all;
+@forward '../../../../public/styles/component-styles';
+
+:host {
+    @include all.fl($flexdir: column, $alit: center);
+    @include all.size();
+    padding-top: 8rem;
+}
+
+header {
+    @include all.fl($jc: space-between, $alit: center);
+    @include all.size ($w: 80%, $h: 7.3rem);
+    h1 {
+        width: 50%;
+    }
+    .input-area {
+        @include all.fl($alit:center, $gap: 3.2rem);
+        @include all.size($w: 50%,$h: 65%);
+        form {
+            flex: 1;
+            height: 100%;
+            input[type=text] {
+                display: flex;
+                @include all.size();
+                @include all.marpad($pad: 8px 16px);
+                outline: none;
+                border-radius: 10px;
+                border: 1px solid #a8a8a8;
+            }
+            hr {
+                height: 60%;
+                width: 2px;
+                position: absolute;
+                top: 20%;
+                right: 48px;
+            }
+            input[type=submit] {
+                height: 100%;
+                aspect-ratio: 1 / 1;
+                background: url(../../../../public//assets//Icons//taskBoard/searchDefault.png) no-repeat center / cover;
+                position: absolute;
+                top: 0;
+                right: 0;
+            }
+        }
+    }
+    button {
+        @include all.marpad($pad: 8px 16px)
+    }
+}
