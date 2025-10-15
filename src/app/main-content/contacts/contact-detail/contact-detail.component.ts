@@ -1,6 +1,6 @@
 import { Component, inject,} from '@angular/core';
 import { Contact } from './../../../shared/classes/contact';
-import { ContactIconComponent } from '../contact-icon/contact-icon.component';
+import { ContactIconComponent } from '../../../shared/contact-icon/contact-icon.component';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { ContactService } from '../../../shared/services/contact.service';

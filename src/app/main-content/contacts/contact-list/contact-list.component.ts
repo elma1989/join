@@ -3,7 +3,7 @@ import { Component, inject } from '@angular/core';
 import { Contact } from '../../../shared/classes/contact';
 import { FormsModule } from "@angular/forms";
 import { ContactService } from '../../../shared/services/contact.service';
-import { ContactIconComponent } from "../contact-icon/contact-icon.component";
+import { ContactIconComponent } from "./../../../shared/contact-icon/contact-icon.component";
 import { Observable } from 'rxjs';
 import { ContactGroup } from '../../../shared/classes/contactGroup';
 

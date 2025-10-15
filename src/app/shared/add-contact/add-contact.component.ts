@@ -5,12 +5,12 @@ import { CommonModule } from '@angular/common';
 import { ContactService } from '../services/contact.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Subscription } from 'rxjs';
-import { ContactIconComponent } from "../../main-content/contacts/contact-icon/contact-icon.component";
+import { ContactIconComponent } from "./../../shared/contact-icon/contact-icon.component";
 
 @Component({
   selector: 'app-add-contact',
   standalone: true,
-  imports: [CommonModule, FormsModule, ContactIconComponent, ContactIconComponent],
+  imports: [CommonModule, FormsModule, ContactIconComponent],
   templateUrl: './add-contact.component.html',
   styleUrl: './add-contact.component.scss',
   animations: [
