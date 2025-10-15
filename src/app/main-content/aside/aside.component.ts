@@ -13,22 +13,22 @@ export class AsideComponent {
       {
       sectionId: 'Summary',
       title: 'Summary',
-      imagePath: 'assets/Icons/Summary.png'
+      imagePath: '/assets/Icons/contact/Summary.png'
       },
       {
       sectionId: 'addTask',
       title: 'Add task',
-      imagePath: 'assets/Icons/addTask.png'
+      imagePath: 'assets/Icons/contact/addTask.png'
       },
       {
       sectionId: 'Boards', 
       title: 'Boards',
-      imagePath: 'assets/Icons/Board.png'
+      imagePath: 'assets/Icons/contact/Board.png'
       },
       {
       sectionId: 'Contacts', 
       title: 'Contacts',
-      imagePath: 'assets/Icons/Contacts.png'
+      imagePath: 'assets/Icons/contact/Contacts.png'
       }
     ]
 }
