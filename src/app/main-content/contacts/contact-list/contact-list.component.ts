@@ -12,7 +12,7 @@ import { ContactGroup } from '../../../shared/classes/contactGroup';
   imports: [
     CommonModule,
     FormsModule,
-    ContactIconComponent
+    ContactIconComponent,
 ],
   templateUrl: './contact-list.component.html',
   styleUrl: './contact-list.component.scss'
@@ -41,5 +41,6 @@ export class ContactListComponent {
   select(contact: Contact) {
     this.cs.selectContact(contact)
   }
+  
 
 }
