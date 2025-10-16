@@ -28,7 +28,7 @@ export class AsideComponent {
                   active: false
             },
             {
-                  sectionId: 'addTask',
+                  sectionId: 'add-task-section',
                   title: 'Add task',
                   imagePath: 'assets/Icons/contact/addTask.png',
                   section: SectionType.TASK,

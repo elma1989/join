@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-addtask',
+  selector: 'app-add-task',
   standalone: true,
   imports: [],
-  templateUrl: './addtask.component.html',
-  styleUrl: './addtask.component.scss'
+  templateUrl: './add-task.component.html',
+  styleUrl: './add-task.component.scss'
 })
 export class AddtaskComponent implements OnInit {
 
