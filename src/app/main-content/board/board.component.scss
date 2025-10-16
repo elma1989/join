@@ -96,3 +96,9 @@ header {
         padding-right: 7rem;
     }
 }
+
+.board-list-container {
+	@include all.size();
+	@include all.fl($flexdir: column);
+    @include all.marpad($mar: 5rem 0 0 0);
+}
