@@ -1,16 +1,16 @@
-import { Component, ElementRef, inject, QueryList, Renderer2, ViewChildren, AfterViewInit, OnInit, OnDestroy } from '@angular/core';
-import { Contact } from '../classes/contact';
+import { Component, ElementRef, inject, QueryList, Renderer2, ViewChildren, AfterViewInit, input, InputSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ContactService } from '../services/contact.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { Subscription } from 'rxjs';
-import { ContactIconComponent } from "../../main-content/contacts/contact-icon/contact-icon.component";
+import { ContactIconComponent } from '../../../../main-content/contacts/contact-icon/contact-icon.component';
+import { Contact } from '../../../classes/contact';
+import { FirebaseDBService } from '../../../services/firebase-db.service';
+import { ToastMsgService } from '../../../services/toast-msg.service';
 
 @Component({
   selector: 'app-add-contact',
   standalone: true,
-  imports: [CommonModule, FormsModule, ContactIconComponent, ContactIconComponent],
+  imports: [CommonModule, FormsModule, ContactIconComponent],
   templateUrl: './add-contact.component.html',
   styleUrl: './add-contact.component.scss',
   animations: [
@@ -32,15 +32,21 @@ import { ContactIconComponent } from "../../main-content/contacts/contact-icon/c
     ])
   ]
 })
-export class AddContactComponent implements AfterViewInit, OnInit, OnDestroy {
+export class AddContactComponent implements AfterViewInit {
 
   // #region properties
 
-  private renderer: Renderer2 = inject(Renderer2);
-  cs: ContactService = inject(ContactService);
+  /** Inputs will set in ModalService */
+  contact: InputSignal<Contact> = input.required<Contact>();
+  headlineTxt: InputSignal<string> = input.required<string>();
+  submitBtnTxt: InputSignal<string> = input.required<string>();
 
-  contactToEditClone!: Contact;
-  contactToEditSub?: Subscription;
+  /** callback function on close => remove from DOM => will be set in ModalService */
+  dissolve?: () => void;
+
+  private fireDB: FirebaseDBService = inject(FirebaseDBService);
+  private tms: ToastMsgService = inject(ToastMsgService);
+  private renderer: Renderer2 = inject(Renderer2);
   
   isOpen = false;
 
@@ -48,16 +54,6 @@ export class AddContactComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChildren('errEl') errorRefs!: QueryList<ElementRef<HTMLDivElement>>;
 
   // #endregion properties
-
-  ngOnInit(): void {
-    this.contactToEditSub = this.cs.contactToEdit.subscribe(contact => {
-      this.contactToEditClone = new Contact(contact); 
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.contactToEditSub?.unsubscribe();
-  }
   
   ngAfterViewInit() {
     setTimeout(() => this.isOpen = true, 10); // Animation trigger
@@ -72,7 +68,7 @@ export class AddContactComponent implements AfterViewInit, OnInit, OnDestroy {
    */
   closeModal() {
     this.isOpen = false;
-    setTimeout(() => this.cs.closeModal(), 400);
+    setTimeout(() => this.dissolve?.(), 400);
   }
 
   /**
@@ -83,13 +79,23 @@ export class AddContactComponent implements AfterViewInit, OnInit, OnDestroy {
   async submitForm(e: SubmitEvent) {
     e.preventDefault();
     if (this.validateAll()) {
-      if(this.contactToEditClone.id == '') {
-        await this.cs.addContactToDB(this.contactToEditClone);
+      if(this.contact().id == '') {
+        await this.fireDB.addToDB('contacts', this.contact());
+        this.tms.add('Contact was created', 3000, 'success');
       } else {
-        await this.cs.updateContactInDB(this.contactToEditClone);
+        await this.fireDB.updateInDB('contacts', this.contact());
+        this.tms.add('Contact was updated', 3000, 'success');
       }
       this.closeModal();
     }
+  }
+
+  /**
+   * Deletes a single entry in database.
+   */
+  async deleteContact() {
+    await this.fireDB.deleteInDB('contacts', this.contact().id);
+    this.tms.add('Contect deleted', 3000, 'success');
   }
 
   // #endregion methods
@@ -98,7 +104,7 @@ export class AddContactComponent implements AfterViewInit, OnInit, OnDestroy {
 
   /** Validates firstname. */
   protected validateFirstName(): void {
-    const valueToValidate: string = this.contactToEditClone.firstname;
+    const valueToValidate: string = this.contact().firstname;
     const errors: boolean[] = [];
     const name: string = 'Firstname';
     const errorRef: ElementRef<HTMLDivElement> = this.errorRefs.toArray()[0];
@@ -113,7 +119,7 @@ export class AddContactComponent implements AfterViewInit, OnInit, OnDestroy {
 
   /** Validates lastname. */
   protected validateLastName(): void {
-    const valueToValidate: string = this.contactToEditClone.lastname;
+    const valueToValidate: string = this.contact().lastname;
     const errors: boolean[] = [];
     const name: string = 'Lastname';
     const errorRef: ElementRef<HTMLDivElement> = this.errorRefs.toArray()[1];
@@ -128,7 +134,7 @@ export class AddContactComponent implements AfterViewInit, OnInit, OnDestroy {
 
   /** Validates e-mail. */
   protected validateEmail(): void {
-    const valueToValidate: string = this.contactToEditClone.email;
+    const valueToValidate: string = this.contact().email;
     const errors: boolean[] = [];
     const name: string = 'E-Mail';
     const errorRef: ElementRef<HTMLDivElement> = this.errorRefs.toArray()[2];
@@ -143,9 +149,9 @@ export class AddContactComponent implements AfterViewInit, OnInit, OnDestroy {
 
   /** Validates tel-number. */
   protected validateTel(): void {
-    const valueToValidate: string = this.contactToEditClone.tel;
+    const valueToValidate: string = this.contact().tel;
     const errors: boolean[] = [];
-    const name: string = 'Tel-Number';
+    const name: string = 'Phonenumber';
     const errorRef: ElementRef<HTMLDivElement> = this.errorRefs.toArray()[3];
     const pattern: RegExp = /^(?:\+49|0049|0)[ \-]?(?:\(?\d{1,5}\)?[ \-]?)?\d{3,11}$/;
     errors.push(this.checkRequired(name, valueToValidate, errorRef));
