@@ -36,7 +36,7 @@ export class AsideComponent {
             },
             {
                   sectionId: 'Boards',
-                  title: 'Boards',
+                  title: 'Board',
                   imagePath: 'assets/Icons/contact/Board.png',
                   section: SectionType.BOARD,
                   active: true,
