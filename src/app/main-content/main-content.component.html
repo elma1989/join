@@ -1,10 +1,21 @@
-
 <div class="content"> <!-- bekommt style display: grid-->
     <!-- Hier wird die Header-Komponente aus Angular als normals HTML-Tage eingebunden -->
     <!-- app-heder ist dabei der Name der Kopoenente. Der Name muss sich von den normalen Tag untersccheiden. -->
-    <aside app-aside></aside>
+    <aside app-aside (selectedSection)="changeSection($event)"></aside>
     <header app-header></header>
     <main>
-        <section contacts></section>
+        @switch (currentSection) {
+            @case (SectionType.TASK) {
+                <section add-tast></section>
+            }
+
+            @case (SectionType.BOARD) {
+                <section board></section>
+            }
+
+            @case (SectionType.CONTACT) {
+                <section contacts></section>
+            }
+        }
     </main>
 </div>
