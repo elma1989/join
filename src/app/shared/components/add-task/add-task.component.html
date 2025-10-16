@@ -16,17 +16,52 @@
                     placeholder="Enter a title" required>
 
                 <label for="descr">Description</label>
-                <input type="range" name="descr" id="add-task-info-descr"
-                    placeholder="Enter a Description">
+                <textarea name="descr" id="add-task-info-description"></textarea>
+                <!-- <input type="range" name="descr" id="add-task-info-descr"
+                    placeholder="Enter a Description"> -->
 
                 <label for="due-date">Due Date</label>
                 <input type="text" name="due-date" id="add-task-info-due-date"
                     placeholder="dd/mm/yyyy" required>
             </div>
 
+            <hr>
 
             <div class="add-task-info-block2">
-
+                <div class="add-task-priority-container">
+                    <label for="add-task-priority">Priority</label>
+                    <div class="add-task-priority-btn-container">
+                        <button type="button" class="priority-btn" (click)="setPriority(Priority.URGENT)" [ngClass]="{ 'active urgent': currentTask.priority == Priority.URGENT}">
+                            <span>Urgent</span>
+                            @if(currentTask.priority == Priority.URGENT){
+                                <img src="assets/Icons/taskBoard/prio_urgent_white.png" alt="">
+                            }
+                            @else {
+                                <img src="assets/Icons/taskBoard/prio_urgent_red.png" alt="">
+                            }
+                        </button>
+                        <button type="button" class="priority-btn" (click)="setPriority(Priority.MEDIUM)" [ngClass]="{ 'active medium': currentTask.priority == Priority.MEDIUM}">
+                            
+                            <span>Medium</span>
+                            @if(currentTask.priority == Priority.MEDIUM){
+                                <img src="assets/Icons/taskBoard/prio_medium_white.png" alt="">
+                            }
+                            @else {
+                                <img src="assets/Icons/taskBoard/prio_medium_orange.png" alt="">
+                            }
+                        </button>
+                        <button type="button" class="priority-btn" (click)="setPriority(Priority.LOW)" [ngClass]="{ 'active low': currentTask.priority == Priority.LOW}">
+                            
+                            <span>Low</span>
+                            @if(currentTask.priority == Priority.LOW){
+                                <img src="assets/Icons/taskBoard/prio_low_white.png" alt="">
+                            }
+                            @else {
+                                <img src="assets/Icons/taskBoard/prio_low_green.png" alt="">
+                            }
+                        </button>
+                    </div>
+                </div>
             </div>
 
         </main>

@@ -1,15 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { FirebaseDBService } from '../../services/firebase-db.service';
+import { Priority } from '../../enums/priority.enum';
+import { Task } from '../../classes/task';
+import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-add-task',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './add-task.component.html',
   styleUrl: './add-task.component.scss'
 })
 export class AddtaskComponent implements OnInit {
 
+  fireDB: FirebaseDBService = inject(FirebaseDBService);
+  Priority = Priority;
 
+  currentTask: Task = new Task();
+
+  
 
   ngOnInit() {
 
@@ -29,6 +39,10 @@ export class AddtaskComponent implements OnInit {
    */
   clear() {
 
+  }
+
+  protected setPriority(prio: Priority){
+    this.currentTask.priority = prio;
   }
 
 }

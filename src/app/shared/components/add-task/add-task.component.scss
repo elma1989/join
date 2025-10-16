@@ -21,9 +21,53 @@
             .add-task-info-block1 {
 
             }
+
+            hr {
+                @include all.borRad();
+            }
             
             .add-task-info-block2 {
                 
+                .add-task-priority-container {
+                    .add-task-priority-btn-container {
+                        @include all.fl($gap: 1rem);
+                        .priority-btn {
+                            @include all.fl($jc: center, $alit: center, $gap: 1rem);
+                            @include all.size($w:15rem, $h:4rem);
+                            @include all.borRad($radius: 8px, $thick: 2px, $c: rgba(0,0,0,0.1));
+
+                            &:hover {
+                                @include all.boxSh($c: rgba(0,0,0,0.4));
+                            }
+                            
+                            &.active.urgent {
+                                background-color: red;
+                                span {
+                                    color: white;
+                                }
+                            }
+
+                            &.active.medium {
+                                background-color: orange;
+                                span {
+                                    color: white;
+                                }
+                            }
+
+                            &.active.low {
+                                background-color: green;
+                                span {
+                                    color: white;
+                                }
+                            }
+
+                            span {
+                                font-size: 20px;
+                                color: black;    
+                            }
+                        }
+                    }
+                }
             }
         }
 
