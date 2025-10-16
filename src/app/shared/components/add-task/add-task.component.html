@@ -11,26 +11,50 @@
 
             <div class="add-task-info-block1">
 
-                <label for="title">Title</label>
-                <input type="text" name="title" id="add-task-info-title" 
-                    placeholder="Enter a title" required>
+                <div class="input-wrapper">
+                    <label for="title">Title</label>
+                    <input type="text" name="title" id="add-task-info-title" 
+                        placeholder="Enter a title" [(ngModel)]="currentTask.title" required>
+                </div>
 
-                <label for="descr">Description</label>
-                <textarea name="descr" id="add-task-info-description"></textarea>
-                <!-- <input type="range" name="descr" id="add-task-info-descr"
-                    placeholder="Enter a Description"> -->
+                <div class="input-wrapper">
+                    <label for="descr">Description</label>
+                    <textarea name="descr" id="add-task-info-description" 
+                        placeholder="Enter a Description ..." [(ngModel)]="currentTask.description"></textarea>
+                </div>
 
-                <label for="due-date">Due Date</label>
-                <input type="text" name="due-date" id="add-task-info-due-date"
-                    placeholder="dd/mm/yyyy" required>
+                <div class="input-wrapper">
+                    <label for="due-date">Due Date</label>
+                    <input type="text" name="due-date" id="add-task-info-due-date"
+                    placeholder="dd/mm/yyyy" [(ngModel)]="currentTask.dueDate" required>
+                </div>
             </div>
 
             <hr>
 
             <div class="add-task-info-block2">
-                <div class="add-task-priority-container">
+                <div class="input-wrapper add-task-priority-container">
                     <label for="add-task-priority">Priority</label>
-                    <app-priority-buttons [task]="currentTask"></app-priority-buttons>
+                    <app-priority-buttons [task]="currentTask" ></app-priority-buttons>
+                </div>
+                <div class="input-wrapper add-task-assigned-to-container">
+                    <label for="add-task-assigned-to">Assigned to</label>
+                    <input type="text" name="add-task-assigned-to" id="add-task-assigned-to"
+                        [(ngModel)]="currentTask.assignedTo">
+                </div>
+                <div class="input-wrapper add-task-category-container">
+                    <label for="add-task-category">Category</label>
+                    <select name="add-task-category" id="add-task-category" 
+                        class="add-task-category" [(ngModel)]="currentTask.category">
+                        @for(category of ( Category | keyvalue ); track $index){
+                            <option id="('add-task-category_' + $index)" class="add-task-category-option" [value]="category.value">{{ category.value }}</option>
+                        }
+                    </select>
+                </div>
+                <div class="input-wrapper add-task-subtask-container">
+                    <label for="add-task-subtask">Subtasks</label>
+                    <input type="text" name="add-task-subtask" id="add-task-subtask"
+                        [(ngModel)]="currentTask.subtasks">
                 </div>
             </div>
 

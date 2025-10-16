@@ -1,11 +1,16 @@
 @use '../../../../../public/styles/all_styles' as all;
 @forward '../../../../../public/styles/component-styles';
 
+.input-wrapper {
+    @include all.fl($flexdir: column);
+}
+
 .add-task-section {
     @include all.size();
     @include all.marpad($pad: 3dvw);
     border: 2px solid red;
     background: #ededed;
+    overflow-y: auto;
 
 
     #add-task-form {
@@ -17,26 +22,48 @@
         }
 
         .add-task-main-container {
+            @include all.fl($gap: 1rem);
 
             .add-task-info-block1 {
-
+                @include all.size($w: 50%);
+                @include all.fl($flexdir: column, $gap: 2rem);
             }
 
             hr {
-                @include all.borRad();
+                width: 0.2rem;
+                height: 60dvh;
+                margin: 0 1rem;
+                border: 1px solid rgba(0, 0, 0, 0.1);
             }
-            
+
             .add-task-info-block2 {
-                
+                @include all.size($w: 50%);
+                @include all.fl($flexdir: column, $gap: 2rem);
+
+
+
                 .add-task-priority-container {
                     @include all.size($w: 50rem, $h: 5rem);
+                }
+
+
+            }
+        }
+
+        .add-task-footer {
+            @include all.fl($jc: space-between, $alit: end);
+
+            .add-task-btn-container {
+                @include all.fl($jc: end, $gap: 2rem);
+                @include all.marpad($mar: 0 6rem 0 0);
+
+                .btn-default,
+                .btn-set {
+                    padding: 1rem;
                 }
             }
         }
 
-        add-task-footer {
-            
-        }
-
     }
 }
+
