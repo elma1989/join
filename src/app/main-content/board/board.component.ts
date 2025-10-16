@@ -7,19 +7,20 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'section[board]',
+  standalone: true,
   imports: [
     SearchTaskComponent,
     CommonModule
   ],
   templateUrl: './board.component.html',
-  styleUrl: './board.component.scss'
+  styleUrls: ['./board.component.scss']
 })
-export class BoardComponent implements OnInit{
+export class BoardComponent implements OnInit {
 
   shownTasks!: Task[];
   tasksSnapshot!: Unsubscribe
 
-  constructor(private fdb:FirebaseDBService) {}
+  constructor(private fdb: FirebaseDBService) { }
 
   ngOnInit(): void {
     this.shownTasks = this.fdb.tasks;
