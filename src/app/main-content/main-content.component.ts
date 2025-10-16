@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { HeaderComponent } from '../shared/header/header.component';
+import { HeaderComponent } from '../shared/components/header/header.component';
 import { AsideComponent } from "./../../app/main-content/aside/aside.component";
 import { ContactsComponent } from './contacts/contacts.component';
 import { SectionType } from '../shared/enums/section-type';
