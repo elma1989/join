@@ -3,12 +3,13 @@ import { FirebaseDBService } from '../../services/firebase-db.service';
 import { Priority } from '../../enums/priority.enum';
 import { Task } from '../../classes/task';
 import { CommonModule } from '@angular/common';
+import { PriorityButtonsComponent } from "../priority-buttons/priority-buttons.component";
 
 
 @Component({
   selector: 'app-add-task',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, PriorityButtonsComponent],
   templateUrl: './add-task.component.html',
   styleUrl: './add-task.component.scss'
 })
@@ -41,8 +42,6 @@ export class AddtaskComponent implements OnInit {
 
   }
 
-  protected setPriority(prio: Priority){
-    this.currentTask.priority = prio;
-  }
+  
 
 }
