@@ -1,7 +1,7 @@
-@use './../../../../public/styles/all_styles.scss' as all;
+@use './../../../../../public/styles/all_styles.scss' as all;
 
 .icon-list-container {
-	@include all.size();
+	@include all.size($h: 4rem);
 	@include all.fl($alit: center);
 	z-index: 10;
 
