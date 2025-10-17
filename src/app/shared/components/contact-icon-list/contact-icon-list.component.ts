@@ -1,5 +1,5 @@
 import { Component, input, InputSignal} from '@angular/core';
-import { Contact } from '../classes/contact';
+import { Contact } from '../../classes/contact';
 import { ContactIconComponent } from "../contact-icon/contact-icon.component";
 
 @Component({
