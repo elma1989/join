@@ -2,7 +2,25 @@
 @forward '../../../../../public/styles/component-styles';
 
 .input-wrapper {
-    @include all.fl($flexdir: column);
+    width: 100%;
+    @include all.fl($flexdir: column, $gap:0.5rem);
+}
+
+.add-task-input-lbl {
+    font-size: 18px;
+    font-family: 'InterRegular', sans-serif;
+}
+
+.add-task-input {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    font-size: 16px;
+    padding: 1rem;
+
+    &:focus-visible {
+        outline: 1px solid #29ABE2;
+    }
 }
 
 .add-task-section {
@@ -27,6 +45,21 @@
             .add-task-info-block1 {
                 @include all.size($w: 50%);
                 @include all.fl($flexdir: column, $gap: 2rem);
+
+                #add-task-info-description {
+                    @include all.size($h: 20rem);
+                    @include all.borRad($c: rgba(0,0,0,0.2), $radius: 8px);
+                    @include all.marpad($pad: 1rem);
+                    font-size: 16px;
+                    font-family: 'InterRegular', sans-serif;
+                    overflow-y: auto;
+                    resize: none;
+
+                    &:focus-visible {
+                        outline: 1px solid #29ABE2 ;
+                        border: none;
+                    }
+                }
             }
 
             hr {
@@ -40,13 +73,34 @@
                 @include all.size($w: 50%);
                 @include all.fl($flexdir: column, $gap: 2rem);
 
-
-
                 .add-task-priority-container {
-                    @include all.size($w: 50rem, $h: 5rem);
+                    @include all.size($w: 50rem, $h: 8rem);
                 }
 
+                .add-task-assigned-to {
+                    @include all.size($h: 4rem);
+                    @include all.borRad($radius: 8px);
+                    @include all.marpad($pad: 1rem, $mar: 0 2rem 0 0);
+                    font-family: 'InterRegular', sans-serif;
+                    font-size: 16px;
 
+                    .add-task-assign-to-option {
+                        @include all.size($maxW: 30rem);
+                        @include all.limiter();
+                    }
+                }
+
+                .add-task-category {
+                    @include all.size($h: 4rem);
+                    @include all.borRad($radius: 8px);
+                    @include all.marpad($pad: 1rem, $mar: 0 2rem 0 0);
+                    font-family: 'InterRegular', sans-serif;
+                    font-size: 16px;
+
+                    &:focus-visible {
+                        outline: 1px solid #29ABE2;
+                    }
+                }
             }
         }
 
@@ -55,7 +109,6 @@
 
             .add-task-btn-container {
                 @include all.fl($jc: end, $gap: 2rem);
-                @include all.marpad($mar: 0 6rem 0 0);
 
                 .btn-default,
                 .btn-set {
@@ -63,7 +116,6 @@
                 }
             }
         }
-
     }
 }
 

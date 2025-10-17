@@ -12,20 +12,20 @@
             <div class="add-task-info-block1">
 
                 <div class="input-wrapper">
-                    <label for="title">Title</label>
-                    <input type="text" name="title" id="add-task-info-title" 
+                    <label class="add-task-input-lbl" for="title">Title</label>
+                    <input class="add-task-input" type="text" name="title" id="add-task-info-title" 
                         placeholder="Enter a title" [(ngModel)]="currentTask.title" required>
                 </div>
 
                 <div class="input-wrapper">
-                    <label for="descr">Description</label>
+                    <label class="add-task-input-lbl" for="descr">Description</label>
                     <textarea name="descr" id="add-task-info-description" 
                         placeholder="Enter a Description ..." [(ngModel)]="currentTask.description"></textarea>
                 </div>
 
                 <div class="input-wrapper">
-                    <label for="due-date">Due Date</label>
-                    <input type="text" name="due-date" id="add-task-info-due-date"
+                    <label class="add-task-input-lbl" for="due-date">Due Date</label>
+                    <input class="add-task-input"  type="text" name="due-date" id="add-task-info-due-date"
                     placeholder="dd/mm/yyyy" [(ngModel)]="currentTask.dueDate" required>
                 </div>
             </div>
@@ -34,16 +34,36 @@
 
             <div class="add-task-info-block2">
                 <div class="input-wrapper add-task-priority-container">
-                    <label for="add-task-priority">Priority</label>
+                    <label class="add-task-input-lbl" for="add-task-priority">Priority</label>
                     <app-priority-buttons [task]="currentTask" ></app-priority-buttons>
                 </div>
+
+
+
                 <div class="input-wrapper add-task-assigned-to-container">
-                    <label for="add-task-assigned-to">Assigned to</label>
-                    <input type="text" name="add-task-assigned-to" id="add-task-assigned-to"
-                        [(ngModel)]="currentTask.assignedTo">
+                    <label class="add-task-input-lbl" for="add-task-assigned-to">Assigned to</label>
+                    <select name="add-task-assigned-to" id="add-task-assigned-to" 
+                        class="add-task-assigned-to" [(ngModel)]="currentTask.assignedTo">
+                        @for(contact of contacts; track contact.id; let index = $index){
+                            <!-- TODO Marcel mixin Limiter -->
+                            <option id="('add-task-assigned-to_' + contact.id)" class="add-task-assign-to-option" [value]="contact.getFullName()">
+                                {{ contact.getFullName() }}
+                                <input type="checkbox" name="add-task-contact-assign-checkbox" 
+                                    id="add-task-contact-assign-checkbox" (click)="toggleAddContactToAssignTo(contact.id)">
+                            </option>
+                        }
+                    </select>
+                    
+                    
+                    <!-- <input class="add-task-input"  type="text" name="add-task-assigned-to" id="add-task-assigned-to"
+                        [(ngModel)]="currentTask.assignedTo"> -->
                 </div>
+
+
+
+
                 <div class="input-wrapper add-task-category-container">
-                    <label for="add-task-category">Category</label>
+                    <label class="add-task-input-lbl" for="add-task-category">Category</label>
                     <select name="add-task-category" id="add-task-category" 
                         class="add-task-category" [(ngModel)]="currentTask.category">
                         @for(category of ( Category | keyvalue ); track $index){
@@ -52,8 +72,8 @@
                     </select>
                 </div>
                 <div class="input-wrapper add-task-subtask-container">
-                    <label for="add-task-subtask">Subtasks</label>
-                    <input type="text" name="add-task-subtask" id="add-task-subtask"
+                    <label class="add-task-input-lbl" for="add-task-subtask">Subtasks</label>
+                    <input class="add-task-input"  type="text" name="add-task-subtask" id="add-task-subtask"
                         [(ngModel)]="currentTask.subtasks">
                 </div>
             </div>
