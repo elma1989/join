@@ -82,7 +82,7 @@ export class Task implements DBObject{
 			priority: this.priority,
 			category: this.category,
 			assignedTo: this.assignedTo,
-			subtasks: this.subtasks
+			subtasks: this.subtasks,
 		}
 	}
 }
