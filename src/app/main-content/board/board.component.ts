@@ -9,6 +9,7 @@ import { TaskStatusType } from '../../shared/enums/task-status-type';
 import { TaskListColumnComponent } from './task-list-column/task-list-column.component';
 import { Contact } from '../../shared/classes/contact';
 import { SubTask } from '../../shared/classes/subTask';
+import { AddSubtaskComponent } from './add-subtask/add-subtask.component';
 
 interface SimpleTaskObject {
   id: string,
@@ -56,7 +57,8 @@ interface TaskObject {
   imports: [
     SearchTaskComponent,
     CommonModule,
-    TaskListColumnComponent
+    TaskListColumnComponent,
+    AddSubtaskComponent
   ],
   templateUrl: './board.component.html',
   styleUrl: './board.component.scss'

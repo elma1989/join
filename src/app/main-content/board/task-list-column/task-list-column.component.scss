@@ -3,6 +3,9 @@
 :host {
     @include all.fl($flexdir: column);
     @include all.size();
+    @include all.mobile {
+        min-height: 45dvh;
+    }
 }
 
 header {

@@ -75,11 +75,6 @@ header {
     width: 0;
 }
 
-app-task-list-column {
-    flex: 1 1 auto;
-    min-height: 0;
-}
-
 @media (max-width: 975px) {
     #add-task-label {
         display: none;
