@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnDestroy } from '@angular/core';
 import { Contact } from '../../../shared/classes/contact';
 import { FormsModule } from "@angular/forms";
-import { ContactIconComponent } from "../contact-icon/contact-icon.component";
+import { ContactIconComponent } from "./../../../shared/components/contact-icon/contact-icon.component";
 import { FirebaseDBService } from '../../../shared/services/firebase-db.service';
 import { Unsubscribe, where, onSnapshot, Query, query } from '@angular/fire/firestore';
 import { ModalService } from '../../../shared/services/modal.service';
@@ -12,7 +12,7 @@ import { ModalService } from '../../../shared/services/modal.service';
   imports: [
     CommonModule,
     FormsModule,
-    ContactIconComponent
+    ContactIconComponent,
 ],
   templateUrl: './contact-list.component.html',
   styleUrl: './contact-list.component.scss'
@@ -70,8 +70,8 @@ export class ContactListComponent implements OnDestroy {
   protected fullName(contact: Contact):string {
     return `${contact.firstname} ${contact.lastname}`;
   }
-  
-/**
+
+  /**
    * Opens a two way data stream between code and firebase collection 'contacts'.
    * 
    * @returns an @type Unsubscribe.
@@ -100,6 +100,8 @@ export class ContactListComponent implements OnDestroy {
       }
     });
   }
+
+  
 
   // #endregion methods
 }

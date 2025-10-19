@@ -39,8 +39,6 @@
                     <app-priority-buttons [task]="currentTask" ></app-priority-buttons>
                 </div>
 
-
-
                 <div class="input-wrapper add-task-assigned-to-container">
                     <label class="add-task-input-lbl" for="add-task-assigned-to">Assigned to</label>
                     <select name="add-task-assigned-to" id="add-task-assigned-to" 
@@ -50,18 +48,11 @@
                             <option id="('add-task-assigned-to_' + contact.id)" class="add-task-assign-to-option" [value]="contact.getFullName()">
                                 {{ contact.getFullName() }}
                                 <input type="checkbox" name="add-task-contact-assign-checkbox" 
-                                    id="add-task-contact-assign-checkbox" (click)="toggleAddContactToAssignTo(contact.id)">
+                                    id="add-task-contact-assign-checkbox" (click)="toggleAddContactToAssignTo(contact)">
                             </option>
                         }
                     </select>
-                    
-                    
-                    <!-- <input class="add-task-input"  type="text" name="add-task-assigned-to" id="add-task-assigned-to"
-                        [(ngModel)]="currentTask.assignedTo"> -->
                 </div>
-
-
-
 
                 <div class="input-wrapper add-task-category-container">
                     <label class="add-task-input-lbl" for="add-task-category">Category</label>

@@ -1,11 +1,10 @@
 <header>
     <h1>Board</h1>
-    <div class="input-area">
-        <form>
-            <input type="text" name="border-header-search" id="border-header-search" placeholder="Find Task">
-            <input type="submit" src="../../../../public/assets/Icons/taskBoard/searchDefault.png" value="">
-            <hr>
-        </form>
-    </div>
+    <app-search-task (seachOut)="filterTasks($event)"></app-search-task>
     <button class="btn-set"><span id="add-task-label">Add Task </span>+</button>
 </header>
+<div class="task-list-wrapper">
+    @for (list of taskLists; track list.listName) {
+        <app-task-list-column id="task-list-comumn-{{ list.listName }}" [listName]="list.listName" [tasks]="getTaskForList(list.status)"></app-task-list-column>
+    }
+</div>

@@ -2,7 +2,8 @@ import { Component, ElementRef, inject, QueryList, Renderer2, ViewChildren, Afte
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { ContactIconComponent } from '../../../../main-content/contacts/contact-icon/contact-icon.component';
+import { Subscription } from 'rxjs';
+import { ContactIconComponent } from "./../../contact-icon/contact-icon.component";
 import { Contact } from '../../../classes/contact';
 import { FirebaseDBService } from '../../../services/firebase-db.service';
 import { ToastMsgService } from '../../../services/toast-msg.service';

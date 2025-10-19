@@ -1,6 +1,9 @@
 import { Category } from "../enums/category.enum";
 import { Priority } from "../enums/priority.enum";
+import { TaskStatusType } from "../enums/task-status-type";
 import { DBObject } from "../interfaces/db-object";
+import { Contact } from "./contact";
+import { SubTask } from "./subTask";
 
 /**
  * Contains a single task object.
@@ -28,10 +31,13 @@ export class Task implements DBObject{
 	category: Category = Category.TASK;
 
 	/** an array of contact ids which are assigned to task */
-	assignedTo: Array<string> = [];
+	assignedTo: Array<Contact> = [];
 
 	/** an indicator wether this task has subtasks */
-	subtasks: boolean = false;
+	subtasks: Array<SubTask> = [];
+
+	/** defines the current status of Task */
+	status: TaskStatusType = TaskStatusType.TODO;
 
 	// #endregion properties
 
@@ -43,11 +49,11 @@ export class Task implements DBObject{
      *      dueDate: string       		=> definition of date until task hast to be done, (not in past)
      *      priority: Priority       	=> priority of task, defines how important is task
      *      category: Category         	=> category of task, defines which category this task belongs
-     *      assignedTo: Array<string>   => an array of contact ids which are assigned to task 
-	 * 		subtasks: boolean			=> an indicator wether this task has subtasks
+     *      assignedTo: Array<Contact>  => an array of contact ids which are assigned to task 
+	 * 		subtasks: Array<SubTask>	=> an indicator wether this task has subtasks
      * }
      */
-	constructor(data?: { id: string, title: string, description: string, dueDate: Date, priority: Priority, category: Category, assignedTo: Array<string>, subtasks: boolean }) {
+	constructor(data?: { id: string, title: string, description: string, dueDate: Date, priority: Priority, category: Category, assignedTo: Array<Contact>, subtasks: Array<SubTask>, status: TaskStatusType }) {
 		if(data) {
 			this.id = data.id;
 			this.title = data.title;
@@ -57,6 +63,7 @@ export class Task implements DBObject{
 			this.category = data.category;
 			this.assignedTo = data.assignedTo;
 			this.subtasks = data.subtasks;
+			this.status = data.status;
 		}
 	}
 
@@ -74,7 +81,8 @@ export class Task implements DBObject{
 			priority: this.priority,
 			category: this.category,
 			assignedTo: this.assignedTo,
-			subtasks: this.subtasks
+			subtasks: this.subtasks,
+			status: this.status
 		}
 	}
 }

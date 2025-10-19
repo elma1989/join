@@ -29,6 +29,7 @@
             </div>
         </div>
     </div>
+    
 
     <h2>Contact Information</h2>
 
@@ -48,11 +49,11 @@
 </div>
 <div class="popup-menu" *ngIf="isMenuVisible">
     <div class="menuItem" (click)="modalService.openAddContactModal('edit', contact)">
-        <img src="assets/Icons/digitaler-controller.png" alt="Edit Icon" />
+        <img src="assets/Icons/taskBoard/edit.png" alt="Edit Icon" />
         <span>Edit</span>
     </div>
     <div class="menuItem deleteItem" (click)="deleteContact(contact.id)">
-        <img src="assets/Icons/—Pngtree—vector trash icon_4152654.png" alt="Delete Icon" />
+        <img src="assets/Icons/taskBoard/delete.png" alt="Delete Icon" />
         <span>Delete</span>
     </div>
 </div>

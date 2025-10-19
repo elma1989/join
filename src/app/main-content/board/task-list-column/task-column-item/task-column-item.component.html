@@ -1,0 +1,25 @@
+<div class="task-column-container">
+	<h2 [ngClass]="{blue: task().category == Category.USERSTORY, green: task().category == Category.TECHNICAL}">{{task().category}}</h2>
+
+	<p class="title limiter">{{task().title}}</p>
+	<p class="description limiter">{{task().description}}</p>
+
+	@if (isSubtaskProgressVisible) {
+	<div class="subtask-progress-box">
+
+		<div class="progress-bar-wrapper">
+			<div class="progress-bar-background">
+				<div class="progress-bar-fill" [style.width.%]="subtaskProgressPercentage"></div>
+			</div>
+			<span class="subtask-counter">
+				{{ completedSubtaskCount }}/{{ totalSubtaskCount }} Subtasks
+			</span>
+		</div>
+
+	</div>
+	}
+	<div class="column-bottom-container">
+		<app-contact-icon-list [contacts]="task().assignedTo"></app-contact-icon-list>
+		<img src="assets/Icons/taskBoard/{{ task().priority | lowercase }}Task.png" alt="Priority Icon">
+	</div>
+</div>
