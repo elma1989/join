@@ -1,0 +1,39 @@
+<div class="task-modal-container">
+	<div class="task-modal-header">
+		<h2 [ngClass]="{blue: task.category == Category.USERSTORY, green: task.category == Category.TECHNICAL}">
+			{{task.category}}</h2>
+
+		<div class="task-modal-close-btn">
+			<button type="button" (click)="closeModal()">X</button>
+		</div>
+	</div>
+
+	<div class="title limiter">{{task.title}}</div>
+	<div class="description limiter">{{task.description}}</div>
+
+	<div class="task-modal-dueDate-container">
+		<p>Due date:</p> {{task.dueDate}}
+	</div>
+
+	<div class="task-modal-priority-container">
+		<p>Priority:</p>
+		<div class="task-modal-priority">
+			<p>{{task.priority}}</p>
+			<img src="assets/Icons/taskBoard/{{ task.priority | lowercase }}Task.png" alt="Priority Icon">
+		</div>
+	</div>
+
+	<div class="task-modal-assigned-container">
+		<p>assignedTo: </p>
+		<div class="icon-name">
+			<app-contact-icon-list [contacts]="contacts"></app-contact-icon-list>
+			@for (contact of contacts; track contact.id) {
+			{{contact.firstname}}{{contact.lastname}}
+			}
+		</div>
+	</div>
+
+	<div class="task-modal-subtasks">
+		{{task.subtasks}}
+	</div>
+</div>
