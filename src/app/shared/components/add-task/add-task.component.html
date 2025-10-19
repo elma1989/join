@@ -24,15 +24,16 @@
                 </div>
 
                 <div class="input-wrapper">
-                    <label class="add-task-input-lbl" for="due-date">Due Date</label>
-                    <input class="add-task-input"  type="text" name="due-date" id="add-task-info-due-date"
-                    placeholder="dd/mm/yyyy" [(ngModel)]="currentTask.dueDate" required>
+                    <label class="add-task-input-lbl" for="due-date-picker">Due Date</label>
+                    <app-date-picker name="due-date-picker" 
+                        [selectedDate]="currentTask.dueDate" (dateChange)="currentTask.dueDate = $event">
+                    </app-date-picker>
                 </div>
             </div>
 
             <hr>
 
-            <div class="add-task-info-block2">
+            <div class="add-task-info-block2" >
                 <div class="input-wrapper add-task-priority-container">
                     <label class="add-task-input-lbl" for="add-task-priority">Priority</label>
                     <app-priority-buttons [task]="currentTask" ></app-priority-buttons>

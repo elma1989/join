@@ -19,7 +19,7 @@ export class Task implements DBObject{
 	description: string = '';
 
 	/** definition of date until task hast to be done, (not in past) */
-	dueDate: string = '';
+	dueDate: Date = new Date();
 
 	/** priority of task, defines how important is task */
 	priority: Priority = Priority.MEDIUM;
@@ -47,7 +47,7 @@ export class Task implements DBObject{
 	 * 		subtasks: boolean			=> an indicator wether this task has subtasks
      * }
      */
-	constructor(data?: { id: string, title: string, description: string, dueDate: string, priority: Priority, category: Category, assignedTo: Array<string>, subtasks: boolean }) {
+	constructor(data?: { id: string, title: string, description: string, dueDate: Date, priority: Priority, category: Category, assignedTo: Array<string>, subtasks: boolean }) {
 		if(data) {
 			this.id = data.id;
 			this.title = data.title;

@@ -22,7 +22,7 @@
         outline: 1px solid #29ABE2;
     }
 }
-
+ 
 .add-task-section {
     @include all.size();
     @include all.marpad($pad: 3dvw);
@@ -59,6 +59,10 @@
                         outline: 1px solid #29ABE2 ;
                         border: none;
                     }
+                }
+
+                app-date-picker {
+                    width: 100%;
                 }
             }
 

@@ -8,12 +8,13 @@ import { PriorityButtonsComponent } from "../priority-buttons/priority-buttons.c
 import { Category } from '../../enums/category.enum';
 import { query, Unsubscribe, where, Query, onSnapshot } from '@angular/fire/firestore';
 import { Contact } from '../../classes/contact';
+import { DatePickerComponent } from "../date-picker/date-picker.component";
 
 
 @Component({
   selector: 'app-add-task',
   standalone: true,
-  imports: [CommonModule, FormsModule, PriorityButtonsComponent],
+  imports: [CommonModule, FormsModule, PriorityButtonsComponent, DatePickerComponent],
   templateUrl: './add-task.component.html',
   styleUrl: './add-task.component.scss'
 })
@@ -58,7 +59,7 @@ export class AddtaskComponent implements OnDestroy {
    * @param e event
    */
   async submitForm(e: SubmitEvent) {
-    console.log('submit');
+    this.fireDB.addToDB('tasks', this.currentTask);
   }
 
   /**
