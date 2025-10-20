@@ -17,6 +17,8 @@ export class TaskColumnItemComponent {
 
   task: InputSignal<Task> = input.required<Task>();
 
+  contacts = [new Contact()];
+
   subtasks: { title: string, completed: boolean }[] = [
     { title: 'Analyse abschließen', completed: true },
     { title: 'Design-Mockups erstellen', completed: false },
