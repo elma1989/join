@@ -17,7 +17,7 @@ interface SimpleTaskObject {
   category: Category,
   description: string,
   priority: Priority,
-  dueDate: string,
+  dueDate: Date,
   assignedTo: string[],
   subtasks: string[],
   status: TaskStatusType
@@ -35,6 +35,7 @@ interface ContactObject {
 
 interface SubTaskObject {
   id: string,
+  taskId: string,
   name: string,
   finished: boolean
 }
@@ -45,7 +46,7 @@ interface TaskObject {
   category: Category,
   description: string,
   priority: Priority,
-  dueDate: string,
+  dueDate: Date,
   assignedTo: Contact[],
   subtasks: SubTask[],
   status: TaskStatusType

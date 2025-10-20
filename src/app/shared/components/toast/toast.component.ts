@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { ToastMsgService } from '../services/toast-msg.service';
+import { ToastMsgService } from '../../services/toast-msg.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
