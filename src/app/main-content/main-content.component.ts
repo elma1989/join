@@ -13,7 +13,7 @@ import { AddTaskContainerComponent } from "./add-task-container/add-task-contain
     AsideComponent,
     ContactsComponent,
     BoardComponent,
-    AddTaskContainerComponent
+    AddTaskContainerComponent,
 ],
   templateUrl: './main-content.component.html',
   styleUrl: './main-content.component.scss'
@@ -23,4 +23,5 @@ export class MainContentComponent {
   protected currentSection: SectionType = SectionType.BOARD;
 
   changeSection(section: SectionType) {this.currentSection = section}
+
 }
