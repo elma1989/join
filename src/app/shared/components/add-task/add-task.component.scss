@@ -1,0 +1,125 @@
+@use '../../../../../public/styles/all_styles' as all;
+@forward '../../../../../public/styles/component-styles';
+
+.input-wrapper {
+    width: 100%;
+    @include all.fl($flexdir: column, $gap:0.5rem);
+}
+
+.add-task-input-lbl {
+    font-size: 18px;
+    font-family: 'InterRegular', sans-serif;
+}
+
+.add-task-input {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    font-size: 16px;
+    padding: 1rem;
+
+    &:focus-visible {
+        outline: 1px solid #29ABE2;
+    }
+}
+ 
+.add-task-section {
+    @include all.size();
+    @include all.marpad($pad: 3dvw);
+    border: 2px solid red;
+    background: #ededed;
+    overflow-y: auto;
+
+
+    #add-task-form {
+
+        .add-task-header {
+            h1 {
+                font-size: 42px;
+            }
+        }
+
+        .add-task-main-container {
+            @include all.fl($gap: 1rem);
+
+            .add-task-info-block1 {
+                @include all.size($w: 50%);
+                @include all.fl($flexdir: column, $gap: 2rem);
+
+                #add-task-info-description {
+                    @include all.size($h: 20rem);
+                    @include all.borRad($c: rgba(0,0,0,0.2), $radius: 8px);
+                    @include all.marpad($pad: 1rem);
+                    font-size: 16px;
+                    font-family: 'InterRegular', sans-serif;
+                    overflow-y: auto;
+                    resize: none;
+
+                    &:focus-visible {
+                        outline: 1px solid #29ABE2 ;
+                        border: none;
+                    }
+                }
+
+                app-date-picker {
+                    width: 100%;
+                }
+            }
+
+            hr {
+                width: 0.2rem;
+                height: 60dvh;
+                margin: 0 1rem;
+                border: 1px solid rgba(0, 0, 0, 0.1);
+            }
+
+            .add-task-info-block2 {
+                @include all.size($w: 50%);
+                @include all.fl($flexdir: column, $gap: 2rem);
+
+                .add-task-priority-container {
+                    @include all.size($w: 50rem, $h: 8rem);
+                }
+
+                .add-task-assigned-to {
+                    @include all.size($h: 4rem);
+                    @include all.borRad($radius: 8px);
+                    @include all.marpad($pad: 1rem, $mar: 0 2rem 0 0);
+                    font-family: 'InterRegular', sans-serif;
+                    font-size: 16px;
+
+                    .add-task-assign-to-option {
+                        @include all.size($maxW: 30rem);
+                        @include all.limiter();
+                    }
+                }
+
+                .add-task-category {
+                    @include all.size($h: 4rem);
+                    @include all.borRad($radius: 8px);
+                    @include all.marpad($pad: 1rem, $mar: 0 2rem 0 0);
+                    font-family: 'InterRegular', sans-serif;
+                    font-size: 16px;
+
+                    &:focus-visible {
+                        outline: 1px solid #29ABE2;
+                    }
+                }
+            }
+        }
+
+        .add-task-footer {
+            @include all.fl($jc: space-between, $alit: end);
+
+            .add-task-btn-container {
+                @include all.fl($jc: end, $gap: 2rem);
+
+                .btn-default,
+                .btn-set {
+                    padding: 1rem;
+                }
+            }
+        }
+    }
+}
+
