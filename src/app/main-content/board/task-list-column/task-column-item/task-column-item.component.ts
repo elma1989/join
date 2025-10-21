@@ -17,25 +17,20 @@ export class TaskColumnItemComponent {
 
   task: InputSignal<Task> = input.required<Task>();
 
-  subtasks: { title: string, completed: boolean }[] = [
-    { title: 'Analyse abschließen', completed: true },
-    { title: 'Design-Mockups erstellen', completed: false },
-  ];
-
   Category = Category;
 
   /**
    * Berechnet die Anzahl der abgeschlossenen Unteraufgaben.
    */
   get completedSubtaskCount(): number {
-    return this.subtasks.filter(sub => sub.completed).length;
+    return this.task().subtasks.filter(sub => sub.finished).length;
   }
 
   /**
    * Gibt die Gesamtzahl der Unteraufgaben zurück.
    */
   get totalSubtaskCount(): number {
-    return this.subtasks.length;
+    return this.task().subtasks.length;
   }
 
   /**

@@ -1,6 +1,8 @@
+import { Timestamp } from "@angular/fire/firestore";
 import { Category } from "../enums/category.enum";
 import { Priority } from "../enums/priority.enum";
 import { TaskStatusType } from "../enums/task-status-type";
+import { TaskObject } from "../interfaces/database-result";
 import { DBObject } from "../interfaces/db-object";
 import { Contact } from "./contact";
 import { SubTask } from "./subTask";
@@ -22,7 +24,7 @@ export class Task implements DBObject{
 	description: string = '';
 
 	/** definition of date until task hast to be done, (not in past) */
-	dueDate: Date = new Date();
+	dueDate: Timestamp = Timestamp.now();
 
 	/** priority of task, defines how important is task */
 	priority: Priority = Priority.MEDIUM;
@@ -30,11 +32,17 @@ export class Task implements DBObject{
 	/** category of task, defines which category this task belongs */
 	category: Category = Category.TASK;
 
-	/** an array of contact ids which are assigned to task */
-	assignedTo: Array<Contact> = [];
+	/** ids of contacts, who assigned to this task */
+	assignedTo: string[] = [];
+
+	/** All contacts of  Task */
+	contacts: Contact[] = [];
 
 	/** an indicator wether this task has subtasks */
-	subtasks: Array<SubTask> = [];
+	hasSubtasks: boolean = false;
+	
+	/** Includs all subtasks. */
+	subtasks: SubTask[] = [];
 
 	/** defines the current status of Task */
 	status: TaskStatusType = TaskStatusType.TODO;
@@ -53,7 +61,7 @@ export class Task implements DBObject{
 	 * 		subtasks: Array<SubTask>	=> an indicator wether this task has subtasks
      * }
      */
-	constructor(data?: { id: string, title: string, description: string, dueDate: Date, priority: Priority, category: Category, assignedTo: Array<Contact>, subtasks: Array<SubTask>, status: TaskStatusType }) {
+	constructor(data?: TaskObject) {
 		if(data) {
 			this.id = data.id;
 			this.title = data.title;
@@ -62,7 +70,7 @@ export class Task implements DBObject{
 			this.priority = data.priority;
 			this.category = data.category;
 			this.assignedTo = data.assignedTo;
-			this.subtasks = data.subtasks;
+			this.hasSubtasks = data.hasSubtasks;
 			this.status = data.status;
 		}
 	}
@@ -81,7 +89,7 @@ export class Task implements DBObject{
 			priority: this.priority,
 			category: this.category,
 			assignedTo: this.assignedTo,
-			subtasks: this.subtasks,
+			hasSubtasks: this.hasSubtasks,
 			status: this.status
 		}
 	}
