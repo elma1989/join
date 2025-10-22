@@ -25,7 +25,7 @@ import { SubtaskComponent } from './subtask/subtask.component';
 export class BoardComponent implements OnInit, OnDestroy {
   // #region Attrbutes
   // Primary Data
-  private tasks: Task[] = [];
+  tasks: Task[] = [];
   private shownTasks: Task[] = [];
   private contacts: Contact[] = [];
   private subtasks: SubTask[] = [];
@@ -50,6 +50,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     this.unsubContacts = this.subscribeContacts();
     this.unsubSubtasks = this.subscribeSubtasks();
     this.unsubTasks = this.subscribeTasks();
+    setTimeout(() => {console.log(this.tasks)}, 3000)
   }
 
   ngOnDestroy(): void {
