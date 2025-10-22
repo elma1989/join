@@ -6,7 +6,7 @@ import { Task } from '../../classes/task';
 import { CommonModule } from '@angular/common';
 import { PriorityButtonsComponent } from "../priority-buttons/priority-buttons.component";
 import { Category } from '../../enums/category.enum';
-import { query, Unsubscribe, where, Query, onSnapshot } from '@angular/fire/firestore';
+import { query, Unsubscribe, where, Query, onSnapshot, Timestamp } from '@angular/fire/firestore';
 import { Contact } from '../../classes/contact';
 import { DatePickerComponent } from "../date-picker/date-picker.component";
 
@@ -74,11 +74,14 @@ export class AddtaskComponent implements OnDestroy {
   }
 
   toggleAddContactToAssignTo(contact: Contact) {
-    if(this.currentTask.assignedTo.includes(contact)){
+    if(this.currentTask.assignedTo.includes(contact.id)){
       // remove
     } else {
-      this.currentTask.assignedTo.push(contact);
+      this.currentTask.assignedTo.push(contact.id);
     }
   }
 
+  setDate(date: Date) {
+    this.currentTask.dueDate = Timestamp.fromDate(date)
+  }
 }
