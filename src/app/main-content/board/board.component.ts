@@ -8,6 +8,7 @@ import { TaskListColumnComponent } from './task-list-column/task-list-column.com
 import { Contact } from '../../shared/classes/contact';
 import { SubTask } from '../../shared/classes/subTask';
 import { ContactObject, SubTaskObject, TaskObject } from '../../shared/interfaces/database-result';
+import { ModalService } from '../../shared/services/modal.service';
 
 @Component({
   selector: 'section[board]',
@@ -22,6 +23,8 @@ import { ContactObject, SubTaskObject, TaskObject } from '../../shared/interface
 })
 export class BoardComponent implements OnInit, OnDestroy {
   // #region Attrbutes
+  protected modalService: ModalService = inject(ModalService);
+
   // Primary Data
   private tasks: Task[] = [];
   private shownTasks: Task[] = [];
@@ -42,6 +45,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   private unsubTasks!: Unsubscribe;
   private unsubContacts!: Unsubscribe;
   private unsubSubtasks!: Unsubscribe;
+
   // #endregion
 
   ngOnInit(): void {

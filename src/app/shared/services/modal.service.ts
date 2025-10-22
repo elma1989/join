@@ -1,6 +1,8 @@
 import { ApplicationRef, createComponent, inject, Injectable, Injector } from '@angular/core';
 import { AddContactComponent } from '../components/modals/add-contact/add-contact.component';
 import { Contact } from '../classes/contact';
+import { AddtaskComponent } from '../components/add-task/add-task.component';
+import { AddTaskModalComponent } from '../components/modals/add-task-modal/add-task-modal.component';
 
 /**
  * ModalService is a modal factory service. 
@@ -95,6 +97,30 @@ export class ModalService {
     document.body.appendChild(componentRef.location.nativeElement);
   }
 
+
+  /**
+   * Opens the add task modal. 
+   * 
+   */
+  openAddTaskModal() {
+    // creates a component
+    const componentRef = createComponent(AddTaskModalComponent, {
+      environmentInjector: this.appRef.injector,
+      elementInjector: this.injector
+    });
+
+    // set the @Inputs for component
+
+    // callback function if call close modal
+    componentRef.instance.dissolve = () => {
+      this.appRef.detachView(componentRef.hostView);
+      componentRef.destroy();
+    }
+
+    // add component to body
+    this.appRef.attachView(componentRef.hostView);
+    document.body.appendChild(componentRef.location.nativeElement);
+  }
 
   // #endregion methods
 }
