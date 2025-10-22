@@ -1,7 +1,7 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { SearchTaskComponent } from './search-task/search-task.component';
 import { Task } from '../../shared/classes/task';
-import { collection, CollectionReference, doc, DocumentReference, Firestore, onSnapshot, Unsubscribe } from '@angular/fire/firestore';
+import { collection, CollectionReference, doc, DocumentReference, Firestore, onSnapshot, Timestamp, Unsubscribe } from '@angular/fire/firestore';
 import { CommonModule } from '@angular/common';
 import { Priority } from '../../shared/enums/priority.enum';
 import { Category } from '../../shared/enums/category.enum';
@@ -16,7 +16,7 @@ interface SimpleTaskObject {
   category: Category,
   description: string,
   priority: Priority,
-  dueDate: Date,
+  dueDate: Timestamp,
   assignedTo: string[],
   subtasks: string[],
   status: TaskStatusType
@@ -45,7 +45,7 @@ interface TaskObject {
   category: Category,
   description: string,
   priority: Priority,
-  dueDate: Date,
+  dueDate: Timestamp,
   assignedTo: Contact[],
   subtasks: SubTask[],
   status: TaskStatusType
