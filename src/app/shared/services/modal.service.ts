@@ -3,6 +3,7 @@ import { AddContactComponent } from '../components/modals/add-contact/add-contac
 import { Contact } from '../classes/contact';
 import { AddtaskComponent } from '../components/add-task/add-task.component';
 import { AddTaskModalComponent } from '../components/modals/add-task-modal/add-task-modal.component';
+import { HelpModalComponent } from '../components/modals/help-modal/help-modal.component';
 
 /**
  * ModalService is a modal factory service. 
@@ -105,6 +106,30 @@ export class ModalService {
   openAddTaskModal() {
     // creates a component
     const componentRef = createComponent(AddTaskModalComponent, {
+      environmentInjector: this.appRef.injector,
+      elementInjector: this.injector
+    });
+
+    // set the @Inputs for component
+
+    // callback function if call close modal
+    componentRef.instance.dissolve = () => {
+      this.appRef.detachView(componentRef.hostView);
+      componentRef.destroy();
+    }
+
+    // add component to body
+    this.appRef.attachView(componentRef.hostView);
+    document.body.appendChild(componentRef.location.nativeElement);
+  }
+
+  /**
+   * Opens the help modal. 
+   * 
+   */
+  openHelpModal() {
+    // creates a component
+    const componentRef = createComponent(HelpModalComponent, {
       environmentInjector: this.appRef.injector,
       elementInjector: this.injector
     });

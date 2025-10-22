@@ -1,0 +1,31 @@
+@use '../../../../../../public/styles/all_styles' as all;
+@forward '../../../../../../public/styles/component-styles';
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.help-modal-container {
+    @include all.size($w: 90dvw, $maxW: 90rem, $h: 50rem);
+    @include all.fl($flexdir: column, $jc: center, $alit: start);
+    background-color: white;
+    border-radius: 16px;
+    border: none;
+    box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+
+    @include all.notebook {
+        box-shadow: 8px 0 8px rgba(0, 0, 0, 0.2), -8px 0 8px rgba(0, 0, 0, 0.2);
+    }
+
+    @include all.tablet {
+        @include all.size($w: 90dvw, $maxW:90rem, $h: 80dvh);
+        @include all.fl($flexdir: column, $jc: center, $alit: center);
+    }
+    
+}
