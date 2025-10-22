@@ -67,6 +67,7 @@ export class BoardComponent implements OnInit, OnDestroy {
    */
   private subscribeContacts(): Unsubscribe {
     return onSnapshot(collection(this.fs, 'contacts'), contactsSnap => {
+      this.contacts = [];
       contactsSnap.docs.map( doc => {this.contacts.push(new Contact(doc.data() as ContactObject))});
       this.sortContacts();
     });
@@ -78,12 +79,14 @@ export class BoardComponent implements OnInit, OnDestroy {
    */
   private subscribeSubtasks(): Unsubscribe {
     return onSnapshot(collection(this.fs, 'subtask'), subtasksSnap => {
+      this.subtasks = [];
       subtasksSnap.docs.map( doc => {this.subtasks.push(new SubTask(doc.data() as SubTaskObject))})
     })
   }
 
   private subscribeTasks(): Unsubscribe {
     return onSnapshot(collection(this.fs, 'tasks'), taskSnap => {
+      this.tasks = [];
       taskSnap.docs.map( doc => {this.tasks.push(new Task(doc.data() as TaskObject))});
       for (let i = 0; i < this.tasks.length; i++) {
         this.addContactsToTask(i);
