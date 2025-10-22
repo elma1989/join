@@ -14,7 +14,7 @@
 	}
 
 	.task-modal-detail-container {
-		@include all.size($w: 50dvh, $h: 80dvh);
+		@include all.size($w: 50dvh, $h: 85dvh);
 		@include all.marpad($pad: 2.5rem);
 		background: rgb(254, 253, 253);
 		border-radius: 1rem;
@@ -63,11 +63,11 @@
 
 		.description {
 			@include all.fl($alit: center);
-			@include all.size($h: 2rauto);
+			@include all.size($h: auto);
 			@include all.limiter();
+			@include all.marpad($mar: 1.5rem 0);
 			white-space: wrap;
 			font-size: 2rem;
-			height: 5dvh;
 		}
 
 		.task-modal-dueDate-container {
