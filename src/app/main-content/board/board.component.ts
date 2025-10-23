@@ -7,8 +7,10 @@ import { TaskStatusType } from '../../shared/enums/task-status-type';
 import { TaskListColumnComponent } from './task-list-column/task-list-column.component';
 import { Contact } from '../../shared/classes/contact';
 import { SubTask } from '../../shared/classes/subTask';
-import { ContactObject, SubTaskObject, TaskObject } from '../../shared/interfaces/database-result';
 import { SubtaskComponent } from './subtask/subtask.component';
+import { ContactObject } from '../../shared/interfaces/contact-object';
+import { SubtaskObject } from '../../shared/interfaces/subtask-object';
+import { TaskObject } from '../../shared/interfaces/task-object';
 
 @Component({
   selector: 'section[board]',
@@ -80,7 +82,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   private subscribeSubtasks(): Unsubscribe {
     return onSnapshot(collection(this.fs, 'subtask'), subtasksSnap => {
       this.subtasks = [];
-      subtasksSnap.docs.map( doc => {this.subtasks.push(new SubTask(doc.data() as SubTaskObject))})
+      subtasksSnap.docs.map( doc => {this.subtasks.push(new SubTask(doc.data() as SubtaskObject))})
     })
   }
 
