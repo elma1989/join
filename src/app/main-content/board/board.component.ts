@@ -45,7 +45,6 @@ export class BoardComponent implements OnInit, OnDestroy {
   private unsubTasks!: Unsubscribe;
   private unsubContacts!: Unsubscribe;
   private unsubSubtasks!: Unsubscribe;
-
   // #endregion
 
   ngOnInit(): void {
