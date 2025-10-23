@@ -10,6 +10,7 @@ import { SubTask } from '../../shared/classes/subTask';
 import { ContactObject } from '../../shared/interfaces/contact-object';
 import { SubtaskObject } from '../../shared/interfaces/subtask-object';
 import { TaskObject } from '../../shared/interfaces/task-object';
+import { ModalService } from '../../shared/services/modal.service';
 
 @Component({
   selector: 'section[board]',
@@ -24,6 +25,8 @@ import { TaskObject } from '../../shared/interfaces/task-object';
 })
 export class BoardComponent implements OnInit, OnDestroy {
   // #region Attrbutes
+  protected modalService: ModalService = inject(ModalService);
+
   // Primary Data
   tasks: Task[] = [];
   private shownTasks: Task[] = [];
