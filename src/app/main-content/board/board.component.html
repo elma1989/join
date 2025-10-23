@@ -1,7 +1,7 @@
 <header>
     <h1>Board</h1>
     <app-search-task (seachOut)="filterTasks($event)"></app-search-task>
-    <button class="btn-set"><span id="add-task-label">Add Task </span>+</button>
+    <button class="btn-set" (click)="modalService.openAddTaskModal()"><span id="add-task-label">Add Task </span>+</button>
 </header>
 <div class="task-list-wrapper">
     @for (list of taskLists; track list.listName) {
