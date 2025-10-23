@@ -7,7 +7,6 @@ import { TaskStatusType } from '../../shared/enums/task-status-type';
 import { TaskListColumnComponent } from './task-list-column/task-list-column.component';
 import { Contact } from '../../shared/classes/contact';
 import { SubTask } from '../../shared/classes/subTask';
-import { SubtaskComponent } from './subtask/subtask.component';
 import { ContactObject } from '../../shared/interfaces/contact-object';
 import { SubtaskObject } from '../../shared/interfaces/subtask-object';
 import { TaskObject } from '../../shared/interfaces/task-object';
@@ -18,8 +17,7 @@ import { TaskObject } from '../../shared/interfaces/task-object';
   imports: [
     SearchTaskComponent,
     CommonModule,
-    TaskListColumnComponent,
-    SubtaskComponent
+    TaskListColumnComponent
   ],
   templateUrl: './board.component.html',
   styleUrl: './board.component.scss'
@@ -52,7 +50,6 @@ export class BoardComponent implements OnInit, OnDestroy {
     this.unsubContacts = this.subscribeContacts();
     this.unsubSubtasks = this.subscribeSubtasks();
     this.unsubTasks = this.subscribeTasks();
-    setTimeout(() => {console.log(this.tasks[0].subtasks)}, 3000)
   }
 
   ngOnDestroy(): void {
@@ -167,9 +164,5 @@ export class BoardComponent implements OnInit, OnDestroy {
     this.tasks.sort((a, b) => a.dueDate.seconds - b.dueDate.seconds)
   }
   // #endregion
-
-  getChangedSubtasks(subtasks: SubTask[]) {
-    if (subtasks) console.log(subtasks);
-  }
   // #endregion
 }
