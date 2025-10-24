@@ -48,11 +48,11 @@
 
             .profile-img {
                 @include all.size($w: 6.5rem, $h: 6.5rem);
-                @include all.font-style($size: 2.5rem, $weight: 600);
+                @include all.font-style($size: 2.3rem, $weight: 600);
                 @include all.fl($alit: center, $jc: center);
-                border-radius: 50%;
                 color: #29abe3;
-                border: 0.3rem solid #1f2a3a;
+                border-radius: 50%;
+                border: 3px solid #1f2a3a;
                 cursor: pointer;
             }
 
@@ -64,14 +64,15 @@
                 border-radius: 8px 0 8px 8px;
                 box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
                 overflow: hidden;
-                z-index: 1;
+                z-index: 10;
 
                 a {
-                    @include all.marpad($pad: 1rem 1.6rem);
                     @include all.font-style($size: 1.4rem);
+                    @include all.marpad($pad: 1rem 1.6rem);
                     color: #ffffff;
                     text-decoration: none;
                     display: block;
+                    cursor: pointer;
 
                     &:hover {
                         background-color: #2c3b52;
