@@ -32,17 +32,64 @@
         .header-icon-container {
             @include all.fl($alit: center);
             gap: 10px;
-            
+
             .help-icon {
                 cursor: pointer;
+
                 @include all.tablet {
                     display: none;
                 }
             }
-            
-            .user-icon {
-                @include all.size($w: 7rem, $h: 7rem);
+
+            .profile-container {
+                position: relative;
+                display: inline-block;
+            }
+
+            .profile-img {
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                background-color: #f0f6ff;
+                color: #1f2a3a;
+                border: 2px solid #1f2a3a;
+                font-weight: 600;
+                font-size: 14px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
                 cursor: pointer;
+
+                span {
+                    font-size: 2rem;
+                }
+            }
+
+            .dropdown {
+                position: absolute;
+                top: 7.5rem;
+                right: 0;
+                background-color: #1f2a3a;
+                border-radius: 8px 0 8px 8px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                overflow: hidden;
+                min-width: 160px;
+                z-index: 100;
+                padding: 1rem;
+
+                a {
+                    color: #ffffff;
+                    padding: 10px 16px;
+                    text-decoration: none;
+                    display: block;
+                    font-size: 14px;
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: #2c3b52;
+                        border-radius: 0.5rem;
+                    }
+                }
             }
         }
     }
