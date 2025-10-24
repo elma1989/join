@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject, input, InputSignal } from '@angular/core';
 import { Task } from '../../classes/task';
 import { ContactIconListComponent } from "../contact-icon-list/contact-icon-list.component";
-import { Contact } from '../../classes/contact';
-import { Priority } from '../../enums/priority.enum';
 import { Category } from '../../enums/category.enum';
 import { CommonModule } from '@angular/common';
+import { ModalService } from '../../services/modal.service';
+import { FirebaseDBService } from '../../services/firebase-db.service';
+import { Firestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-task-column-item',
@@ -14,39 +15,31 @@ import { CommonModule } from '@angular/common';
 })
 export class TaskColumnItemComponent {
 
-  contacts: Array<Contact> = [
-    new Contact({ id: 'abcd', firstname: 'Marcus', lastname: 'Gühne', group: 'M', email: 'marcu@gmx.de', tel: '015245885', iconColor: 'blue', }),
-    new Contact({ id: 'efgh', firstname: 'Sabine', lastname: 'Schmidt', group: 'S', email: 'sabine.schmidt@web.de', tel: '0171987654', iconColor: 'green', }),
-    new Contact({ id: 'ijkl', firstname: 'Thomas', lastname: 'Müller', group: 'T', email: 'thomas.mueller@t-online.de', tel: '0301234567', iconColor: 'pink', }),
-    new Contact({ id: 'efgh', firstname: 'Sabine', lastname: 'Schmidt', group: 'S', email: 'sabine.schmidt@web.de', tel: '0171987654', iconColor: 'green', }),
-    new Contact({ id: 'ijkl', firstname: 'Thomas', lastname: 'Müller', group: 'T', email: 'thomas.mueller@t-online.de', tel: '0301234567', iconColor: 'pink', })
-  ];
+  // protected fireDB: FirebaseDBService = inject(FirebaseDBService);
+  protected modalService: ModalService = inject(ModalService);
+  firestore: Firestore = inject(Firestore);
 
-  task: Task = new Task({ id: 'fegt', title: 'headline show the Maininformation from Task', description: 'descriptions must be an informativ text', dueDate: '01.40.2025', priority: Priority.URGENT, category: Category.USERSTORY, assignedTo: ['a', 'b'], subtasks: false }) 
+  task: InputSignal<Task> = input.required<Task>();
 
-  subtasks: { title: string, completed: boolean }[] = [
-    { title: 'Analyse abschließen', completed: true },
-    { title: 'Design-Mockups erstellen', completed: false },
-  ];
 
   Category = Category;
 
   /**
-   * Berechnet die Anzahl der abgeschlossenen Unteraufgaben
+   * Berechnet die Anzahl der abgeschlossenen Unteraufgaben.
    */
   get completedSubtaskCount(): number {
-    return this.subtasks.filter(sub => sub.completed).length;
+    return this.task().subtasks.filter(sub => sub.finished).length;
   }
 
   /**
-   * Gibt die Gesamtzahl der Unteraufgaben zurück
+   * Gibt die Gesamtzahl der Unteraufgaben zurück.
    */
   get totalSubtaskCount(): number {
-    return this.subtasks.length;
+    return this.task().subtasks.length;
   }
 
   /**
-   * Berechnet den Fortschritt in Prozent
+   * Berechnet den Fortschritt in Prozent (z.B. 33.33).
    */
   get subtaskProgressPercentage(): number {
     if (this.totalSubtaskCount === 0) {
@@ -56,9 +49,9 @@ export class TaskColumnItemComponent {
   }
 
   /**
-   * Steuert die Sichtbarkeit gemäß der Anforderung: Nur sichtbar ab 2 Subtasks
+   * Steuert die Sichtbarkeit gemäß der Anforderung: Nur sichtbar ab 2 Subtasks.
    */
   get isSubtaskProgressVisible(): boolean {
-    return this.totalSubtaskCount <= 2;
+    return this.totalSubtaskCount >= 2;
   }
 }

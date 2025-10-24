@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, input, InputSignal, OnDestroy, OnInit } from '@angular/core';
 import { SearchTaskComponent } from './search-task/search-task.component';
 import { Task } from '../../shared/classes/task';
 import { collection, Firestore, onSnapshot, Unsubscribe } from '@angular/fire/firestore';
@@ -18,8 +18,8 @@ import { ModalService } from '../../shared/services/modal.service';
   imports: [
     SearchTaskComponent,
     CommonModule,
-    TaskListColumnComponent
-  ],
+    TaskListColumnComponent,    
+],
   templateUrl: './board.component.html',
   styleUrl: './board.component.scss'
 })

@@ -33,8 +33,8 @@ b {
 }
 
 .add-task-section {
-    height: 100%;
-    // border: 2px solid red;
+    @include all.size();
+    @include all.marpad($pad: 3dvw);
     background: #ededed;
 
     #add-task-form {
@@ -44,6 +44,7 @@ b {
         .add-task-header {
             h1 {
                 font-size: 42px;
+                font-family: 'Interbold', sans-serif;
             }
         }
 

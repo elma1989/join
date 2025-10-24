@@ -4,85 +4,84 @@
 :host {
     @include all.fl($flexdir: column, $alit: center);
     @include all.size();
-    background: #f6f7f8;
-    padding-top: 8rem;
-    @include all.mobile {
-        @include all.marpad ($pad: 80px 16px 0 16px);
-    }
-}
+    background: #ededed;
+    padding-top: 4rem;
 
-header {
-    @include all.fl($jc: space-between, $alit: center);
-    @include all.size ($w: 80%, $h: 7.3rem);
-    padding-right: 17rem;
-
-    h1 {
-        width: 50%;
+    @media(max-width: 1280px) {
+        @include all.fl($flexdir: column, $alit: center);
+        @include all.size();
     }
 
-    app-search-task {
-        flex: 1;
-    }
-
-    button {
-        height: 47px;
-        @include all.marpad($pad: 8px 16px);
-        position: absolute;
-        right: 0;
-        
-    }
-
-    @include all.mobile {
-        @include all.fl($flexdir: column, $jc:space-between);
-        @include all.size($h: 14.6rem);
-
-        app-search-task {
-            flex: 0 0 48px;
-        }
-
-        button {
-            top: 16px;
-        }
-    }
-    @include all.smart {
-        button {
-            top: 0;
-        }
-    }
-}
-
-.task-list-wrapper {
-    display: grid;
-    width: 100%;
-    height: 100%;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: 100%;
-    gap: 3rem;
-    padding: 16px;
-    margin-top: 8rem;
-    overflow-y: auto;
-
-    @media (max-width: 1230px) {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    @include all.mobile {
-        @include all.fl($flexdir: column, $gap: 2.6rem);
-    }
-}
-
-.task-list-wrapper::-webkit-scrollbar {
-    width: 0;
-}
-
-@media (max-width: 975px) {
-    #add-task-label {
-        display: none;
-    }
+// #region header
     header {
-        padding-right: 6rem;
+        @include all.size($h: 10rem);
+        @include all.fl($alit: center, $jc: space-between);
+        padding: 0 3rem;
+
+        @include all.notebook {
+            @include all.size($w: 70dvw, $h: 10rem);
+            @include all.marpad($pad: 0 1rem);
+        }
+
+        h1 {
+            @include all.font-style($size: 6rem);
+        }
+
+        .search-task {
+            @include all.size($w: 40%, $h: 4.8rem);
+
+            @include all.mobile {
+                display: none;
+            }
+        }
+
+        .btn-set {
+            @include all.size($w: 15rem, $h: 4.8rem);
+
+            @include all.notebook {
+                #add-task-label {
+                    display: none;
+                }
+                @include all.size($w: 4.8rem, $h: 4.8rem);
+            }
+        }
+    }
+// #endregion
+
+// #region search-task-container-mobile
+    .search-task-container-mobile {
+        display: none;
+
         @include all.mobile {
-            padding: 0;
+            display: flex;
+            padding: 0 1rem;
+            @include all.size($h: 6rem);
+        }
+    }
+// #endregion
+
+// #region task-list-container
+    .task-list-wrapper {
+        @include all.size();
+        @include all.fl();
+
+        @media(max-width: 1280px) {
+            @include all.fl($flexdir: column);
+            @include all.size($maxW: 78dvw);
+            overflow-y: auto;
+            overflow-x: hidden;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+        }
+
+        @include all.notebook {
+            @include all.fl($flexdir: column);
+            @include all.size($maxW: 72dvw);
+        }
+        
+        @include all.tablet {
+            @include all.size($w: 100dvw);
         }
     }
 }
+// #endregion

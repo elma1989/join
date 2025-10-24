@@ -1,21 +1,5 @@
 @use './../public/styles/all_styles.scss' as all;
 
-@font-face {
-    font-family: Inter;
-    src: url("../public/assets/Fonts/Inter_18pt-ExtraLight.ttf") format("truetype");
-}
-
-@font-face {
-    font-family: Inter;
-    font-weight: bold;
-    src: url("../public/assets/Fonts/Inter_28pt-Bold.ttf") format("truetype");
-}
-
-@font-face {
-    font-family: OpenSans;
-    src: url("../public/assets/Fonts/OpenSans-Regular.ttf");
-}
-
 * {
     position: relative;
     margin: 0;
@@ -32,7 +16,6 @@ html {
 
 body {
     background: rgb(211, 211, 211, 0.4);
-    overflow-x: hidden;
     max-width: 1920px;
 }
 
@@ -79,17 +62,9 @@ button {
     }
 }
 
-input {
-    border: unset;
-}
-
 .d_flex {
     display: flex;
     z-index: 1000;
-}
-
-input {
-    border: unset;
 }
 
 h1 {
@@ -113,3 +88,5 @@ h2, a, p, h3, span {
         justify-content: center;
     }
 }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
