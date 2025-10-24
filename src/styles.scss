@@ -16,7 +16,6 @@ html {
 
 body {
     background: rgb(211, 211, 211, 0.4);
-    overflow-x: hidden;
     max-width: 1920px;
 }
 
@@ -89,3 +88,5 @@ h2, a, p, h3, span {
         justify-content: center;
     }
 }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
