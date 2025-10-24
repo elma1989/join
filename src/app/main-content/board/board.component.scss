@@ -4,7 +4,6 @@
 :host {
     @include all.fl($flexdir: column, $alit: center);
     @include all.size();
-    background: #ededed;
     padding-top: 4rem;
 
     @media(max-width: 1280px) {
