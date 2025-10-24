@@ -7,7 +7,10 @@ import { TaskStatusType } from '../../shared/enums/task-status-type';
 import { TaskListColumnComponent } from './task-list-column/task-list-column.component';
 import { Contact } from '../../shared/classes/contact';
 import { SubTask } from '../../shared/classes/subTask';
-import { ContactObject, SubTaskObject, TaskObject } from '../../shared/interfaces/database-result';
+import { ContactObject } from '../../shared/interfaces/contact-object';
+import { SubtaskObject } from '../../shared/interfaces/subtask-object';
+import { TaskObject } from '../../shared/interfaces/task-object';
+import { ModalService } from '../../shared/services/modal.service';
 
 @Component({
   selector: 'section[board]',
@@ -22,8 +25,10 @@ import { ContactObject, SubTaskObject, TaskObject } from '../../shared/interface
 })
 export class BoardComponent implements OnInit, OnDestroy {
   // #region Attrbutes
+  protected modalService: ModalService = inject(ModalService);
+
   // Primary Data
-  private tasks: Task[] = [];
+  tasks: Task[] = [];
   private shownTasks: Task[] = [];
   private contacts: Contact[] = [];
   private subtasks: SubTask[] = [];
@@ -64,6 +69,7 @@ export class BoardComponent implements OnInit, OnDestroy {
    */
   private subscribeContacts(): Unsubscribe {
     return onSnapshot(collection(this.fs, 'contacts'), contactsSnap => {
+      this.contacts = [];
       contactsSnap.docs.map( doc => {this.contacts.push(new Contact(doc.data() as ContactObject))});
       this.sortContacts();
     });
@@ -75,7 +81,8 @@ export class BoardComponent implements OnInit, OnDestroy {
    */
   private subscribeSubtasks(): Unsubscribe {
     return onSnapshot(collection(this.fs, 'subtask'), subtasksSnap => {
-      subtasksSnap.docs.map( doc => {this.subtasks.push(new SubTask(doc.data() as SubTaskObject))})
+      this.subtasks = [];
+      subtasksSnap.docs.map( doc => {this.subtasks.push(new SubTask(doc.data() as SubtaskObject))})
     })
   }
 

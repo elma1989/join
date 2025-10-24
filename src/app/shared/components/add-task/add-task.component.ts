@@ -6,19 +6,22 @@ import { Task } from '../../classes/task';
 import { CommonModule } from '@angular/common';
 import { PriorityButtonsComponent } from "../priority-buttons/priority-buttons.component";
 import { Category } from '../../enums/category.enum';
-import { query, Unsubscribe, where, Query, onSnapshot } from '@angular/fire/firestore';
+import { query, Unsubscribe, where, Query, onSnapshot, Timestamp } from '@angular/fire/firestore';
 import { Contact } from '../../classes/contact';
 import { DatePickerComponent } from "../date-picker/date-picker.component";
+import { SubtaskComponent } from '../../../main-content/board/subtask/subtask.component';
 
 
 @Component({
   selector: 'app-add-task',
   standalone: true,
-  imports: [CommonModule, FormsModule, PriorityButtonsComponent, DatePickerComponent],
+  imports: [CommonModule, FormsModule, PriorityButtonsComponent, DatePickerComponent, SubtaskComponent],
   templateUrl: './add-task.component.html',
   styleUrl: './add-task.component.scss'
 })
 export class AddtaskComponent implements OnDestroy {
+
+  // #region properties
 
   fireDB: FirebaseDBService = inject(FirebaseDBService);
   Priority = Priority;
@@ -29,6 +32,8 @@ export class AddtaskComponent implements OnDestroy {
 
   unsubContacts: Unsubscribe;
 
+  // #endregion properties
+  
   constructor() {
     this.unsubContacts = this.getContactsSnapshot();
   }
@@ -66,7 +71,7 @@ export class AddtaskComponent implements OnDestroy {
    * Reset all inputs to default.
    */
   clear() {
-    console.log(this.currentTask.priority);
+    this.currentTask = new Task();
   }
 
   toggleAddContactToAssignTo(contact: Contact) {
@@ -77,4 +82,7 @@ export class AddtaskComponent implements OnDestroy {
     }
   }
 
+  setDate(date: Date) {
+    this.currentTask.dueDate = Timestamp.fromDate(date)
+  }
 }
