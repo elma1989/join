@@ -11,6 +11,7 @@ import { SubtaskObject } from '../../shared/interfaces/subtask-object';
 import { TaskObject } from '../../shared/interfaces/task-object';
 import { ModalService } from '../../shared/services/modal.service';
 import { TaskColumnItemComponent } from '../../shared/components/task-column-item/task-column-item.component';
+import { CdkDragDrop, DragDropModule, transferArrayItem }from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'section[board]',
@@ -18,7 +19,8 @@ import { TaskColumnItemComponent } from '../../shared/components/task-column-ite
   imports: [
     SearchTaskComponent,
     CommonModule,
-    TaskColumnItemComponent
+    TaskColumnItemComponent,
+    DragDropModule
 ],
   templateUrl: './board.component.html',
   styleUrl: './board.component.scss'
@@ -137,10 +139,6 @@ export class BoardComponent implements OnInit, OnDestroy {
     }
   }
 
-  protected makeTrackBy(i:number) {
-    return (_:number, __:unknown, j:number) => `${i}-${j}`;
-  }
-
   /** Gets all Tasks, which has been searched.
    * If user is not looking for tasks, all tasks are schown.
    */
@@ -202,5 +200,15 @@ export class BoardComponent implements OnInit, OnDestroy {
     this.taskItems[index].sort((a, b) => a.dueDate.seconds - b.dueDate.seconds);
   }
   // #endregion
+
+  protected drop(e: CdkDragDrop<Task[]>): void {
+    const previousList = e.previousContainer.data || [];
+    const currentList = e.container.data || [];
+
+    if (e.previousContainer != e.container) {
+      transferArrayItem(previousList, currentList, e.previousIndex, e.currentIndex);
+      currentList.sort((a, b) => a.dueDate.seconds - b.dueDate.seconds);
+    }
+  }
   // #endregion
 }
