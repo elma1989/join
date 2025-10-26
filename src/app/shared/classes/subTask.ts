@@ -1,5 +1,6 @@
-import { SubTaskObject } from "../interfaces/database-result";
+import { SubtaskEditState } from "../enums/subtask-edit-state";
 import { DBObject } from "../interfaces/db-object";
+import { SubtaskObject } from "../interfaces/subtask-object";
 
 /**
  * Contain a single subtask object
@@ -18,6 +19,11 @@ export class SubTask implements DBObject{
 	/** current status of subtask , true is finished, false is unfinished */
 	finished: boolean = false;
 
+	/** State, if user wants to edit it. */
+	editMode: boolean = false;
+
+	/** Edit-State, which has a subtask afer user interaction. */
+	editState: SubtaskEditState = SubtaskEditState.NONE;
 
 	/**
      * @param data is optional and from @type object {
@@ -27,7 +33,7 @@ export class SubTask implements DBObject{
      *      finished: boolean   => current status of subtask , true is finished, false is unfinished 
      * }
      */
-	constructor(data?: SubTaskObject){
+	constructor(data?: SubtaskObject){
 		if(data) {
 			this.id = data.id;
 			this.taskId = data.taskId;

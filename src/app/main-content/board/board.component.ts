@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, input, InputSignal, OnDestroy, OnInit } from '@angular/core';
 import { SearchTaskComponent } from './search-task/search-task.component';
 import { Task } from '../../shared/classes/task';
 import { collection, Firestore, onSnapshot, Unsubscribe } from '@angular/fire/firestore';
@@ -7,7 +7,9 @@ import { TaskStatusType } from '../../shared/enums/task-status-type';
 import { TaskListColumnComponent } from './task-list-column/task-list-column.component';
 import { Contact } from '../../shared/classes/contact';
 import { SubTask } from '../../shared/classes/subTask';
-import { ContactObject, SubTaskObject, TaskObject } from '../../shared/interfaces/database-result';
+import { ContactObject } from '../../shared/interfaces/contact-object';
+import { SubtaskObject } from '../../shared/interfaces/subtask-object';
+import { TaskObject } from '../../shared/interfaces/task-object';
 import { ModalService } from '../../shared/services/modal.service';
 
 @Component({
@@ -16,8 +18,8 @@ import { ModalService } from '../../shared/services/modal.service';
   imports: [
     SearchTaskComponent,
     CommonModule,
-    TaskListColumnComponent
-  ],
+    TaskListColumnComponent,    
+],
   templateUrl: './board.component.html',
   styleUrl: './board.component.scss'
 })
@@ -26,7 +28,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   protected modalService: ModalService = inject(ModalService);
 
   // Primary Data
-  private tasks: Task[] = [];
+  tasks: Task[] = [];
   private shownTasks: Task[] = [];
   private contacts: Contact[] = [];
   private subtasks: SubTask[] = [];
@@ -67,6 +69,7 @@ export class BoardComponent implements OnInit, OnDestroy {
    */
   private subscribeContacts(): Unsubscribe {
     return onSnapshot(collection(this.fs, 'contacts'), contactsSnap => {
+      this.contacts = [];
       contactsSnap.docs.map( doc => {this.contacts.push(new Contact(doc.data() as ContactObject))});
       this.sortContacts();
     });
@@ -78,12 +81,14 @@ export class BoardComponent implements OnInit, OnDestroy {
    */
   private subscribeSubtasks(): Unsubscribe {
     return onSnapshot(collection(this.fs, 'subtask'), subtasksSnap => {
-      subtasksSnap.docs.map( doc => {this.subtasks.push(new SubTask(doc.data() as SubTaskObject))})
+      this.subtasks = [];
+      subtasksSnap.docs.map( doc => {this.subtasks.push(new SubTask(doc.data() as SubtaskObject))})
     })
   }
 
   private subscribeTasks(): Unsubscribe {
     return onSnapshot(collection(this.fs, 'tasks'), taskSnap => {
+      this.tasks = [];
       taskSnap.docs.map( doc => {this.tasks.push(new Task(doc.data() as TaskObject))});
       for (let i = 0; i < this.tasks.length; i++) {
         this.addContactsToTask(i);
