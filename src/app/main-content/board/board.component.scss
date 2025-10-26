@@ -11,7 +11,7 @@
         @include all.size();
     }
 
-// #region header
+    // #region header
     header {
         @include all.size($h: 10rem);
         @include all.fl($alit: center, $jc: space-between);
@@ -41,13 +41,15 @@
                 #add-task-label {
                     display: none;
                 }
+
                 @include all.size($w: 4.8rem, $h: 4.8rem);
             }
         }
     }
-// #endregion
 
-// #region search-task-container-mobile
+    // #endregion
+
+    // #region search-task-container-mobile
     .search-task-container-mobile {
         display: none;
 
@@ -57,9 +59,10 @@
             @include all.size($h: 6rem);
         }
     }
-// #endregion
 
-// #region task-list-container
+    // #endregion
+
+    // #region task-list-container
     .task-list-wrapper {
         @include all.size();
         @include all.fl();
@@ -78,10 +81,41 @@
             @include all.fl($flexdir: column);
             @include all.size($maxW: 72dvw);
         }
-        
+
         @include all.tablet {
             @include all.size($w: 100dvw);
         }
     }
 }
+
 // #endregion
+
+.task-list {
+    @include all.fl($flexdir: column);
+    @include all.size($w: 25%);
+    @include all.marpad($pad: 0 1rem);
+
+    header {
+        @include all.size($h: 5rem);
+        @include all.fl($alit: center, $jc: space-between);
+        @include all.marpad($pad: 0 4rem 0 4.2rem);
+
+        @media (max-width: 1280px) {
+            @include all.size($h: 5rem);
+        }
+
+        h3 {
+            font-size: 2.1rem;
+        }
+
+        .add-icon-btn {
+            &:hover {
+                content: url(../../../../public/assets/Icons/taskBoard/addBtnBoardHover.png);
+            }
+
+            &:active {
+                content: url(../../../../public/assets/Icons/taskBoard/addBtnBoardClick.png);
+            }
+        }
+    }
+}
