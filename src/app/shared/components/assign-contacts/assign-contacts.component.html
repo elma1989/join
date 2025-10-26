@@ -1,0 +1,44 @@
+<div class="assign-to-container">
+    <div class="assign-to-input" (click)="toggleDropdown()">
+        @if (selectedValuesLocal.length) {
+            <span class="selection-presenter-txt">
+                @for(value of selectedValuesLocal; track $index) {
+                    @if(selectedValues.length > 1) { 
+                        {{ value.getFullName() }},
+                    } @else {
+                        {{ value.getFullName() }}
+                    }
+                }
+            </span>
+        } @else {
+            <span class="placeholder">{{ placeholder }}</span>
+        }
+        <span class="arrow">{{ isOpen ? '▲' : '▼' }}</span>
+    </div>
+
+    @if (isOpen) {
+        <div class="options">
+            <input type="text" placeholder="search..." class="search" [(ngModel)]="searchTerm" (ngModelChange)="searchTerm"
+                (click)="$event.stopPropagation()" />
+            @if (filteredOptions().length) {
+                @for (option of filteredOptions(); track option.id) {
+                    <div class="option" (click)="toggleSelection(option)">
+                        <div class="contact-container">
+                            <app-contact-icon class="{{option.iconColor}}" [contact]="option"></app-contact-icon>
+                            <span>{{ option.getFullName() }}</span>
+                        </div>
+                        <input id="add-contact-chb-{{option.id}}" type="checkbox" [checked]="isSelected(option)" readonly />
+                    </div>
+                    }
+            } @else {
+                <div class="no-results">Keine Treffer</div>
+            }
+        </div>
+    }
+
+    <div class="contact-list-item-container">
+        @if(selectedValuesLocal.length) {
+            <app-contact-icon-list [contacts]="selectedValuesLocal"></app-contact-icon-list>
+        }
+    </div>
+</div>
