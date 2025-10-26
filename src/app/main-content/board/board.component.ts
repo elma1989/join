@@ -4,7 +4,6 @@ import { Task } from '../../shared/classes/task';
 import { collection, Firestore, onSnapshot, Unsubscribe } from '@angular/fire/firestore';
 import { CommonModule } from '@angular/common';
 import { TaskStatusType } from '../../shared/enums/task-status-type';
-import { TaskListColumnComponent } from './task-list-column/task-list-column.component';
 import { Contact } from '../../shared/classes/contact';
 import { SubTask } from '../../shared/classes/subTask';
 import { ContactObject } from '../../shared/interfaces/contact-object';
@@ -17,8 +16,7 @@ import { ModalService } from '../../shared/services/modal.service';
   standalone: true,
   imports: [
     SearchTaskComponent,
-    CommonModule,
-    TaskListColumnComponent,    
+    CommonModule
 ],
   templateUrl: './board.component.html',
   styleUrl: './board.component.scss'
