@@ -179,7 +179,7 @@ export class ModalService {
   }
 
 
-openPrivatePolicyModal() {
+openPrivacyPolicyModal() {
   // creates a component
   const componentRef = createComponent(PrivacyPoliceModalComponent, {
     environmentInjector: this.appRef.injector,
