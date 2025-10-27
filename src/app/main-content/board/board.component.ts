@@ -1,16 +1,17 @@
-import { Component, inject, input, InputSignal, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { SearchTaskComponent } from './search-task/search-task.component';
 import { Task } from '../../shared/classes/task';
-import { collection, Firestore, onSnapshot, Unsubscribe } from '@angular/fire/firestore';
+import { collection, doc, DocumentReference, Firestore, onSnapshot, Unsubscribe, updateDoc } from '@angular/fire/firestore';
 import { CommonModule } from '@angular/common';
 import { TaskStatusType } from '../../shared/enums/task-status-type';
-import { TaskListColumnComponent } from './task-list-column/task-list-column.component';
 import { Contact } from '../../shared/classes/contact';
 import { SubTask } from '../../shared/classes/subTask';
 import { ContactObject } from '../../shared/interfaces/contact-object';
 import { SubtaskObject } from '../../shared/interfaces/subtask-object';
 import { TaskObject } from '../../shared/interfaces/task-object';
 import { ModalService } from '../../shared/services/modal.service';
+import { TaskColumnItemComponent } from '../../shared/components/task-column-item/task-column-item.component';
+import { CdkDragDrop, DragDropModule, transferArrayItem }from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'section[board]',
@@ -18,7 +19,8 @@ import { ModalService } from '../../shared/services/modal.service';
   imports: [
     SearchTaskComponent,
     CommonModule,
-    TaskListColumnComponent,    
+    TaskColumnItemComponent,
+    DragDropModule
 ],
   templateUrl: './board.component.html',
   styleUrl: './board.component.scss'
@@ -28,10 +30,8 @@ export class BoardComponent implements OnInit, OnDestroy {
   protected modalService: ModalService = inject(ModalService);
 
   // Primary Data
-  tasks: Task[] = [];
+  private tasks: Task[] = [];
   private shownTasks: Task[] = [];
-  private contacts: Contact[] = [];
-  private subtasks: SubTask[] = [];
   protected taskLists: {
     listName: string,
     status: TaskStatusType
@@ -41,8 +41,11 @@ export class BoardComponent implements OnInit, OnDestroy {
       { listName: 'Await feedback', status: TaskStatusType.REVIEW },
       { listName: 'Done', status: TaskStatusType.DONE }
     ]
+  protected taskItems: Task[][] = [[],[],[],[]];
 
   // Database
+  private contacts: Contact[] = [];
+  private subtasks: SubTask[] = []
   private fs: Firestore = inject(Firestore);
   private unsubTasks!: Unsubscribe;
   private unsubContacts!: Unsubscribe;
@@ -86,19 +89,36 @@ export class BoardComponent implements OnInit, OnDestroy {
     })
   }
 
+  /**
+   * Subscribes the tasks.
+   * @returns - Unsubscribe for Task
+   */
   private subscribeTasks(): Unsubscribe {
     return onSnapshot(collection(this.fs, 'tasks'), taskSnap => {
       this.tasks = [];
+      this.shownTasks = [];
+      this.taskItems = [[],[],[],[]];
       taskSnap.docs.map( doc => {this.tasks.push(new Task(doc.data() as TaskObject))});
       for (let i = 0; i < this.tasks.length; i++) {
         this.addContactsToTask(i);
         this.addSubtasktoTask(i);
       }
-      this.sortTasks();
       this.shownTasks = this.tasks;
-    })
+      this.splitTasks();
+      for (let i = 0; i < this.taskLists.length; i++) {
+        this.sortTasks(i);
+      }
+    });
   }
 
+  /**
+   * Updates a task.
+   * @param task - Task for update.
+   */
+  private async updateTask(task:Task) {
+    const ref: DocumentReference = doc(this.fs, `tasks/${task.id}`);
+    await updateDoc(ref, task.toJSON());
+  }
   
   // #region taskmgmt
   /**
@@ -107,6 +127,26 @@ export class BoardComponent implements OnInit, OnDestroy {
    */
   filterTasks(userSearch: string) {
     this.shownTasks = userSearch.length == 0 ? this.tasks : this.tasks.filter(task => task.title.toLowerCase().includes(userSearch.toLowerCase()));
+    this.splitTasks();
+  }
+
+  /** Divides all shwohn Tasks in their lists */
+  private splitTasks() {
+    for (let i = 0; i < this.shownTasks.length; i++) {
+      switch(this.shownTasks[i].status) {
+        case TaskStatusType.TODO:
+          this.taskItems[0].push(this.shownTasks[i]);
+          break;
+        case TaskStatusType.PROGRESS:
+          this.taskItems[1].push(this.shownTasks[i]);
+          break;
+        case TaskStatusType.REVIEW:
+          this.taskItems[2].push(this.shownTasks[i]);
+          break;
+        case TaskStatusType.DONE:
+          this.taskItems[3].push(this.shownTasks[i]);
+      }
+    }
   }
 
   /** Gets all Tasks, which has been searched.
@@ -152,7 +192,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   }
 
   /**Sort contacts by  firstname, lastname. */
-  private sortContacts() {
+  private sortContacts(): void {
     this.contacts.sort((a, b) => {
       const firstCompare: number = a.firstname.localeCompare(b.firstname, 'de');
       if (firstCompare == 0) {
@@ -162,10 +202,28 @@ export class BoardComponent implements OnInit, OnDestroy {
     })
   }
 
-  /** Sorts Task-list by Due-Date ascending. */
-  private sortTasks() {
-    this.tasks.sort((a, b) => a.dueDate.seconds - b.dueDate.seconds)
+  /**
+   * Sort task of a task-list by dueDate ascending.
+   * @param index - Index of task-list
+   */
+  private sortTasks(index: number): void {
+    this.taskItems[index].sort((a, b) => a.dueDate.seconds - b.dueDate.seconds);
   }
   // #endregion
+
+  protected drop(e: CdkDragDrop<Task[]>): void {
+    const previousList = e.previousContainer.data || [];
+    const currentList = e.container.data || [];
+
+    if (e.previousContainer != e.container) {
+      transferArrayItem(previousList, currentList, e.previousIndex, e.currentIndex);
+      currentList.sort((a, b) => a.dueDate.seconds - b.dueDate.seconds);
+      if (this.taskItems[0].some(task => task.id == e.item.data.id)) e.item.data.status = TaskStatusType.TODO;
+      else if (this.taskItems[1].some(task => task.id == e.item.data.id)) e.item.data.status = TaskStatusType.PROGRESS;
+      else if (this.taskItems[2].some(task => task.id == e.item.data.id)) e.item.data.status = TaskStatusType.REVIEW;
+      else e.item.data.status = TaskStatusType.DONE;
+      this.updateTask(e.item.data);
+    }
+  }
   // #endregion
 }
