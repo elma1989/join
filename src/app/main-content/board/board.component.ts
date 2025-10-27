@@ -119,7 +119,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     const ref: DocumentReference = doc(this.fs, `tasks/${task.id}`);
     await updateDoc(ref, task.toJSON());
   }
-  
+  // #endregion
   // #region taskmgmt
   /**
    * Filters all Tasks by user input.
@@ -225,5 +225,6 @@ export class BoardComponent implements OnInit, OnDestroy {
       this.updateTask(e.item.data);
     }
   }
+  // #endregion
   // #endregion
 }
