@@ -13,6 +13,13 @@ export interface NavItemData {
       active: boolean
 }
 
+export interface LegalLinks {
+      sectionId: string,
+      title: string,
+      section: SectionType,
+      active: boolean
+}
+
 @Component({
       selector: 'aside[app-aside]',
       imports: [CommonModule, NavItemComponent],
@@ -48,16 +55,35 @@ export class AsideComponent {
                   imagePath: 'assets/Icons/contact/Contacts.png',
                   section: SectionType.CONTACT,
                   active: false
-            }
+            },
+      ];
+
+      protected itemLegal: LegalLinks[] = [
+            {
+                  sectionId: 'Privacy',
+                  title: 'privacy',
+                  section: SectionType.PRIVACY,
+                  active: false
+            },
+            {
+                  sectionId: 'Legal',
+                  title: 'legal',
+                  section: SectionType.LEGAL,
+                  active: false
+            },
       ];
       selectedSection: OutputEmitterRef<SectionType> = output<SectionType>();
       protected modalService: ModalService = inject(ModalService);
 
       selectSection(index: number) {
-            this.items.forEach((item, i) => {
-                  item.active = false;
-                  if (i == index) item.active = true;
-            });
-            this.selectedSection.emit(this.items[index].section)
+            this.itemLegal.forEach(i => i.active = false);
+            this.items.forEach((item, i) => item.active = i === index);
+            this.selectedSection.emit(this.items[index].section);
+      }
+
+      selectLegal(index: number) {
+            this.items.forEach(i => i.active = false);
+            this.itemLegal.forEach((item, i) => item.active = i === index);
+            this.selectedSection.emit(this.itemLegal[index].section);
       }
 }
