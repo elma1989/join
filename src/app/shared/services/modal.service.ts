@@ -7,6 +7,7 @@ import { HelpModalComponent } from '../components/modals/help-modal/help-modal.c
 import { Task } from '../classes/task';
 import { TaskModalComponent } from '../components/modals/task-modal/task-modal.component';
 
+
 /**
  * ModalService is a modal factory service. 
  * At this place you can handle all modals. 
@@ -79,11 +80,11 @@ export class ModalService {
     });
 
     // (2) set the @Inputs for component
-    if(kindOf === 'add') {
-      componentRef.setInput('headlineTxt','Add');
+    if (kindOf === 'add') {
+      componentRef.setInput('headlineTxt', 'Add');
       componentRef.setInput('submitBtnTxt', 'Create contact ✓');
     } else {
-      componentRef.setInput('headlineTxt','Edit');
+      componentRef.setInput('headlineTxt', 'Edit');
       componentRef.setInput('submitBtnTxt', 'Save ✓');
     }
     componentRef.setInput('contact', contact);
@@ -106,7 +107,7 @@ export class ModalService {
    * @param kindOf kind of modal ('task')
    * @param task the task object to display.
    */
-  openTaskDetailModal( task: Task) {
+  openTaskDetailModal(task: Task) {
     // (1) creates a modal component reference
     const componentRef = createComponent(TaskModalComponent, {
       environmentInjector: this.appRef.injector,
@@ -170,13 +171,12 @@ export class ModalService {
     componentRef.instance.dissolve = () => {
       this.appRef.detachView(componentRef.hostView);
       componentRef.destroy();
-    
+    };
 
     // add component to body
     this.appRef.attachView(componentRef.hostView);
     document.body.appendChild(componentRef.location.nativeElement);
   }
+}
 
-
-  // #endregion methods
-}}
+  // #endregion method
