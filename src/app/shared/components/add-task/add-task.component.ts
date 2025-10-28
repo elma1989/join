@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy,  } from '@angular/core';
+import { Component, inject, input, InputSignal, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FirebaseDBService } from '../../services/firebase-db.service';
 import { Priority } from '../../enums/priority.enum';
@@ -9,13 +9,15 @@ import { Category } from '../../enums/category.enum';
 import { query, Unsubscribe, where, Query, onSnapshot, Timestamp } from '@angular/fire/firestore';
 import { Contact } from '../../classes/contact';
 import { DatePickerComponent } from "../date-picker/date-picker.component";
+import { AssignContactsComponent } from "../assign-contacts/assign-contacts.component";
+import { ToastMsgService } from '../../services/toast-msg.service';
 import { SubtaskComponent } from '../../../main-content/board/subtask/subtask.component';
 
 
 @Component({
   selector: 'app-add-task',
   standalone: true,
-  imports: [CommonModule, FormsModule, PriorityButtonsComponent, DatePickerComponent, SubtaskComponent],
+  imports: [CommonModule, FormsModule, PriorityButtonsComponent, DatePickerComponent, AssignContactsComponent, SubtaskComponent],
   templateUrl: './add-task.component.html',
   styleUrl: './add-task.component.scss'
 })
@@ -24,10 +26,11 @@ export class AddtaskComponent implements OnDestroy {
   // #region properties
 
   fireDB: FirebaseDBService = inject(FirebaseDBService);
+  tms: ToastMsgService = inject(ToastMsgService);
   Priority = Priority;
   Category = Category;
 
-  currentTask: Task = new Task();
+  currentTask: InputSignal<Task> = input.required<Task>();
   contacts: Array<Contact> = []
 
   unsubContacts: Unsubscribe;
@@ -41,6 +44,8 @@ export class AddtaskComponent implements OnDestroy {
   ngOnDestroy() {
     this.unsubContacts();
   }
+
+  // #region methods
 
   /**
    * Opens a two way data stream between code and firebase collection 'contacts'.
@@ -64,25 +69,62 @@ export class AddtaskComponent implements OnDestroy {
    * @param e event
    */
   async submitForm(e: SubmitEvent) {
-    this.fireDB.addToDB('tasks', this.currentTask);
+    if(this.currentTask().id == '') {
+      this.fireDB.addToDB('tasks', this.currentTask());
+      this.clear();
+      this.tms.add('Task was created', 3000, 'success');
+    } else {
+      this.fireDB.updateInDB('tasks', this.currentTask());
+      this.tms.add('Task was updated', 3000, 'success');
+    }
   }
 
   /**
    * Reset all inputs to default.
    */
   clear() {
-    this.currentTask = new Task();
+    this.currentTask.apply(new Task());
+
+    this.contacts.forEach(contact => {
+      contact.isChecked = false;
+    });
+    this.setChosenContacts([]);
   }
 
+  /**
+   * Toggles a single contact option between selected and not selected.
+   * 
+   * @param contact the option to toggle. 
+   */
   toggleAddContactToAssignTo(contact: Contact) {
-    if(this.currentTask.assignedTo.includes(contact.id)){
+    if(this.currentTask().assignedTo.includes(contact.id)){
       // remove
     } else {
-      this.currentTask.assignedTo.push(contact.id);
+      this.currentTask().assignedTo.push(contact.id);
     }
   }
 
+  /**
+   * Sets the due date of task. 
+   * 
+   * @param date selected date from date-picker
+   */
   setDate(date: Date) {
-    this.currentTask.dueDate = Timestamp.fromDate(date)
+    this.currentTask().dueDate = Timestamp.fromDate(date)
   }
+
+  /**
+   * Sets the chosen contacts to task contacts.
+   * 
+   * @param chosenContacts Array<Contact> with selected contacts
+   */
+  setChosenContacts(chosenContacts: Array<Contact>) {
+    this.currentTask().contacts = chosenContacts;
+    this.currentTask().assignedTo = [];
+    chosenContacts.forEach((contact) => {
+      this.currentTask().assignedTo.push(contact.id);
+    })
+  }
+
+  // #endregion methods
 }

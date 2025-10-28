@@ -1,13 +1,12 @@
-import { AfterViewInit, Component, input, InputSignal } from '@angular/core';
-import { trigger, state, style, transition, animate } from '@angular/animations';
-import { AddtaskComponent } from "../../add-task/add-task.component";
-import { Task } from '../../../classes/task';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-add-task-modal',
-  imports: [AddtaskComponent],
-  templateUrl: './add-task-modal.component.html',
-  styleUrl: './add-task-modal.component.scss',
+  selector: 'app-privacy-police-modal',
+  standalone: true,
+  imports: [],
+  templateUrl: './privacy-police-modal.component.html',
+  styleUrl: './privacy-police-modal.component.scss',
   animations: [
     trigger('slideInOut', [
       state('open', style({
@@ -27,16 +26,12 @@ import { Task } from '../../../classes/task';
     ])
   ]
 })
-export class AddTaskModalComponent implements AfterViewInit{
-
-  /** InputSignal for currentTask. */
-  currentTask: InputSignal<Task> = input<Task>(new Task());
+export class PrivacyPoliceModalComponent {
 
   /** callback function on close => remove from DOM => will be set in ModalService */
   dissolve?: () => void;
 
   isOpen = false;
-
 
   ngAfterViewInit() {
     setTimeout(() => this.isOpen = true, 10); // Animation trigger

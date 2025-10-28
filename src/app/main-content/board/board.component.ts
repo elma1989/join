@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, input, InputSignal, OnDestroy, OnInit } from '@angular/core';
 import { SearchTaskComponent } from './search-task/search-task.component';
 import { Task } from '../../shared/classes/task';
 import { collection, doc, DocumentReference, Firestore, onSnapshot, Unsubscribe, updateDoc } from '@angular/fire/firestore';
@@ -30,7 +30,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   protected modalService: ModalService = inject(ModalService);
 
   // Primary Data
-  private tasks: Task[] = [];
+  tasks: Task[] = [];
   private shownTasks: Task[] = [];
   protected taskLists: {
     listName: string,
@@ -119,7 +119,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     const ref: DocumentReference = doc(this.fs, `tasks/${task.id}`);
     await updateDoc(ref, task.toJSON());
   }
-  
+  // #endregion
   // #region taskmgmt
   /**
    * Filters all Tasks by user input.
@@ -208,6 +208,22 @@ export class BoardComponent implements OnInit, OnDestroy {
    */
   private sortTasks(index: number): void {
     this.taskItems[index].sort((a, b) => a.dueDate.seconds - b.dueDate.seconds);
+  }
+  // #endregion
+
+  protected drop(e: CdkDragDrop<Task[]>): void {
+    const previousList = e.previousContainer.data || [];
+    const currentList = e.container.data || [];
+
+    if (e.previousContainer != e.container) {
+      transferArrayItem(previousList, currentList, e.previousIndex, e.currentIndex);
+      currentList.sort((a, b) => a.dueDate.seconds - b.dueDate.seconds);
+      if (this.taskItems[0].some(task => task.id == e.item.data.id)) e.item.data.status = TaskStatusType.TODO;
+      else if (this.taskItems[1].some(task => task.id == e.item.data.id)) e.item.data.status = TaskStatusType.PROGRESS;
+      else if (this.taskItems[2].some(task => task.id == e.item.data.id)) e.item.data.status = TaskStatusType.REVIEW;
+      else e.item.data.status = TaskStatusType.DONE;
+      this.updateTask(e.item.data);
+    }
   }
   // #endregion
 
