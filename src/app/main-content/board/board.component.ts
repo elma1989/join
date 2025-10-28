@@ -100,7 +100,6 @@ export class BoardComponent implements  OnDestroy, OnInit {
     return onSnapshot(this.fireDB.getCollectionRef('tasks'), taskSnap => {
       this.tasks = [];
       this.shownTasks = [];
-      this.taskItems = [[],[],[],[]];
       taskSnap.docs.map( doc => {this.tasks.push(new Task(doc.data() as TaskObject))});
       for (let i = 0; i < this.tasks.length; i++) {
         this.addContactsToTask(i);
@@ -135,6 +134,7 @@ export class BoardComponent implements  OnDestroy, OnInit {
 
   /** Divides all shwohn Tasks in their lists */
   private splitTasks() {
+    this.taskItems = [[], [], [], []];
     for (let i = 0; i < this.shownTasks.length; i++) {
       switch(this.shownTasks[i].status) {
         case TaskStatusType.TODO:

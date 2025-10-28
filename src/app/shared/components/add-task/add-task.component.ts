@@ -1,4 +1,4 @@
-import { Component, inject, input, InputSignal, OnDestroy } from '@angular/core';
+import { Component, inject, input, InputSignal, OnDestroy, output, OutputEmitterRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FirebaseDBService } from '../../services/firebase-db.service';
 import { Priority } from '../../enums/priority.enum';
@@ -33,6 +33,7 @@ export class AddtaskComponent implements OnDestroy {
   Category = Category;
 
   currentTask: InputSignal<Task> = input.required<Task>();
+  close: OutputEmitterRef<boolean> = output<boolean>();
   contacts: Array<Contact> = []
 
   unsubContacts: Unsubscribe;
@@ -78,6 +79,7 @@ export class AddtaskComponent implements OnDestroy {
     } else {
       await this.updateTask();
     }
+    this.closeModal();
   }
   
   /**
@@ -85,6 +87,7 @@ export class AddtaskComponent implements OnDestroy {
    */
   async updateTask() {
     await this.fireDB.taskUpdateInDB('tasks', this.currentTask());
+    this.closeModal();
     this.tms.add('Task was updated', 3000, 'success');
   }
 
@@ -141,5 +144,8 @@ export class AddtaskComponent implements OnDestroy {
     this.currentTask().hasSubtasks = this.currentTask().subtasks.length >= 1;
   }
 
+  closeModal() {
+    this.close.emit(true);
+  }
   // #endregion methods
 }
