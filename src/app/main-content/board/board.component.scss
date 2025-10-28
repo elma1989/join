@@ -57,9 +57,9 @@
 
     // #region task-list-container
     .task-list-wrapper {
-        // margin-top: 2dvh;
         width: 100%;
         @include all.fl($jc: space-around, $gap: 1rem);
+        @include all.scrollbar();
         
         @media(max-width: 1280px) {
             @include all.fl($flexdir: column);
@@ -112,9 +112,11 @@
             }
 
             main {
-                width: 100%;
-                height: 100%;
+                // width: 100%;
+                // height: 100%;
+                @include all.size();
                 @include all.fl($flexdir: column);
+                @include all.scrollbar();
                 overflow-y: auto;
 
                 @media(max-width: 1280px) {
@@ -129,20 +131,18 @@
 
                 .no-entry-container {
                     @include all.size($maxW: 28rem, $minW: 20rem, $h: auto);
-                    padding: 1rem;
                     @include all.borRad($c: rgba(0, 0, 0, 0.2), $radius: 16px, $thick: 2px, $design: dotted);
                     @include all.font-style($size: 18px, $weight: 600);
+                    @include all.marpad($pad: 1rem);
                     background: rgba(0, 0, 0, 0.1);
                     text-align: center;
                     align-content: center;
                 }
             }
         }
-
     }
+    // #endregion
 }
-
-
 
 // #region CDK-Drag-Drop
 
@@ -164,5 +164,4 @@
     opacity: 0;
 }
 
-// #endregion
 // #endregion
