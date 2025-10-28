@@ -155,15 +155,25 @@ export class FirebaseDBService {
       const dbObjRef = await addDoc(collectionRef, object.toJSON());
       if(dbObjRef !== undefined && dbObjRef.id !== ''){
         await updateDoc(dbObjRef, {id: dbObjRef.id});
-
-        if(object instanceof Task){
-          const task = this.mapResponseToTask(dbObjRef.toJSON);
-          task.id = dbObjRef.id;
-          await this.taskUpdateInDB('tasks', task);
-        }
       }
     } catch(e) {
       // console.log(e);
+    }
+  }
+
+  /**
+   * Adds a task to database and update after add to save id
+   * and adds subtasks to database.
+   * 
+   * @param collectionName name of collection in database.
+   * @param task task to add to database.
+   */
+  async taskAddToDB(collectionName: string, task: Task) {
+    const collectionRef = this.getCollectionRef(collectionName);
+    const dbObjRef = await addDoc(collectionRef, task.toJSON());
+    task.id = dbObjRef.id;
+    if(task.hasSubtasks) {
+      await this.taskUpdateInDB(collectionName, task);
     }
   }
 
@@ -176,17 +186,21 @@ export class FirebaseDBService {
     if( object instanceof Contact ) {
       object.group = object.firstname[0];
     }
-
     const docRef  = this.getDocRef(collectionName, object.id);
     await updateDoc(docRef, object.toJSON());
   }
 
+  /**
+   * Updates a task with his subtasks in database.
+   * 
+   * @param collectionName name of collection in database.
+   * @param doc task to update in database.
+   */
   async taskUpdateInDB(collectionName: string, doc: Task): Promise<void> {
     if(doc.hasSubtasks) {
       await this.handleSubtasksInDB(doc.subtasks, doc.id);
     }
     await this.updateInDB(collectionName, doc);
-    this.tms.add('Task updated', 3000, 'success');
   }
 
   /**
@@ -198,6 +212,13 @@ export class FirebaseDBService {
     await deleteDoc(docRef);
   }
 
+  /**
+   * Deletes a single task from database. 
+   * Deletes also existing subtasks.
+   * 
+   * @param collectionName name of collection in database.
+   * @param doc task to delete in database.
+   */
   async deleteTaskInDB(collectionName: string, doc: Task) {
     if(doc.hasSubtasks) {
       doc.subtasks.forEach(async (subTask) => {

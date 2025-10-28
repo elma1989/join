@@ -128,6 +128,8 @@ export class ModalService {
     document.body.appendChild(componentRef.location.nativeElement);
   }
 
+
+
   /**
    * Opens the add task modal. 
    * 
