@@ -1,0 +1,68 @@
+@use "../../../../public/styles/all_styles.scss" as all;
+
+:host {
+	@include all.size();
+	padding: 8rem;
+
+// #region summary-header
+	.summary-header {
+		@include all.fl($jc: start, $alit: center);
+		@include all.size($h: 8rem);
+
+		@include all.notebook {
+			@include all.fl($jc: space-between, $alit: start);
+			@include all.size($w: 30dvw, $h: 12rem);
+		}
+
+		.summary-header-info {
+			@include all.fl($alit: center, $gap: 2rem);
+
+			@media (max-width: 1200px) {
+				@include all.fl($flexdir: column, $gap: 1rem);
+			}
+
+			h1 {
+				@include all.font-style($size: 6rem, $weight: bold);
+
+				@include all.mobile {
+					@include all.font-style($size: 5rem, $weight: bold);
+				}
+			}
+
+			h2 {
+				@include all.size($w:40dvw, $h: auto);
+				@include all.font-style($size: 2.5rem);
+				letter-spacing: 2px;
+				font-weight: 100;
+
+				@media(max-width: 425px) {
+					@include all.font-style($size: 1.8rem);
+				}
+			}
+
+			hr {
+				background: rgb(17, 148, 213);
+			}
+
+			#middle-line {
+				display: block;
+				@include all.size($w: 0.5rem, $h: 6rem);
+
+				@media (max-width: 1200px) {
+					display: none;
+				}
+			}
+
+			#bottom-line {
+				display: none;
+				@include all.size($w: 12rem, $h: 0.6rem);
+
+				@media (max-width: 1200px) {
+					display: flex;
+				}
+			}
+		}
+	}
+}
+
+// #endregion
