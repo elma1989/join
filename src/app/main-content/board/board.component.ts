@@ -83,7 +83,7 @@ export class BoardComponent implements OnInit, OnDestroy {
    * @returns - Unsubscribe of Sutasks
    */
   private subscribeSubtasks(): Unsubscribe {
-    return onSnapshot(collection(this.fs, 'subtask'), subtasksSnap => {
+    return onSnapshot(collection(this.fs, 'subtasks'), subtasksSnap => {
       this.subtasks = [];
       subtasksSnap.docs.map( doc => {this.subtasks.push(new SubTask(doc.data() as SubtaskObject))})
     })
@@ -208,22 +208,6 @@ export class BoardComponent implements OnInit, OnDestroy {
    */
   private sortTasks(index: number): void {
     this.taskItems[index].sort((a, b) => a.dueDate.seconds - b.dueDate.seconds);
-  }
-  // #endregion
-
-  protected drop(e: CdkDragDrop<Task[]>): void {
-    const previousList = e.previousContainer.data || [];
-    const currentList = e.container.data || [];
-
-    if (e.previousContainer != e.container) {
-      transferArrayItem(previousList, currentList, e.previousIndex, e.currentIndex);
-      currentList.sort((a, b) => a.dueDate.seconds - b.dueDate.seconds);
-      if (this.taskItems[0].some(task => task.id == e.item.data.id)) e.item.data.status = TaskStatusType.TODO;
-      else if (this.taskItems[1].some(task => task.id == e.item.data.id)) e.item.data.status = TaskStatusType.PROGRESS;
-      else if (this.taskItems[2].some(task => task.id == e.item.data.id)) e.item.data.status = TaskStatusType.REVIEW;
-      else e.item.data.status = TaskStatusType.DONE;
-      this.updateTask(e.item.data);
-    }
   }
   // #endregion
 

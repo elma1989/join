@@ -4,22 +4,13 @@
 :host {
     @include all.fl($flexdir: column, $alit: center);
     @include all.size();
-    padding-top: 6rem;
-
-    @media(max-width: 1280px) {
-        @include all.fl($flexdir: column, $alit: center);
-        @include all.size();
-    }
+    padding: 5% 2% 1% 2%;
 
     // #region header
     header {
-        @include all.size($w: 80dvw, $h: 10rem);
+        @include all.size($h: 10rem);
         @include all.fl($alit: center, $jc: space-between);
 
-        @include all.notebook {
-            @include all.size($h: 10rem);
-            @include all.marpad($pad: 0 1rem);
-        }
 
         h1 {
             @include all.font-style($size: 6rem);
@@ -34,7 +25,7 @@
         }
 
         .btn-set {
-            @include all.size($w: 15rem, $h: 4.8rem);
+            @include all.size($w: 25%, $h: 4.8rem);
 
             @include all.notebook {
                 #add-task-label {
@@ -70,7 +61,7 @@
 
         @media(max-width: 1280px) {
             @include all.fl($flexdir: column);
-            @include all.size($w: 78dvw, $h: 90dvh);
+            @include all.size($h: 90dvh);
             overflow-y: auto;
             overflow-x: hidden;
             scrollbar-width: thin;
@@ -79,7 +70,6 @@
 
         @include all.notebook {
             @include all.fl($flexdir: column);
-            @include all.size($maxW: 75dvw);
         }
 
         @include all.tablet {
@@ -92,23 +82,14 @@
 
 .task-list {
     @include all.fl($flexdir: column);
-    @include all.size($w: 25%);
+    @include all.size();
     @include all.marpad($pad: 1.6rem 1rem);
 
-    @media (max-width: 1280px) {
-        @include all.size($w: 100%, $h: auto, $maxW: 675px);
-    }
-
     header {
-        @include all.size($w: 21dvw, $h: 5rem);
+        @include all.size($h: 4.8rem);
         @include all.fl($alit: center, $jc: space-between);
-        @include all.marpad($pad: 0 4rem 0 4.2rem);
-        margin-bottom: 1.6rem;
-
-        @media (max-width: 1280px) {
-            @include all.size($h: 5rem);
-            margin-bottom: 0;
-        }
+        @include all.marpad($pad: 0 1rem);
+        margin-bottom: 1rem;
 
         h3 {
             font-size: 2.1rem;
@@ -126,7 +107,7 @@
     }
 
     main {
-        @include all.size($h: 69dvh);
+        @include all.size($h: 100%, $minH: 5rem);
         @include all.fl($alit: center, $flexdir: column);
         overflow-y: auto;
         scrollbar-width: thin;
@@ -134,21 +115,15 @@
 
         @media (max-width: 1280px) {
             @include all.fl($flexdir: row);
-            @include all.size($w: 75dvw, $h: auto);
+            @include all.size( $h: 100%);
             overflow-x: auto;
         }
 
-        @include all.tablet {
-            @include all.size($h: auto);
-        }
-
-            >* {
-                flex: 0 0 auto;
-                width: 100%;
-                max-width: 28rem;
-            }
+        >* {
+            @include all.size($maxW: 28rem, $minW: 20rem);
         }
     }
+}
 
 // #region CDK-Drag-Drop
 .cdk-drop-list-dragging {
@@ -166,6 +141,7 @@
 }
 
 .cdk-drag-preview app-task-column-item {
+    width: 100%;
     transform: rotate(15deg);
 }
 // #endregion

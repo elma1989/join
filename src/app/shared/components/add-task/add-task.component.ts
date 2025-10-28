@@ -12,6 +12,8 @@ import { DatePickerComponent } from "../date-picker/date-picker.component";
 import { AssignContactsComponent } from "../assign-contacts/assign-contacts.component";
 import { ToastMsgService } from '../../services/toast-msg.service';
 import { SubtaskComponent } from '../../../main-content/board/subtask/subtask.component';
+import { SubtaskEditState } from '../../enums/subtask-edit-state';
+import { SubTask } from '../../classes/subTask';
 
 
 @Component({
@@ -69,13 +71,69 @@ export class AddtaskComponent implements OnDestroy {
    * @param e event
    */
   async submitForm(e: SubmitEvent) {
+    this.setSubTasks();
+    this.setAssignees(); 
     if(this.currentTask().id == '') {
       this.fireDB.addToDB('tasks', this.currentTask());
       this.clear();
       this.tms.add('Task was created', 3000, 'success');
     } else {
-      this.fireDB.updateInDB('tasks', this.currentTask());
+      this.fireDB.taskUpdateInDB('tasks', this.currentTask());
       this.tms.add('Task was updated', 3000, 'success');
+    }
+  }
+
+  /**
+   * Sets the subtask ids to task object for saving.
+   */
+  async setSubTasks() {
+    if(this.currentTask().subtasks.length >= 1) {
+      this.currentTask().hasSubtasks = true;
+      this.currentTask().assignedTo = [];
+      this.currentTask().subtasks.forEach(async (subTask) => {
+        await this.handleUpdateSubTask(subTask);
+        if(subTask.editState !== SubtaskEditState.DELETED) {
+          this.currentTask().assignedTo.push(subTask.id);
+        }
+      });
+    }
+    else {
+      this.currentTask().hasSubtasks = false;
+      this.currentTask().assignedTo = [];
+    }
+  }
+
+  /**
+   * Sets the contact ids to task object for saving.
+   */
+  setAssignees() {
+    if(this.currentTask().contacts.length >= 1) {
+      this.currentTask().assignedTo = [];
+      this.currentTask().contacts.forEach((contact) => {
+        this.currentTask().assignedTo.push(contact.id);
+      });
+    }
+  }
+
+  /**
+   * Handles the add, update and deletes for subtasks
+   * @param subTask 
+   */
+  async handleUpdateSubTask(subTask: SubTask) {
+    const colName: string = 'subtasks';
+    switch(subTask.editState) {
+      case SubtaskEditState.NEW:
+        subTask.taskId = this.currentTask().id;
+        await this.fireDB.addToDB(colName, subTask);
+        break;
+      case SubtaskEditState.CHANGED:
+        await this.fireDB.updateInDB(colName, subTask);
+        break;
+      case SubtaskEditState.DELETED:
+        await this.fireDB.deleteInDB(colName, subTask);
+        break;
+      default:
+        break;
     }
   }
 
@@ -89,6 +147,7 @@ export class AddtaskComponent implements OnDestroy {
       contact.isChecked = false;
     });
     this.setChosenContacts([]);
+    this.currentTask().subtasks = [];
   }
 
   /**
