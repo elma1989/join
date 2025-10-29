@@ -17,3 +17,8 @@
         height: 100%;
     }
 }
+
+.content-sign-up {
+    @include all.fl($jc:center);
+    @include all.size($maxW: 1920px, $minH: 100dvh);
+}
