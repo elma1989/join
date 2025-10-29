@@ -1,7 +1,9 @@
 <div class="content"> <!-- bekommt style display: grid-->
     <!-- Hier wird die Header-Komponente aus Angular als normals HTML-Tage eingebunden -->
     <!-- app-heder ist dabei der Name der Kopoenente. Der Name muss sich von den normalen Tag untersccheiden. -->
-    @if (currentSection != SectionType.SIGNUP) {
+    @if (currentSection == SectionType.SIGNUP) {
+        <section sign-up></section>
+    } @else {
         <aside app-aside (selectedSection)="changeSection($event)"></aside>
         <header app-header (selectedSection)="changeSection($event)"></header>
         <main>
@@ -27,7 +29,5 @@
                 }
             }
         </main>
-    } @else {
-        <section sign-up></section>
     }
 </div>
