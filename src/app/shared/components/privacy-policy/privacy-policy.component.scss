@@ -21,6 +21,10 @@
 
     .privacy-policy-container {
 
+        @include all.mobile {
+            @include all.size($w: 100dvw);
+        }
+
         .privacy-policy-back {
             @include all.fl($display: none);
 
