@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, ElementRef, inject, input, InputSignal, output, OutputEmitterRef, Renderer2, ViewChild } from '@angular/core';
-import { SubTask } from '../../../shared/classes/subTask';
+import { SubTask } from '../../classes/subTask';
 import { FormsModule } from '@angular/forms';
-import { SubtaskEditState } from '../../../shared/enums/subtask-edit-state';
+import { SubtaskEditState } from '../../enums/subtask-edit-state';
 
 @Component({
   selector: 'app-subtask',
