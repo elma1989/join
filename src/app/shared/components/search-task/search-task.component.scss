@@ -1,15 +1,15 @@
 @use '../../../../../public/styles/all_styles' as all;
 
 :host {
-    @include all.size($h: 4.8rem);
+    //@include all.size($h: 4.8rem);
 }
 
 form {
-    @include all.size();
+    //@include all.size();
 
     input[type=text] {
         @include all.fl();
-        @include all.size($h: 4.8rem);
+        //@include all.size($h: 4.8rem);
         @include all.marpad($pad: 8px 16px);
         outline: none;
         border-radius: 10px;
@@ -25,7 +25,7 @@ form {
     }
 
     hr {
-        @include all.size($w: 0.2rem, $h: 60%);
+        //@include all.size($w: 0.2rem, $h: 60%);
         @include all.absolute($top: 20%, $right: 4.8rem);
     }
 

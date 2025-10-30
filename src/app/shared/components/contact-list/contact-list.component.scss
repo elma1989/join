@@ -2,7 +2,7 @@
 @forward '../../../../../public/styles/component-styles';
 
 :host {
-    @include all.size($h: 90dvh);
+    //@include all.size($h: 90dvh);
     background: white;
     box-shadow: 5px 0 10px -5px grey;
 
@@ -12,7 +12,7 @@
         z-index: 20;
 
         @include all.tablet {
-            @include all.size($w: 6.2rem, $minW: 6.2rem, $h: 6.2rem, $minH: 6.2rem);
+            //@include all.size($w: 6.2rem, $minW: 6.2rem, $h: 6.2rem, $minH: 6.2rem);
             border-radius: 50%;
             position: absolute;
             right: 2rem;
@@ -31,17 +31,17 @@
     .contact-groups-container {
         overflow-y: auto;
         @include all.scrollbar();
-        @include all.size($h: 100%);
+        //@include all.size($h: 100%);
 
         .contact-group-container {
             @include all.fl($flexdir: column);
-            @include all.size($h: auto);
+            //@include all.size($h: auto);
 
             .letter {
                 vertical-align: center;
                 @include all.marpad($mar: 2rem 0, $pad: 0 3rem);
                 cursor: default;
-                @include all.font-style($size: 2.5rem, $weight: 100);
+                //@include all.font-style($size: 2.5rem, $weight: 100);
             }
 
             hr {
@@ -52,7 +52,7 @@
 
             .single-contact-container {
                 @include all.fl($alit: center, $jc: start, $gap: 25px);
-                @include all.size($w: 95%, $h: 78px);
+                //@include all.size($w: 95%, $h: 78px);
                 @include all.marpad($pad: 0 1.75rem);
                 border-radius: 10px;
                 cursor: pointer;
@@ -63,12 +63,12 @@
 
                 .icon-wrapper {
                     @include all.fl($jc: center, $alit: center);
-                    @include all.size($w: 4.2rem, $minW: 4.2rem, $h: 4.2rem, $minH: 4.2rem);
+                    //@include all.size($w: 4.2rem, $minW: 4.2rem, $h: 4.2rem, $minH: 4.2rem);
                 }
 
                 .contact-data {
                     @include all.fl($flexdir: column, $jc: center);
-                    @include all.size($w: 25rem, $h: 4.8rem);
+                    //@include all.size($w: 25rem, $h: 4.8rem);
 
                     .name {
                         @include all.limiter();
