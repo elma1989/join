@@ -14,12 +14,13 @@ import { ToastMsgService } from '../../services/toast-msg.service';
 import { SubtaskComponent } from '../subtask/subtask.component';
 import { SubtaskEditState } from '../../enums/subtask-edit-state';
 import { SubTask } from '../../classes/subTask';
+import { CategoryDropComponent } from "../category-drop/category-drop.component";
 
 
 @Component({
   selector: 'app-add-task',
   standalone: true,
-  imports: [CommonModule, FormsModule, PriorityButtonsComponent, DatePickerComponent, AssignContactsComponent, SubtaskComponent],
+  imports: [CommonModule, FormsModule, PriorityButtonsComponent, DatePickerComponent, AssignContactsComponent, SubtaskComponent, CategoryDropComponent],
   templateUrl: './add-task.component.html',
   styleUrl: './add-task.component.scss'
 })
@@ -139,6 +140,14 @@ export class AddtaskComponent implements OnDestroy {
     chosenContacts.forEach((contact) => {
       this.currentTask().assignedTo.push(contact.id);
     })
+  }
+
+  /**
+   * 
+   * @param category 
+   */
+  updateCategory(category: Category) {
+    this.currentTask().category = category;
   }
 
   /**
