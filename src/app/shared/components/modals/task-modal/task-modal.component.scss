@@ -1,7 +1,6 @@
 @use './../../../../../../public/styles/all_styles.scss' as all;
 
 :host {
-	//@include all.size();
 	@include all.fl($jc: center, $alit: center);
 	position: absolute;
 	top: 0;
@@ -12,7 +11,7 @@
 		@include all.fl($alit: center, $jc: center);
 		position: fixed;
 		inset: 0;
-		background: rgba(0, 0, 0, 0.5);
+		background: rgba(0, 0, 0, 0.1);
 		z-index: 12;
 	}
 
@@ -36,7 +35,7 @@
 		}
 
 		@include all.mobile {
-			@include all.size($w: 40dvh, $h: 75dvh);
+			@include all.size($w: 90%, $h: 70dvh);
 		}
 
 		.task-modal-header {
@@ -80,14 +79,19 @@
 
 		.title {
 			@include all.limiter();
-			font-size: 4rem;
+			font-size: 2.5rem;
+			font-weight: 600;
 			white-space: wrap;
+
+			@include all.mobile {
+				font-size: 2rem;
+			}
 		}
 
 		.description {
 			@include all.fl($alit: center);
 			@include all.limiter();
-			@include all.marpad($mar: 1.5rem 0 0.6rem 0);
+			@include all.marpad($mar: 1rem 0 0.6rem 0);
 			white-space: wrap;
 
 		}
@@ -115,7 +119,7 @@
 			@include all.marpad($mar: 0.8rem 0 0 0);
 
 			.task-modal-assigned {
-				@include all.size($h: 18.5dvh);
+				@include all.size($h: 19dvh);
 				@include all.scrollbar();
 				overflow-y: auto;
 			}
@@ -142,6 +146,16 @@
 		.task-modal-subtask-container {
 			@include all.marpad($pad: 1rem);
 			@include all.fl($alit: center, $flexdir: column, $gap: 1rem);
+			@include all.scrollbar();
+			@include all.size($w: 100%, $h: 10rem);
+			overflow-y: auto;
+
+			@include all.mobile {
+				@include all.marpad($pad: 0.5rem);
+				@include all.scrollbar();
+				@include all.size($w: 100%, $h: 6rem);
+				overflow-y: auto;
+			}
 
 			.task-modal-input {
 				@include all.size($w: 100%, $h: 2rem);
@@ -156,7 +170,7 @@
 
 	.task-option-container {
 		position: fixed;
-		bottom: 2rem;
+		bottom: 1rem;
 		@include all.size($w: 90%, $h: 3rem);
 		@include all.fl($jc: end, $gap: 1rem, $alit: center);
 		@include all.marpad($pad: 1rem);
@@ -173,5 +187,6 @@
 
 	h3 {
 		color: #42526e;
+		font-weight: 200;
 	}
 }
