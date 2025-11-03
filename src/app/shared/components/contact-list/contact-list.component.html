@@ -1,6 +1,6 @@
 <button id="add-contact-button" class="btn-set" (click)="openModal()" type="button">
     <span>Add new contact</span>
-    <img src="assets/Icons/contact/person_add.png" alt="">
+    <img src="assets/Icons/contact/person_add.png">
 </button>
 
 <div class="contact-groups-container">
@@ -14,10 +14,7 @@
                 @if(contact.group.toUpperCase() == group) {
                     <div id="{{ 'contact_' + contact.group + '_' + contact.id + '_' + $index}}" class="single-contact-container"
                         [ngClass]="{'active': contact.selected }" (click)="select(contact)">
-                        <div class="icon-wrapper">
-                            <app-contact-icon id="{{ 'contact_icon_' + contact.id}}" class="{{ contact.iconColor }}"
-                                [contact]="contact"></app-contact-icon>
-                        </div>
+                        <app-contact-icon id="{{ 'contact_icon_' + contact.id}}" class="{{ contact.iconColor }}" [contact]="contact"></app-contact-icon>
                         <div class="contact-data">
                             <p class="name limiter">{{ fullName(contact) }}</p>
                             <p class="email limiter">{{ contact.email }}</p>

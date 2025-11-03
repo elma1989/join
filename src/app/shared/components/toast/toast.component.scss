@@ -6,7 +6,7 @@
 }
 
 .toast {
-
+    
     @include all.slightInFromRightAnimation();
     @include all.size($w: 30rem, $h: 5rem);
     @include all.borRad();
@@ -20,8 +20,10 @@
     }
     
         button {
-            color: rgb(184, 184, 184);
-            font-weight: 800;
+            color: white;
+            font-weight: 500;
+            font-size: 1.6rem;
+            background: transparent;
             margin: 1rem 1rem;
     }
 }
