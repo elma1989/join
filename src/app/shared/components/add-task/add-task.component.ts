@@ -68,22 +68,6 @@ export class AddtaskComponent implements OnDestroy {
       });
     });
   }
-
-  // /**
-  //  * Submit the entered data as new Task to DB
-  //  *  
-  //  * @param e event
-  //  */
-  // async submitForm(e: SubmitEvent) {
-  //   if(this.currentTask().id == '') {
-  //     await this.addTask();
-  //     this.clear();
-  //     this.tms.add('Task was created', 3000, 'success');
-  //   } else {
-  //     await this.updateTask();
-  //   }
-  //   this.closeModal();
-  // }
   
   /** 
    * Adds a task into Database. 
@@ -111,7 +95,9 @@ export class AddtaskComponent implements OnDestroy {
     this.currentTask().description = '';
     this.currentTask().category = Category.TASK;
     this.currentTask().priority = Priority.MEDIUM;
-    this.currentTask().dueDate = Timestamp.now();
+    this.currentTask().dueDate = Timestamp.fromMillis(
+	    Timestamp.now().toMillis() + (24 * 60 * 60 * 1000)
+	  );
     this.currentTask().subtasks = []
     this.currentTask().hasSubtasks = false;
     this.updateContacts([]);
