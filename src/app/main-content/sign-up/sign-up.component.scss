@@ -3,25 +3,39 @@
 
 :host {
     @include all.fl($flexdir: column, $jc: center, $alit: center);
-    @include all.size($maxW: 100dvw, $maxH: 100dvh);
+    @include all.size($w: 100dvw, $h: 100dvh);
+    padding: 3.2rem;
 }
 
 a {
     color: #a8a8a8;
 }
 
+header {
+    @include all.size($w: 100%, $h: 16dvh);
+
+    img {
+        height: 16dvh;
+    }
+}
+
 main {
     @include all.fl($flexdir: column, $gap: 3.2rem);
     @include all.marpad ($pad: 4.8rem 8.8rem);
+    height: 74dvh;
 }
 
-header {
+main header {
     @include all.fl($jc: center, $alit: center);
     width: 100%;
 
     button {
         position: absolute;
         left: -3.2rem;
+
+        @include all.mobile {
+            left: 0;
+        }
 
         img {
             width: 3.2rem;
@@ -31,6 +45,7 @@ header {
 }
 
 footer {
+    height: 10dvh;
     @include all.fl($gap: 3.2rem);
 }
 
@@ -43,6 +58,23 @@ footer {
         text-align: center;
         margin-top: 1.6rem;
     }
+
+    @include all.mobile {
+        h1 {
+            font-size: 4.8rem;
+        }
+
+        hr {
+            width: 8.8rem;
+        }
+    }
+}
+
+.input-area {
+    margin-bottom: 1.6rem;
+    height: 32dvh;
+    overflow-y: auto;
+
 }
 
 input[type=text],
@@ -57,6 +89,10 @@ input[type=password] {
 
     &:focus {
         border: 1px solid #29abe2;
+    }
+
+    @include all.mobile {
+        width: 28rem;
     }
 }
 
@@ -97,7 +133,7 @@ input[type=password].error:focus {
         position: static;
         font: 1.6rem 'Inter', sans-serif;
 
-        a{
+        a {
             color: #29abe2;
         }
     }
