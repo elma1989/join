@@ -30,6 +30,11 @@ button {
     background: transparent;
 }
 
+a {
+    font: 1.6rem 'Inter', sans-serif;
+    cursor: pointer;
+}
+
 .content {
     display: grid;
     grid-template-columns: 20rem 1fr;

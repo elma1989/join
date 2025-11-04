@@ -1,8 +1,13 @@
 @use '../../../../public/styles/all_styles' as all;
+@forward '../../../../public/styles/component-styles';
 
 :host {
     @include all.fl($flexdir: column, $jc: center, $alit: center);
     @include all.size($maxW: 100dvw, $maxH: 100dvh);
+}
+
+a {
+    color: #a8a8a8;
 }
 
 main {
@@ -13,9 +18,11 @@ main {
 header {
     @include all.fl($jc: center, $alit: center);
     width: 100%;
+
     button {
         position: absolute;
         left: -3.2rem;
+
         img {
             width: 3.2rem;
             height: 3.2rem;
@@ -23,8 +30,13 @@ header {
     }
 }
 
+footer {
+    @include all.fl($gap: 3.2rem);
+}
+
 .titlebox {
     @include all.fl($flexdir: column, $alit: center);
+
     hr {
         width: 15rem;
         border: 3px solid #29abe2;
@@ -33,7 +45,8 @@ header {
     }
 }
 
-input[type=text], input[type=password] {
+input[type=text],
+input[type=password] {
     width: 42rem;
     height: 4.8rem;
     border-radius: 1rem;
@@ -41,6 +54,7 @@ input[type=text], input[type=password] {
     border: 1px solid #d1d1d1;
     outline: none;
     font: 1.6rem 'InterRegular', sans-serif;
+
     &:focus {
         border: 1px solid #29abe2;
     }
@@ -54,7 +68,10 @@ input[type=text], input[type=password] {
     top: 1.2rem;
 }
 
-input[type=text].error, input[type=password].error, input[type=text].error:focus, input[type=password].error:focus {
+input[type=text].error,
+input[type=password].error,
+input[type=text].error:focus,
+input[type=password].error:focus {
     border: 1px solid #e60026;
 }
 
@@ -63,5 +80,61 @@ input[type=text].error, input[type=password].error, input[type=text].error:focus
     align-items: center;
     height: 2rem;
     color: #e60026;
-    font-size: 1rem;
+    font: 1.6rem 'Inter', sans-serif;
+    padding: 0.2rem 2rem;
+}
+
+.check-field {
+    @include all.fl($alit: center, $gap: 1.6rem);
+
+    [type=checkbox] {
+        opacity: 0;
+        width: 2.4rem;
+        height: 2.4rem;
+    }
+
+    label {
+        position: static;
+        font: 1.6rem 'Inter', sans-serif;
+
+        a{
+            color: #29abe2;
+        }
+    }
+
+
+    [type=checkbox]+label {
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    [type=checkbox]+label::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 2.4rem;
+        height: 2.4rem;
+        background: url(../../../../public/assets/Icons/signon/check.png) no-repeat center / contain;
+    }
+
+    [type=checkbox]:checked+label::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 2.4rem;
+        height: 2.4rem;
+        background: url(../../../../public/assets/Icons/signon/checked.png) no-repeat center / contain;
+    }
+}
+
+.submit-field {
+    @include all.fl($jc: center);
+    width: 100%;
+    margin-top: 1.6rem;
+
+    input {
+        padding: 1rem 2.4rem;
+    }
 }
