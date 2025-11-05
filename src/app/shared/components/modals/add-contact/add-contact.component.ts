@@ -1,5 +1,5 @@
 import { Component, inject, AfterViewInit, input, InputSignal, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { ContactIconComponent } from "./../../contact-icon/contact-icon.component";
@@ -61,7 +61,27 @@ export class AddContactComponent implements OnInit, AfterViewInit, OnDestroy {
     email: ['', [CustomValidator.strictRequired(), Validators.minLength(10), Validators.email]],
     tel: ['', [CustomValidator.strictRequired(), Validators.minLength(10), CustomValidator.tel()]]
   })
-  errors: Record<string, string[]> = {};
+  protected fields: {name: string, placeholder: string, img: string}[] = [
+    {
+      name: 'firstname',
+      placeholder: 'First name',
+      img: 'person.png'
+    }, {
+      name: 'lastname',
+      placeholder: 'Last name',
+      img: 'person.png'
+    }, {
+      name: 'email',
+      placeholder: 'E-Mail',
+      img: 'mail.png'
+    }, {
+      name: 'tel',
+      placeholder: 'Phone',
+      img: 'call.png'
+    }
+  ]
+  protected lastFucusIndex: number = -1;
+  protected errors: Record<string, string[]> = {};
 
   // #endregion properties
   
@@ -83,7 +103,48 @@ export class AddContactComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   // #region methods
+  // #region Form-Management
+  /** Validates the form. */
+  private validateForm() {
+    this.errors = this.val.validateForm('contact');
+  }
 
+  /**
+   * Changes current focus.
+   * @param index - Index of value in fields-array;
+  */
+  focusOnInput (index: number): void {
+    this.lastFucusIndex = index;
+  }
+
+  /**
+   * Decides if error message is shown.
+   * @param index - Index of Field-Array
+   * @returns true, if user passed this entry in form.
+   */
+  showError(index: number): boolean {
+    const control: AbstractControl<any, any> | null = this.contactForm.get(this.fields[index].name);
+    if (!control) return false;
+    return this.contactForm.invalid && control.touched || this.lastFucusIndex >= index
+  }
+
+  /** Submit the entered data as add or as update after validation */
+  async submitForm() {
+    this.validateForm();
+    if (this.contactForm.valid) {
+      const contact = new Contact({id: this.contact().id, group: this.contactForm.value.firstname[0], iconColor: this.contact().iconColor, ...this.contactForm.value})
+      if(contact.id == '') {
+        await this.fireDB.addToDB('contacts', contact);
+        this.tms.add('Contact was created', 3000, 'success');
+      } else {
+        await this.fireDB.updateInDB('contacts', contact);
+        this.tms.add('Contact was updated', 3000, 'success');
+      }
+      this.closeModal();
+    }
+  }
+  // #endregion
+  
   /**
    * Closes the modal
    * 
@@ -92,34 +153,6 @@ export class AddContactComponent implements OnInit, AfterViewInit, OnDestroy {
   closeModal() {
     this.isOpen = false;
     setTimeout(() => this.dissolve?.(), 400);
-  }
-
-  private validateForm() {
-    this.errors = this.val.validateForm('contact');
-  }
-
-  /**
-   * Submit the entered data as add or as update after validation
-   *  
-   * @param e event
-   */
-  async submitForm() {
-    this.validateForm();
-    if (this.contactForm.valid) {
-      const values = this.contactForm.value;
-      this.contact().firstname = values.firstname;
-      this.contact().lastname = values.lastname;
-      this.contact().email = values.email;
-      this.contact().tel = values.tel;
-      if(this.contact().id == '') {
-        await this.fireDB.addToDB('contacts', this.contact());
-        this.tms.add('Contact was created', 3000, 'success');
-      } else {
-        await this.fireDB.updateInDB('contacts', this.contact());
-        this.tms.add('Contact was updated', 3000, 'success');
-      }
-      this.closeModal();
-    }
   }
 
   /**
