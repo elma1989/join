@@ -45,6 +45,7 @@
 
             .help-icon {
                 cursor: pointer;
+                z-index: 20;
 
                 @include all.tablet {
                     display: none;

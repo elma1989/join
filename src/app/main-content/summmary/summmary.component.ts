@@ -1,11 +1,9 @@
-import { Component } from '@angular/core';
+import { Component} from '@angular/core';
 
 @Component({
-  selector: 'app-summmary',
-  imports: [],
+  selector: 'section[summmary]',
   templateUrl: './summmary.component.html',
-  styleUrl: './summmary.component.scss'
+  styleUrls: ['./summmary.component.scss']
 })
 export class SummmaryComponent {
-
 }
