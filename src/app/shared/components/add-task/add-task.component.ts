@@ -1,5 +1,5 @@
-import { ChangeDetectorRef, Component, inject, input, InputSignal, OnDestroy, output, OutputEmitterRef } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ChangeDetectorRef, Component, inject, input, InputSignal, OnDestroy, OnInit, output, OutputEmitterRef } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FirebaseDBService } from '../../services/firebase-db.service';
 import { Priority } from '../../enums/priority.enum';
 import { Task } from '../../classes/task';
@@ -15,16 +15,28 @@ import { SubtaskComponent } from '../subtask/subtask.component';
 import { SubtaskEditState } from '../../enums/subtask-edit-state';
 import { SubTask } from '../../classes/subTask';
 import { CategoryDropComponent } from "../category-drop/category-drop.component";
+import { ValidationService } from '../../services/validation.service';
+import { Subscription } from 'rxjs';
+import { CustomValidator } from '../../classes/custom-validator';
 
 
 @Component({
   selector: 'app-add-task',
   standalone: true,
-  imports: [CommonModule, FormsModule, PriorityButtonsComponent, DatePickerComponent, AssignContactsComponent, SubtaskComponent, CategoryDropComponent],
+  imports: [
+    CommonModule,
+    FormsModule, 
+    PriorityButtonsComponent, 
+    DatePickerComponent, 
+    AssignContactsComponent, 
+    SubtaskComponent, 
+    CategoryDropComponent,
+    ReactiveFormsModule
+  ],
   templateUrl: './add-task.component.html',
   styleUrl: './add-task.component.scss'
 })
-export class AddtaskComponent implements OnDestroy {
+export class AddtaskComponent implements OnInit, OnDestroy {
 
   // #region properties
 
@@ -32,26 +44,49 @@ export class AddtaskComponent implements OnDestroy {
   fs: Firestore = inject(Firestore);
   tms: ToastMsgService = inject(ToastMsgService);
   cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
+  fb: FormBuilder = inject(FormBuilder);
+  val: ValidationService = inject(ValidationService);
   Priority = Priority;
   Category = Category;
 
   currentTask: InputSignal<Task> = input.required<Task>();
   close: OutputEmitterRef<boolean> = output<boolean>();
-  contacts: Array<Contact> = []
+  contacts: Array<Contact> = [];
+  protected errors: Record<string, string[]> = {};
 
-  unsubContacts: Unsubscribe;
+  unsubContacts!: Unsubscribe;
+  subFormChange!: Subscription;
+
+  protected formTask: FormGroup = this.fb.group({
+    title: ['', [CustomValidator.strictRequired(), CustomValidator.firstUpperCase(), Validators.minLength(3)]],
+    description: ['']
+  })
 
   // #endregion properties
   
-  constructor() {
+  ngOnInit(): void {
     this.unsubContacts = this.getContactsSnapshot();
+    this.val.registerForm('task', this.formTask);
+    this.subFormChange = this.formTask.valueChanges.subscribe(() => this.validate());
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.unsubContacts();
+    this.val.removeForm('task');
+    this.subFormChange.unsubscribe();
   }
 
   // #region methods
+
+  /** Validates a form. */
+  private validate(): void {
+    this.errors = this.val.validateForm('task');
+  }
+
+  /** Submits a form. */
+  protected submitForm(): void {
+    this.validate();
+  }
 
   /**
    * Opens a two way data stream between code and firebase collection 'contacts'.
@@ -97,7 +132,7 @@ export class AddtaskComponent implements OnDestroy {
     this.currentTask().priority = Priority.MEDIUM;
     this.currentTask().dueDate = Timestamp.fromMillis(
 	    Timestamp.now().toMillis() + (24 * 60 * 60 * 1000)
-	  );
+	);
     this.currentTask().subtasks = []
     this.currentTask().hasSubtasks = false;
     this.updateContacts([]);

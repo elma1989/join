@@ -14,7 +14,7 @@ export class ValidationService {
    * @param key - Key of form.
    * @param form - FromGroup, which is added.
    */
-  registerForm(key: 'contact', form: FormGroup): void {
+  registerForm(key: string, form: FormGroup): void {
     this.forms.set(key, form);
   }
 
@@ -29,10 +29,10 @@ export class ValidationService {
   
   /**
    * Validates a form.
-   * @param formType - Type of Form ('contact')
-   * @returns Record of errors
+   * @param formType - Type of Form.
+   * @returns Record of errors.
    */
-  validateForm(formType: 'contact'): Record<string, string[]> {
+  validateForm(formType: string): Record<string, string[]> {
     const errors: Record<string, string[]> = {};
     const form: FormGroup | undefined = this.forms.get(formType);
 

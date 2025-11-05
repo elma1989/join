@@ -33,14 +33,14 @@ export class AsideComponent {
                   title: 'Summary',
                   imagePath: 'assets/Icons/contact/Summary.png',
                   section: SectionType.SUMMARY,
-                  active: true
+                  active: false
             },
             {
                   sectionId: 'add-task-section',
                   title: 'Add task',
                   imagePath: 'assets/Icons/contact/addTask.png',
                   section: SectionType.TASK,
-                  active: false,
+                  active: true,
             },
             {
                   sectionId: 'Boards',
