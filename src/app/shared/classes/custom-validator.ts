@@ -8,7 +8,7 @@ export class CustomValidator {
     static strictRequired(): ValidatorFn {
         return (control: AbstractControl): ValidationErrors | null => {
             const value = control.value;
-            if (!value || typeof value == 'string' && value.trim().length == 0) return {strictRequired: true};
+            if (!value || typeof value == 'string' && value.trim().length == 0) return { strictRequired: true };
             return null;
         }
     }
@@ -22,7 +22,7 @@ export class CustomValidator {
         return (control: AbstractControl): ValidationErrors | null => {
             const value = control.value;
             const regex: RegExp = /^0\d+ \d+$/;
-            if (typeof value != 'string' || !regex.test(value)) return {tel: true}
+            if (typeof value != 'string' || !regex.test(value)) return { tel: true }
             return null;
         }
     }
@@ -37,7 +37,7 @@ export class CustomValidator {
             if (typeof value == 'string') {
                 const words: string[] = value.split(/[ -]/);
                 const regex: RegExp = /^[A-ZÄÖÜ][a-zäöüß]+$/;
-                if (!words.every(word => regex.test(word))) return {firstUpperCase: true};
+                if (!words.every(word => regex.test(word))) return { firstUpperCase: true };
             }
             return null;
         }
@@ -49,13 +49,27 @@ export class CustomValidator {
      */
     static dateFormat(): ValidatorFn {
         return (control: AbstractControl): ValidationErrors | null => {
-            const value  = control.value;
+            const value = control.value;
             if (typeof value == 'string') {
-                const [month = 0, day = 0, year = 0] = value.split('/').map( x => Number(x)).filter(x => !isNaN(x)).map(x => Math.floor(x));
-                if(day < 1 || day > 31 || month < 1 || month > 12 || year < 2000) return {dateFormat: true};
+                const [month = 0, day = 0, year = 0] = value.split('/').map(x => Number(x)).filter(x => !isNaN(x)).map(x => Math.floor(x));
+                if (day < 1 || day > 31 || month < 1 || month > 12 || year < 2000) return { dateFormat: true };
                 return null;
             }
-            return {dateFormat: true}
+            return { dateFormat: true }
+        }
+    }
+
+    static dateInPast(): ValidatorFn {
+        return (control: AbstractControl): ValidationErrors | null => {
+            const value = control.value;
+            if (typeof value == 'string') {
+                const [month = 0, day = 0, year = 0] = value.split('/').map(x => Number(x));
+                const pastDate = Date.now() - 1000 * 60 * 60 * 24; 
+                const inputDate = new Date(year, month-1, day)
+                if (inputDate.getTime() < pastDate) return { dateInPast: true };
+                return null;
+            }
+            return { dateInPast: true }
         }
     }
 }
