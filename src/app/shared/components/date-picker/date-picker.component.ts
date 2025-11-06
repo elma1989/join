@@ -98,6 +98,7 @@ export class DatePickerComponent implements OnInit, OnDestroy {
   }
 
   // #region methods
+  // #region Form-Mangement
   /** 
    * Gets the FormGroup.
    * @returns - FromGroup from input.
@@ -108,16 +109,6 @@ export class DatePickerComponent implements OnInit, OnDestroy {
 
   protected validate() {
     this.errors = this.val.validateForm('task');
-  }
-
-  /**
-   * toggles the visibility of calendar pop up.
-   * 
-   * @param event 
-   */
-  toggleCalendar(event: Event) {
-    event.stopPropagation();
-    this.showCalendar.update((v) => !v);
   }
 
   /**
@@ -149,6 +140,18 @@ export class DatePickerComponent implements OnInit, OnDestroy {
     const month: string = String(date.getMonth() + 1).padStart(2, '0');
     const year: number = date.getFullYear();
     return `${month}/${day}/${year}`;
+  }
+  // #endregion
+
+  // #region Calender-Mangement
+  /**
+   * toggles the visibility of calendar pop up.
+   * 
+   * @param event 
+   */
+  toggleCalendar(event: Event) {
+    event.stopPropagation();
+    this.showCalendar.update((v) => !v);
   }
 
   /**
@@ -244,6 +247,6 @@ export class DatePickerComponent implements OnInit, OnDestroy {
       this.showCalendar.set(false);
     }
   }
-
+  // #endregion
   // #endregion methods
 }

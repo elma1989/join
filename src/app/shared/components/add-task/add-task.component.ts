@@ -63,7 +63,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     dueDate: this.fb.group({
       deathline: [ this.defaultDate, [CustomValidator.strictRequired(), CustomValidator.dateFormat(), CustomValidator.dateInPast()]]
     })
-  })
+  });
 
   // #endregion properties
   

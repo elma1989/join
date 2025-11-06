@@ -1,53 +1,85 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, ElementRef, HostListener, inject, input, InputSignal, output, OutputEmitterRef, Renderer2, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, inject, input, InputSignal, OnDestroy, OnInit, output, OutputEmitterRef, Renderer2, ViewChild } from '@angular/core';
 import { SubTask } from '../../classes/subTask';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SubtaskEditState } from '../../enums/subtask-edit-state';
+import { ValidationService } from '../../services/validation.service';
+import { Subscription } from 'rxjs';
+import { CustomValidator } from '../../classes/custom-validator';
 
 @Component({
   selector: 'app-subtask',
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   templateUrl: './subtask.component.html',
   styleUrl: './subtask.component.scss'
 })
-export class SubtaskComponent {
+export class SubtaskComponent implements OnInit, OnDestroy {
   // #region Attributes
 
   subtasks: InputSignal<SubTask[]> = input.required<SubTask[]>();
   outSubtasks: OutputEmitterRef<SubTask[]> = output<SubTask[]>()
   protected newSubtask = new SubTask();
   protected SubtaskEditState = SubtaskEditState;
+  protected errorsCreate: Record<string, string[]> = {};
 
   cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
   rd2: Renderer2 = inject(Renderer2);
+  fb: FormBuilder = inject(FormBuilder);
+  val: ValidationService = inject(ValidationService);
+
+  formChangeCreate!: Subscription;
 
   @ViewChild('editsub') editsub!: ElementRef<HTMLInputElement>;
   @ViewChild('errmsg') errmsg!: ElementRef<HTMLParagraphElement>;
-  
+
+  protected formCreateSubtask: FormGroup = this.fb.group({
+    subtaskName: ['', [CustomValidator.strictRequired(), Validators.minLength(3)]]
+  })
   // #endregion attributes
 
-  constructor(private elementRef: ElementRef) {}
+  constructor(private elementRef: ElementRef) { }
 
+  ngOnInit(): void {
+    this.val.registerForm('subtask-create', this.formCreateSubtask);
+    this.formChangeCreate = this.formCreateSubtask.valueChanges.subscribe(() => this.validateCreate());
+  }
+
+  ngOnDestroy(): void {
+    this.val.removeForm('subtask-create');
+    this.formChangeCreate.unsubscribe();
+  }
   // #region methods
 
+  /** Validates the create form. */
+  private validateCreate() {
+    this.errorsCreate = this.val.validateForm('subtask-create');
+  }
+  /** Submitsthe create form */
+  protected submitCreate() {
+    this.validateCreate();
+    if (this.formCreateSubtask.valid) {
+      this.newSubtask.name = this.formCreateSubtask.value.subtaskName;
+      this.addSub();
+      this.formCreateSubtask.get('subtaskName')?.reset();
+    }
+  }
   // #region CRUD
 
   /**
    * Adds a valid subtask to array and emits output.
    */
-  addSub() {
-    if(this.validateSubtask(this.newSubtask)) {
-      this.newSubtask.editMode = false;
-      this.newSubtask.editState = SubtaskEditState.NEW;
-      const allSubtasks = this.subtasks();
-      allSubtasks.push(this.newSubtask);
-      this.outSubtasks.emit(allSubtasks);
-      this.newSubtask = new SubTask();
-      this.validateSubtaskList();
-    }
+  private addSub() {
+    this.newSubtask.editMode = false;
+    this.newSubtask.editState = SubtaskEditState.NEW;
+    const allSubtasks = this.subtasks();
+    allSubtasks.push(this.newSubtask);
+    this.outSubtasks.emit(allSubtasks);
+    this.newSubtask = new SubTask();
+    this.newSubtask.editMode = true;
   }
 
   /**
@@ -56,7 +88,7 @@ export class SubtaskComponent {
    * @param index index of subtask array.
    */
   updateSub(index: number): void {
-    if(this.validateSubtask(this.subtasks()[index])) {
+    if (this.validateSubtask(this.subtasks()[index])) {
       const allSubtasks = this.subtasks();
       allSubtasks[index].editMode = false;
       allSubtasks[index].editState = SubtaskEditState.CHANGED;
@@ -97,7 +129,7 @@ export class SubtaskComponent {
    * @param index index of subtask element.
    */
   protected reset(index: number): void {
-    if( index == -1 ) {
+    if (index == -1) {
       this.newSubtask.name = '';
     }
     else {
@@ -117,7 +149,7 @@ export class SubtaskComponent {
     })
     this.newSubtask.editMode = false;
 
-    if( index == -1 ) {
+    if (index == -1) {
       this.newSubtask.editMode = true;
     }
     else {
@@ -154,9 +186,9 @@ export class SubtaskComponent {
   private countSubtaskName(subtask: SubTask): number {
     let counter: number = 0;
     this.subtasks().forEach(cSubtask => {
-      if (cSubtask.name == subtask.name && cSubtask.editState != SubtaskEditState.DELETED){
+      if (cSubtask.name == subtask.name && cSubtask.editState != SubtaskEditState.DELETED) {
         counter++;
-      } 
+      }
     });
     return counter;
   }
@@ -172,7 +204,7 @@ export class SubtaskComponent {
       this.sendErrMsg('Name is required.');
       return false;
     }
-    
+
     if (this.countSubtaskName(subtask) > 0) {
       this.sendErrMsg('Subtask already exists.');
       return false;
@@ -186,7 +218,7 @@ export class SubtaskComponent {
    */
   private validateSubtaskList() {
     let activeSubtasks = this.subtasks().filter((subtask) => subtask.editState != SubtaskEditState.DELETED);
-    if (activeSubtasks.length <= 1) {  
+    if (activeSubtasks.length <= 1) {
       this.sendErrMsg('Add another Subtask.');
     }
   }
@@ -209,6 +241,6 @@ export class SubtaskComponent {
   }
 
   // #endregion helper
-  
+
   // #endregion methods
 }
