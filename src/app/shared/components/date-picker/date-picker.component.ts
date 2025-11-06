@@ -6,24 +6,35 @@ import {
   output,
   HostListener,
   ElementRef,
+  InputSignal,
+  inject,
+  OnInit,
+  OnDestroy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Timestamp } from '@angular/fire/firestore';
+import { ValidationService } from '../../services/validation.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-date-picker',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './date-picker.component.html',
   styleUrls: ['./date-picker.component.scss'],
 })
-export class DatePickerComponent {
+export class DatePickerComponent implements OnInit, OnDestroy {
 
   // #region attributes
 
   selectedTimestamp = input.required<Timestamp>();
+  dueDateGroup: InputSignal<FormGroup> = input.required<FormGroup>()
   dateSelected = output<Timestamp>();
+
+  private val: ValidationService = inject(ValidationService);
+
+  private subFormChange!: Subscription;
   
   protected showCalendar = signal(false);
   protected activeMonth = signal<number>(Timestamp.now().toDate().getMonth());
@@ -73,11 +84,31 @@ export class DatePickerComponent {
     return grid;
   });
 
+  protected errors: Record<string, string[]> = {};
   // #endregion attributes
 
   constructor(private elementRef: ElementRef) {}
 
+  ngOnInit(): void {
+    this.subFormChange = this.dateGroup.valueChanges.subscribe(() => this.validate());
+  }
+
+  ngOnDestroy(): void {
+    this.subFormChange.unsubscribe();
+  }
+
   // #region methods
+  /** 
+   * Gets the FormGroup.
+   * @returns - FromGroup from input.
+   */
+  get dateGroup(): FormGroup {
+    return this.dueDateGroup();
+  }
+
+  protected validate() {
+    this.errors = this.val.validateForm('task');
+  }
 
   /**
    * toggles the visibility of calendar pop up.

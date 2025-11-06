@@ -59,7 +59,10 @@ export class AddtaskComponent implements OnInit, OnDestroy {
 
   protected formTask: FormGroup = this.fb.group({
     title: ['', [CustomValidator.strictRequired(), CustomValidator.firstUpperCase(), Validators.minLength(3)]],
-    description: ['']
+    description: [''],
+    dueDate: this.fb.group({
+      deathline: [ this.defaultDate, [CustomValidator.strictRequired(), CustomValidator.dateFormat()]]
+    })
   })
 
   // #endregion properties
@@ -81,6 +84,19 @@ export class AddtaskComponent implements OnInit, OnDestroy {
   /** Validates a form. */
   private validate(): void {
     this.errors = this.val.validateForm('task');
+  }
+
+  get dueDateGroup(): FormGroup | null {
+    const dategroup = this.formTask.get('dueDate');
+    return dategroup ? dategroup as FormGroup : null;
+  }
+
+  get defaultDate(): string {
+    const date = new Date(Date.now());
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth()+1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${month}/${day}/${year}`;
   }
 
   /** Submits a form. */

@@ -31,10 +31,15 @@
 
                 <div class="input-wrapper">
                     <label class="add-task-input-lbl" for="due-date-picker">Due Date <b>*</b></label>
-                    <app-date-picker name="due-date-picker" required [selectedTimestamp]="currentTask().dueDate"
+                    @if (dueDateGroup) {
+                        <app-date-picker [dueDateGroup]="dueDateGroup" [selectedTimestamp]="currentTask().dueDate"
                         (dateSelected)="currentTask().dueDate = $event"></app-date-picker>
-                    <!-- <small class="error" *ngIf="!currentTask().dueDate && addTaskForm.submitted">Due date is
-                        required.</small> -->
+                        <small class="error">
+                            @if (errors['deathline']) {
+                                {{ errors['deathline'][0]}}
+                            }
+                        </small>
+                    }
                 </div>
             </div>
 
