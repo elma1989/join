@@ -42,4 +42,20 @@ export class CustomValidator {
             return null;
         }
     }
+
+    /**
+     * Validates a date-fromat.
+     * @returns - ValidationError or null
+     */
+    static dateFormat(): ValidatorFn {
+        return (control: AbstractControl): ValidationErrors | null => {
+            const value  = control.value;
+            if (typeof value == 'string') {
+                const [month = 0, day = 0, year = 0] = value.split('/').map( x => Number(x)).filter(x => !isNaN(x)).map(x => Math.floor(x));
+                if(day < 1 || day > 31 || month < 1 || month > 12 || year < 2000) return {dateFormat: true};
+                return null;
+            }
+            return {dateFormat: true}
+        }
+    }
 }

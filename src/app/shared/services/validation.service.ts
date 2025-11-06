@@ -100,6 +100,9 @@ export class ValidationService {
       case 'tel':
         return 'Use format: 0<prefix phone number> <phone number>';
 
+        case 'dateFormat':
+          return 'Use format: MM/DD/YYYY.'
+
       case 'pattern':
         return 'Format is not correct.'
     }
