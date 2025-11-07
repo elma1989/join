@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, inject, input, InputSignal, OnDestroy, OnInit, output, OutputEmitterRef } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FirebaseDBService } from '../../services/firebase-db.service';
 import { Priority } from '../../enums/priority.enum';
 import { Task } from '../../classes/task';
@@ -57,18 +57,22 @@ export class AddtaskComponent implements OnInit, OnDestroy {
   unsubContacts!: Unsubscribe;
   subFormChange!: Subscription;
 
-  protected formTask: FormGroup = this.fb.group({
-    title: ['', [CustomValidator.strictRequired(), CustomValidator.firstUpperCase(), Validators.minLength(3)]],
-    description: [''],
-    dueDate: this.fb.group({
-      deathline: [ this.defaultDate, [CustomValidator.strictRequired(), CustomValidator.dateFormat(), CustomValidator.dateInPast()]]
-    })
-  });
+  protected formTask!: FormGroup;
 
   // #endregion properties
   
   ngOnInit(): void {
     this.unsubContacts = this.getContactsSnapshot();
+    const title = this.currentTask().id == ''? '' : this.currentTask().title;
+    const desc = this.currentTask().id == ''? '' : this.currentTask().description;
+    const dueDate = this.currentTask().id == ''? this.defaultDate : this.convertTimestamp(this.currentTask().dueDate);
+    this.formTask = this.fb.group({
+    title: [title, [CustomValidator.strictRequired(), CustomValidator.firstUpperCase(), Validators.minLength(3)]],
+    description: [desc],
+    dueDate: this.fb.group({
+      deathline: [ dueDate, [CustomValidator.strictRequired(), CustomValidator.dateFormat(), CustomValidator.dateInPast()]]
+    })
+  });
     this.val.registerForm('task', this.formTask);
     this.subFormChange = this.formTask.valueChanges.subscribe(() => this.validate());
   }
@@ -99,11 +103,42 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     return `${month}/${day}/${year}`;
   }
 
+  get formTimestamp(): Timestamp {
+    const date: string = this.formTask.get('dueDate.deathline')?.value ?? '';
+    if (date) {
+      const [month, day, year]: number[] = date.split('/').map(x => Number(x));
+      return Timestamp.fromDate(new Date(year, month -1, day))
+    }
+    return Timestamp.now();
+  }
+
+  convertTimestamp(timestamp:Timestamp): string {
+    const date: Date = timestamp.toDate();
+    const day: string = String(date.getDate()).padStart(2, '0');
+    const month: string = String(date.getMonth() + 1).padStart(2, '0');
+    const year: number = date.getFullYear();
+    return `${month}/${day}/${year}`;
+  }
+
   /** Submits a form. */
   protected submitForm(): void {
     this.validate();
+    if (this.formTask.valid) {
+      this.currentTask().title = this.formTask.get('title')?.value ?? '';
+      this.currentTask().description = this.formTask.get('description')?.value ?? '';
+      this.currentTask().dueDate = this.formTimestamp;
+      console.log(this.currentTask());
+    }
   }
 
+  /**
+   * Reset all inputs to default.
+   */
+  clear() {
+    this.formTask.reset();
+  }
+
+  // #region CRUD
   /**
    * Opens a two way data stream between code and firebase collection 'contacts'.
    * 
@@ -128,7 +163,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     this.cdr.detectChanges();
     this.clear();
   }
-
+  
   /**
    * Updates existing task in DB
    */
@@ -138,24 +173,6 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     // this.tms.add('Task was updated', 3000, 'success');
   }
 
-  /**
-   * Reset all inputs to default.
-   */
-  clear() {
-    this.currentTask().title = '';
-    this.currentTask().description = '';
-    this.currentTask().category = Category.TASK;
-    this.currentTask().priority = Priority.MEDIUM;
-    this.currentTask().dueDate = Timestamp.fromMillis(
-	    Timestamp.now().toMillis() + (24 * 60 * 60 * 1000)
-	);
-    this.currentTask().subtasks = []
-    this.currentTask().hasSubtasks = false;
-    this.updateContacts([]);
-    this.contacts.forEach(contact => {
-      contact.isChecked = false;
-    });
-  }
 
   /**
    * Sets the due date of task. 
@@ -201,6 +218,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     });
     this.currentTask().hasSubtasks = this.currentTask().subtasks.length >= 1;
   }
+  // #endregion
 
   /**
    * if this component is part of a modal

@@ -1,5 +1,5 @@
 <section class="add-task-section">
-    <form [formGroup]="formTask">
+    <form [formGroup]="formTask" (submit)="submitForm()">
         <header class="add-task-header">
             @if(currentTask().id == '') {
             <h1 id="add-task-headline">Add Task</h1>
@@ -25,12 +25,12 @@
 
                 <div class="input-wrapper">
                     <label class="add-task-input-lbl" for="descr">Description</label>
-                    <textarea name="descr" id="add-task-info-description" class="add-task-input"
+                    <textarea name="descr" id="descr" class="add-task-input"
                         placeholder="Enter a Description ..." formControlName="description"></textarea>
                 </div>
 
                 <div class="input-wrapper">
-                    <label class="add-task-input-lbl" for="due-date-picker">Due Date <b>*</b></label>
+                    <label class="add-task-input-lbl">Due Date <b>*</b></label>
                     @if (dueDateGroup) {
                         <app-date-picker [dueDateGroup]="dueDateGroup" [selectedTimestamp]="currentTask().dueDate"
                         (dateSelected)="currentTask().dueDate = $event"></app-date-picker>
@@ -47,25 +47,24 @@
 
             <div class="add-task-info-block2">
                 <div class="input-wrapper add-task-priority-container">
-                    <label class="add-task-input-lbl" for="add-task-priority">Priority</label>
+                    <label class="add-task-input-lbl">Priority</label>
                     <app-priority-buttons [task]="currentTask()"></app-priority-buttons>
                 </div>
 
                 <div class="input-wrapper add-task-assigned-to-container">
-                    <label class="add-task-input-lbl" for="add-task-assigned-to">Assigned to</label>
+                    <label class="add-task-input-lbl">Assigned to</label>
                     <app-assign-contacts [options]="contacts" [selectedValues]="currentTask().contacts"
                         (selectionChange)="updateContacts($event)"></app-assign-contacts>
                 </div>
 
                 <div class="input-wrapper add-task-category-container">
-                    <label class="add-task-input-lbl" for="add-task-category">Category <b>*</b></label>
-                    
+                    <label class="add-task-input-lbl">Category <b>*</b></label>
                     <app-category-drop #category [currentCategory]="currentTask().category" (newCategory)="updateCategory($event)"></app-category-drop>
                 </div>
 
                 <div class="input-wrapper add-task-subtask-container">
-                    <label class="add-task-input-lbl" for="add-task-subtask">Subtasks</label>
-                    <app-subtask id="app-task-subtask" [subtasks]="currentTask().subtasks"
+                    <label class="add-task-input-lbl">Subtasks</label>
+                    <app-subtask [subtasks]="currentTask().subtasks"
                         (outSubtasks)="updateSubtasks($event)"></app-subtask>
                 </div>
             </div>
@@ -74,7 +73,7 @@
         <footer class="add-task-footer">
             <span class="required-info-txt"><b>*</b> this field is required</span>
             <div class="add-task-btn-container">
-                <button class="btn-default" type="button" (click)="clear()">Clear</button>
+                <input class="btn-default" type="reset" value="Clear">
                 <input class="btn-set" type="submit" value="{{ currentTask().id == '' ? 'Create' : 'Edit'}} Task">
             </div>
         </footer>

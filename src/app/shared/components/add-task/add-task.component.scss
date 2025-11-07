@@ -53,7 +53,7 @@ b {
         }
 
         .add-task-main-container {
-            @include all.size($w: 100%, $h: 100%);
+            @include all.size($w: 100%, $h: 50dvh);
             @include all.fl($jc: space-between, $alit: start, $gap: 1rem);
 
             @include all.notebook {
