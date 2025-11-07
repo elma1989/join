@@ -36,14 +36,15 @@ export class SubtaskComponent implements OnInit, OnDestroy {
   @ViewChild('editsub') editsub!: ElementRef<HTMLInputElement>;
   @ViewChild('errmsg') errmsg!: ElementRef<HTMLParagraphElement>;
 
-  protected formCreateSubtask: FormGroup = this.fb.group({
-    subtaskName: ['', [CustomValidator.strictRequired(), Validators.minLength(3)]]
-  })
+  protected formCreateSubtask!: FormGroup;
   // #endregion attributes
 
   constructor(private elementRef: ElementRef) { }
 
   ngOnInit(): void {
+    this.formCreateSubtask = this.fb.group({
+      subtaskName: ['', [CustomValidator.oneSubtaskOnly(() => this.subtasks()), CustomValidator.strictRequired('subtaskRequired'), Validators.minLength(3)]]
+    });
     this.val.registerForm('subtask-create', this.formCreateSubtask);
     this.formChangeCreate = this.formCreateSubtask.valueChanges.subscribe(() => this.validateCreate());
   }
@@ -61,7 +62,7 @@ export class SubtaskComponent implements OnInit, OnDestroy {
   /** Submitsthe create form */
   protected submitCreate() {
     this.validateCreate();
-    if (this.formCreateSubtask.valid) {
+    if (this.formCreateSubtask.controls['subtaskName'].errors || this.formCreateSubtask.valid) {
       this.newSubtask.name = this.formCreateSubtask.value.subtaskName;
       this.addSub();
       this.formCreateSubtask.get('subtaskName')?.reset();

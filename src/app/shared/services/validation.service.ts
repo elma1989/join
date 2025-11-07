@@ -88,6 +88,9 @@ export class ValidationService {
       case 'strictRequired':
         return 'Field is required.';
 
+      case 'subtaskRequired':
+        return 'Subtask is required, if you want to add one.'
+
       case 'firstUpperCase':
         return 'Use upper case at frist.'
 
@@ -105,6 +108,9 @@ export class ValidationService {
 
       case 'dateInPast':
         return 'Do not use date in past.'
+
+      case 'oneSubtaskOnly':
+        return 'Create another subtask.'
 
       case 'pattern':
         return 'Format is not correct.'

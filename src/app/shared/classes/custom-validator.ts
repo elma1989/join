@@ -1,14 +1,16 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
+import { SubTask } from "./subTask";
 
 export class CustomValidator {
+    // #region RegEx-Validators
     /** 
      * Validator for required fields.
      * Whitspace only is not allowed.
      */
-    static strictRequired(): ValidatorFn {
+    static strictRequired(name: string = 'strictRequired'): ValidatorFn {
         return (control: AbstractControl): ValidationErrors | null => {
             const value = control.value;
-            if (!value || typeof value == 'string' && value.trim().length == 0) return { strictRequired: true };
+            if (!value || typeof value == 'string' && value.trim().length == 0) return { [name]: true };
             return null;
         }
     }
@@ -42,7 +44,9 @@ export class CustomValidator {
             return null;
         }
     }
+    // #endregion
 
+    // #region Date-Validators
     /**
      * Validates a date-fromat.
      * @returns - ValidationError or null
@@ -59,6 +63,10 @@ export class CustomValidator {
         }
     }
 
+    /**
+     * Checks if date in past.
+     * @returns ValidationError or null.
+     */
     static dateInPast(): ValidatorFn {
         return (control: AbstractControl): ValidationErrors | null => {
             const value = control.value;
@@ -70,6 +78,19 @@ export class CustomValidator {
                 return null;
             }
             return { dateInPast: true }
+        }
+    }
+    // #endregion
+
+    /**
+     * Checks balidation error, if user has create one subtask only.
+     * @param getSubtasks - List of Subtakse of a task.
+     * @returns ValidationError or null.
+     */
+    static oneSubtaskOnly( getSubtasks: () => SubTask[]): ValidatorFn {
+        return (): ValidationErrors | null => {
+            const subtasks: SubTask[] = getSubtasks();
+            return subtasks.length == 1 ? { oneSubtaskOnly: true } : null;
         }
     }
 }
