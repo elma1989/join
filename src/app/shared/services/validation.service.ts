@@ -112,6 +112,9 @@ export class ValidationService {
       case 'oneSubtaskOnly':
         return 'Create another subtask.'
 
+      case 'subtaskExist':
+        return 'Subtask allready exists.'
+
       case 'pattern':
         return 'Format is not correct.'
     }

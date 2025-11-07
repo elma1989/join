@@ -93,4 +93,20 @@ export class CustomValidator {
             return subtasks.length == 1 ? { oneSubtaskOnly: true } : null;
         }
     }
+
+    /**
+     * Checks if subtask allready exists.
+     * @param getSubtasks Array of Subtasks from a task.
+     * @returns validationError or null.
+     */
+    static subtaskExist ( getSubtasks: () => SubTask[]): ValidatorFn {
+        return (control: AbstractControl): ValidationErrors | null => {
+            const subtasks: SubTask[] = getSubtasks();
+            const value = control.value;
+            for (let i = 0; i < subtasks.length; i++) {
+                if (subtasks[i].name == value) return { subtaskExist: true }
+            }
+            return null;
+        }
+    }
 }
