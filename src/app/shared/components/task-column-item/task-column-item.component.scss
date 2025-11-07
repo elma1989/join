@@ -71,6 +71,28 @@
 			@include all.marpad($mar: 1rem 0, $pad: 0.6rem 0.8rem);
 		}
 
+		.subtask-progress-box::after {
+			content: attr(data-tooltip);
+			position: absolute;
+			bottom: 125%;
+			left: 50%;
+			transform: translateX(-50%);
+			background-color: #333;
+			color: #fff;
+			padding: 6px 10px;
+			border-radius: 6px;
+			white-space: nowrap;
+			opacity: 0;
+			pointer-events: none;
+			transition: opacity 0.2s ease;
+			font-size: 1.6rem;
+			z-index: 10;
+		}
+
+		.subtask-progress-box:hover::after {
+			opacity: 1;
+		}
+
 		.progress-bar-wrapper {
 			@include all.fl($alit: center, $gap: 1rem);
 		}

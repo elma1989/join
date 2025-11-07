@@ -32,6 +32,7 @@
     }
 
     .add-subtask-input-btns-container {
+
         @include all.fl($alit: center);
         
         .add-subtask-input-btn {
@@ -79,7 +80,7 @@ ol {
 
 // #endregion ordered list
 
-// #region display item 
+#region display item 
 .regular {
     font-size: 1.6rem;
     cursor: pointer;
@@ -100,11 +101,9 @@ ol {
 
         .add-subtask-input-btn {
             @include all.size($w: 3rem, $h: 3rem);
-            background: transparent;
 
             .edit-icon {
                 @include all.size($w: 3rem, $h: 3rem);
-
                 &:hover {
                     @include all.size($w:3.2rem, $h: 3.2rem);
                 }
