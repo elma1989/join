@@ -16,6 +16,11 @@
             padding: 2rem 2rem 0 2rem;
         }
 
+        h1 {
+                font-family: 'Interbold', sans-serif;
+                font-size: 5rem;
+            }
+
         .search-task-board {
             @include all.fl($jc: end, $gap: 3rem);
             width: 70%;
