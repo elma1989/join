@@ -38,8 +38,10 @@ b {
     height: 100%;
     @include all.marpad($pad: 3dvw);
 
-    @include all.mobile {
-        padding: 1dvw;
+    @include all.notebook {
+        height: 80dvh;
+        @include all.scrollbar();
+        padding: 2dvw;
     }
 
     #add-task-form {
@@ -132,16 +134,8 @@ b {
         .add-task-footer {
             @include all.fl($jc: space-between, $alit: end);
 
-            // @include all.tablet {
-            //     @include all.fl($flexdir: column, )
-            // }
-
             .required-info-txt {
                 font-size: 1.5rem;
-
-                // @include all.tablet {
-                //     display: none;
-                // }
             }
 
             @include all.tablet {
@@ -153,7 +147,6 @@ b {
 
                 @include all.tablet {
                     width: 100%;
-                    padding-left: 6rem;
                 }
 
                 .btn-default,
@@ -162,14 +155,5 @@ b {
                 }
             }
         }
-
-        // .required-info-txt-mobile {
-        //     display: none;
-
-        //     @include all.tablet {
-        //         display: flex;
-        //         font-size: 1.2rem;
-        //     }
-        // }
     }
 }

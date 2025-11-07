@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, HostListener, inject, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, inject, OnDestroy, OnInit, Output } from '@angular/core';
 import { Task } from '../../shared/classes/task';
 import { onSnapshot, Unsubscribe } from '@angular/fire/firestore';
 import { CommonModule } from '@angular/common';
@@ -15,6 +15,7 @@ import { FirebaseDBService } from '../../shared/services/firebase-db.service';
 import { ToastMsgService } from '../../shared/services/toast-msg.service';
 import { SearchTaskComponent } from '../../shared/components/search-task/search-task.component';
 import { DisplaySizeService, DisplayType } from '../../shared/services/display-size.service';
+import { SectionType } from '../../shared/enums/section-type';
 
 @Component({
   selector: 'section[board]',
@@ -30,6 +31,8 @@ import { DisplaySizeService, DisplayType } from '../../shared/services/display-s
 })
 export class BoardComponent implements OnDestroy, OnInit {
   // #region Attrbutes
+  @Output() selectedSection = new EventEmitter<SectionType>();
+
   protected modalService: ModalService = inject(ModalService);
   private fireDB: FirebaseDBService = inject(FirebaseDBService);
   private tms: ToastMsgService = inject(ToastMsgService);
