@@ -170,7 +170,8 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     await this.fireDB.taskAddToDB('tasks', this.currentTask());
     this.cdr.detectChanges();
     this.clear();
-    this.tms.add('Task was added', 3000, 'success');
+    this.closeModal();
+    this.tms.add('Task was created', 3000, 'success');
   }
   
   /**
