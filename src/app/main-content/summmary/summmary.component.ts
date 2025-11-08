@@ -15,96 +15,96 @@ import { SectionType } from '../../shared/enums/section-type';
   styleUrls: ['./summmary.component.scss']
 })
 export class SummmaryComponent implements OnInit, OnDestroy {
-//Attribute
-private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
-@Output() selectedSection = new EventEmitter<SectionType>();
+  //Attribute
+  private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
+  @Output() selectedSection = new EventEmitter<SectionType>();
 
-Priority = Priority;
+  Priority = Priority;
 
-goToBoard(): void {
-  this.selectedSection.emit(SectionType.BOARD);
-}
+  goToBoard(): void {
+    this.selectedSection.emit(SectionType.BOARD);
+  }
 
-/**
- * Holds the unsubscribe function for the Firestore tasks snapshot listener.
- * @private
- */
-private unsubTasks!: Unsubscribe;
+  /**
+   * Holds the unsubscribe function for the Firestore tasks snapshot listener.
+   * @private
+   */
+  private unsubTasks!: Unsubscribe;
 
-todoCount: number = 0;
-progressCount: number = 0;
-reviewCount: number = 0;
-doneCount: number = 0;
+  todoCount: number = 0;
+  progressCount: number = 0;
+  reviewCount: number = 0;
+  doneCount: number = 0;
 
-totalTasks: number = 0;
-sortedTasks: Task[] = [];
-//endregion
-
-
-//constructor
-/**
- * Creates the TaskSummaryComponent.
- * @param fireDB - Service used to interact with Firestore.
- */
-constructor( private fireDB: FirebaseDBService ) {}
-//endregion
-
-//#region ngOnInit/ngOnDestroy
-/**
- * Lifecycle hook called after component initialization.
- * Subscribes to the tasks status count and triggers change detection after a short delay.
- */
-ngOnInit(): void {
-  this.subscribeTasksStatusCount();
-  setTimeout(() => {
-    this.cdr.detectChanges();
-  }, 1000);
-}
-
-/**
- * Lifecycle hook called before the component is destroyed.
- * Ensures the tasks subscription is unsubscribed to avoid memory leaks.
- */
-ngOnDestroy(): void {
-  if (this.unsubTasks) this.unsubTasks();
-}
-//#endregion
+  totalTasks: number = 0;
+  sortedTasks: Task[] = [];
+  //endregion
 
 
-//#region subscribeTasksStatusCount
-/**
- * Subscribes to the Firestore 'tasks' collection snapshot.
- * Updates task lists, status counts, priority counts, and recalculates highest priority on each change.
- * @private
- */
-private subscribeTasksStatusCount(): void {
-  this.unsubTasks = onSnapshot(this.fireDB.getCollectionRef('tasks'), snapshot => {
-    const tasks: Task[] = snapshot.docs.map(doc => new Task(doc.data() as TaskObject));
+  //constructor
+  /**
+   * Creates the TaskSummaryComponent.
+   * @param fireDB - Service used to interact with Firestore.
+   */
+  constructor(private fireDB: FirebaseDBService) { }
+  //endregion
 
-    this.sortedTasks = this.getNextTasks(tasks);
+  //#region ngOnInit/ngOnDestroy
+  /**
+   * Lifecycle hook called after component initialization.
+   * Subscribes to the tasks status count and triggers change detection after a short delay.
+   */
+  ngOnInit(): void {
+    this.subscribeTasksStatusCount();
+    setTimeout(() => {
+      this.cdr.detectChanges();
+    }, 1000);
+  }
 
-    this.updateStatusCounts(tasks);
+  /**
+   * Lifecycle hook called before the component is destroyed.
+   * Ensures the tasks subscription is unsubscribed to avoid memory leaks.
+   */
+  ngOnDestroy(): void {
+    if (this.unsubTasks) this.unsubTasks();
+  }
+  //#endregion
 
-    this.cdr.detectChanges();
-  });
-}
-//#endregion
+
+  //#region subscribeTasksStatusCount
+  /**
+   * Subscribes to the Firestore 'tasks' collection snapshot.
+   * Updates task lists, status counts, priority counts, and recalculates highest priority on each change.
+   * @private
+   */
+  private subscribeTasksStatusCount(): void {
+    this.unsubTasks = onSnapshot(this.fireDB.getCollectionRef('tasks'), snapshot => {
+      const tasks: Task[] = snapshot.docs.map(doc => new Task(doc.data() as TaskObject));
+
+      this.sortedTasks = this.getNextTasks(tasks);
+
+      this.updateStatusCounts(tasks);
+
+      this.cdr.detectChanges();
+    });
+  }
+  //#endregion
 
 
-//#region updateStatusCounts
-/**
- * Updates the count of tasks in each status category.
- * @param tasks - Array of Task objects to calculate counts from.
- * @private
- */
-private updateStatusCounts(tasks: Task[]): void {
-  this.todoCount = tasks.filter(t => t.status === TaskStatusType.TODO).length;
-  this.progressCount = tasks.filter(t => t.status === TaskStatusType.PROGRESS).length;
-  this.reviewCount = tasks.filter(t => t.status === TaskStatusType.REVIEW).length;
-  this.doneCount = tasks.filter(t => t.status === TaskStatusType.DONE).length;
-  this.totalTasks = tasks.length;
-}
-//#endregion
+  //#region updateStatusCounts
+  /**
+   * Updates the count of tasks in each status category.
+   * @param tasks - Array of Task objects to calculate counts from.
+   * @private
+   */
+  private updateStatusCounts(tasks: Task[]): void {
+    this.todoCount = tasks.filter(t => t.status === TaskStatusType.TODO).length;
+    this.progressCount = tasks.filter(t => t.status === TaskStatusType.PROGRESS).length;
+    this.reviewCount = tasks.filter(t => t.status === TaskStatusType.REVIEW).length;
+    this.doneCount = tasks.filter(t => t.status === TaskStatusType.DONE).length;
+    this.totalTasks = tasks.length;
+  }
+  //#endregion
 
 
   //#region getNextTasks
@@ -174,11 +174,13 @@ private updateStatusCounts(tasks: Task[]): void {
    * @param {Timestamp} lowestDate - The lowest due date to match.
    * @returns {Task[]} - A list of tasks with the same due date as the lowest date.
    */
-  private filterTasksLowestDate(tasks: Task[], lowestDate: Timestamp): Task[] {
-    return tasks.filter(task => task.dueDate.seconds == lowestDate.seconds);
-  }
+  
   //#endregion
-
+  private filterTasksLowestDate(tasks: Task[], lowestDate: Timestamp): Task[] {     
+    return tasks.filter(task =>       
+      task.dueDate.toDate().toDateString() === lowestDate.toDate().toDateString()     
+    );   
+  }
 
   //#region filterPriority
   /**
