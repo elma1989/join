@@ -29,7 +29,7 @@ export class DatePickerComponent implements OnInit, OnDestroy {
   // #region attributes
 
   selectedTimestamp = input.required<Timestamp>();
-  dueDateGroup: InputSignal<FormGroup> = input.required<FormGroup>()
+  dueDateGroup: InputSignal<FormGroup> = input.required<FormGroup>();
   dateSelected = output<Timestamp>();
 
   private val: ValidationService = inject(ValidationService);

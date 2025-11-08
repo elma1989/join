@@ -15,6 +15,13 @@ export class CustomValidator {
         }
     }
 
+    static custoMinLength(min: number): ValidatorFn {
+        return (contol: AbstractControl): ValidationErrors | null => {
+            const value = contol.value;
+            return (value && value.length < min) ? { minLength: true } : null;
+        }
+    }
+
     /**
      * Validates a tel number.
      * Format: 0<prefix> <phone number>
@@ -39,7 +46,7 @@ export class CustomValidator {
             if (typeof value == 'string') {
                 const words: string[] = value.split(/[ -]/);
                 const regex: RegExp = /^[A-ZÄÖÜ][a-zäöüß]+$/;
-                if (!words.every(word => regex.test(word))) return { firstUpperCase: true };
+                if (value && !words.every(word => regex.test(word))) return { firstUpperCase: true };
             }
             return null;
         }
@@ -82,31 +89,4 @@ export class CustomValidator {
     }
     // #endregion
 
-    /**
-     * Checks balidation error, if user has create one subtask only.
-     * @param getSubtasks - List of Subtakse of a task.
-     * @returns ValidationError or null.
-     */
-    static oneSubtaskOnly( getSubtasks: () => SubTask[]): ValidatorFn {
-        return (): ValidationErrors | null => {
-            const subtasks: SubTask[] = getSubtasks();
-            return subtasks.length == 1 ? { oneSubtaskOnly: true } : null;
-        }
-    }
-
-    /**
-     * Checks if subtask allready exists.
-     * @param getSubtasks Array of Subtasks from a task.
-     * @returns validationError or null.
-     */
-    static subtaskExist ( getSubtasks: () => SubTask[]): ValidatorFn {
-        return (control: AbstractControl): ValidationErrors | null => {
-            const subtasks: SubTask[] = getSubtasks();
-            const value = control.value;
-            for (let i = 0; i < subtasks.length; i++) {
-                if (subtasks[i].name == value) return { subtaskExist: true }
-            }
-            return null;
-        }
-    }
 }

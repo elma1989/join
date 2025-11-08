@@ -21,6 +21,7 @@ export class SubtaskComponent implements OnInit, OnDestroy {
   // #region Attributes
 
   subtasks: InputSignal<SubTask[]> = input.required<SubTask[]>();
+  createSubtaskGroup: InputSignal<FormGroup> = input.required<FormGroup>();
   outSubtasks: OutputEmitterRef<SubTask[]> = output<SubTask[]>()
   protected newSubtask = new SubTask();
   protected SubtaskEditState = SubtaskEditState;
@@ -31,57 +32,38 @@ export class SubtaskComponent implements OnInit, OnDestroy {
   fb: FormBuilder = inject(FormBuilder);
   val: ValidationService = inject(ValidationService);
 
-  formChangeCreate!: Subscription;
+  subFormCreateSubtask!: Subscription;
 
   @ViewChild('editsub') editsub!: ElementRef<HTMLInputElement>;
   @ViewChild('errmsg') errmsg!: ElementRef<HTMLParagraphElement>;
-
-  protected formCreateSubtask!: FormGroup;
   // #endregion attributes
 
   constructor(private elementRef: ElementRef) { }
 
   ngOnInit(): void {
-    this.formCreateSubtask = this.fb.group({
-      subtaskName: ['', [CustomValidator.oneSubtaskOnly(() => this.subtasks()), CustomValidator.strictRequired('subtaskRequired'), Validators.minLength(3), CustomValidator.subtaskExist(() => this.subtasks())]]
-    });
-    this.val.registerForm('subtask-create', this.formCreateSubtask);
-    this.formChangeCreate = this.formCreateSubtask.valueChanges.subscribe(() => this.validateCreate());
+    this.subFormCreateSubtask = this.createSubtaskGroup().valueChanges.subscribe(() => this.validate());
   }
 
   ngOnDestroy(): void {
-    this.val.removeForm('subtask-create');
-    this.formChangeCreate.unsubscribe();
+    this.subFormCreateSubtask.unsubscribe();
   }
   // #region methods
 
-  /** Validates the create form. */
-  private validateCreate() {
-    this.errorsCreate = this.val.validateForm('subtask-create');
-  }
-  /** Submitsthe create form */
-  protected submitCreate() {
-    this.validateCreate();
-    if (this.formCreateSubtask.controls['subtaskName'].errors
-      && this.formCreateSubtask.controls['subtaskName'].errors['oneSubtaskOnly']
-      && !this.formCreateSubtask.controls['subtaskName'].errors['minLenth']
-      && !this.formCreateSubtask.controls['subtaskName'].errors['subtaskExist']
-      || this.formCreateSubtask.valid) {
-      this.newSubtask.name = this.formCreateSubtask.value.subtaskName;
-      this.addSub();
-      this.formCreateSubtask.get('subtaskName')?.reset();
-    }
+  private validate(): void {
+    this.errorsCreate = this.val.validateForm('task');
   }
   // #region CRUD
 
   /**
    * Adds a valid subtask to array and emits output.
    */
-  private addSub() {
+  addSub() {
     this.newSubtask.editMode = false;
     this.newSubtask.editState = SubtaskEditState.NEW;
+    this.newSubtask.name = this.createSubtaskGroup().get('subtaskName')?.value ?? '';
     const allSubtasks = this.subtasks();
-    allSubtasks.push(this.newSubtask);
+    const exxits: boolean = allSubtasks.some(x => this.newSubtask.name == x.name);
+    if (!exxits) allSubtasks.push(this.newSubtask);
     this.outSubtasks.emit(allSubtasks);
     this.newSubtask = new SubTask();
     this.newSubtask.editMode = true;
@@ -98,7 +80,6 @@ export class SubtaskComponent implements OnInit, OnDestroy {
       allSubtasks[index].editMode = false;
       allSubtasks[index].editState = SubtaskEditState.CHANGED;
       this.outSubtasks.emit(allSubtasks);
-      this.validateSubtaskList();
     }
   }
 
@@ -112,7 +93,6 @@ export class SubtaskComponent implements OnInit, OnDestroy {
     allSubtasks[index].editMode = false;
     allSubtasks[index].editState = SubtaskEditState.DELETED;
     this.outSubtasks.emit(allSubtasks);
-    this.validateSubtaskList();
   }
 
   // #endregion CRUD
@@ -131,7 +111,6 @@ export class SubtaskComponent implements OnInit, OnDestroy {
   /**
    * Resets input of submitted subtask.
    * 
-   * @param index index of subtask element.
    */
   protected reset(index: number): void {
     if (index == -1) {
@@ -140,6 +119,10 @@ export class SubtaskComponent implements OnInit, OnDestroy {
     else {
       this.subtasks()[index].name = '';
     }
+  }
+
+  protected resetCreate() {
+    this.createSubtaskGroup().get('subtaskName')?.reset();
   }
 
   /**
@@ -210,40 +193,27 @@ export class SubtaskComponent implements OnInit, OnDestroy {
       return false;
     }
 
-    if (this.countSubtaskName(subtask) > 0) {
-      this.sendErrMsg('Subtask already exists.');
-      return false;
-    }
     this.sendErrMsg('');
     return true;
   }
 
-  /**
-   * Validate hole subtask list.
-   */
-  private validateSubtaskList() {
-    let activeSubtasks = this.subtasks().filter((subtask) => subtask.editState != SubtaskEditState.DELETED);
-    if (activeSubtasks.length <= 1) {
-      this.sendErrMsg('Add another Subtask.');
-    }
-  }
 
   /**
    * Click event of onClick outside of content to close pop up.
    * 
    * @param event click event on outside of content.
    */
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent) {
-    if (!this.elementRef.nativeElement.contains(event.target)) {
-      event.preventDefault();
-      const activeSubtasks = this.subtasks().filter(subtask => subtask.editMode);
-      activeSubtasks.forEach((subtask) => {
-        subtask.editMode = false;
-      })
-      this.newSubtask.editMode = false;
-    }
-  }
+  // @HostListener('document:click', ['$event'])
+  // onDocumentClick(event: MouseEvent) {
+  //   if (!this.elementRef.nativeElement.contains(event.target)) {
+  //     event.preventDefault();
+  //     const activeSubtasks = this.subtasks().filter(subtask => subtask.editMode);
+  //     activeSubtasks.forEach((subtask) => {
+  //       subtask.editMode = false;
+  //     })
+  //     this.newSubtask.editMode = false;
+  //   }
+  // }
 
   // #endregion helper
 

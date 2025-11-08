@@ -1,27 +1,28 @@
-<div [formGroup]="formCreateSubtask">
-    <div class="add-subtask-container" [ngClass]="{'active': newSubtask.editMode}" (click)="endbleEditMode(-1)">
+<div>
+    <div class="add-subtask-container" [formGroup]="createSubtaskGroup()" [ngClass]="{'active': newSubtask.editMode}" (click)="endbleEditMode(-1)">
         <input type="text" class="add-subtask-input" name="add-subtask-input" placeholder="Add new Subtask..."
             formControlName="subtaskName" autocomplete="off">
 
         @if(newSubtask.editMode) {
         <div class="add-subtask-input-btns-container">
-            <button class="add-subtask-input-btn" type="button" (click)="reset(-1)">
+            <button class="add-subtask-input-btn" type="button" (click)="resetCreate()">
                 <img class="edit-icon edit-icon-reset" id="reset-icon" src="assets/Icons/taskBoard/close.png">
             </button>
             <hr>
-            <button class="add-subtask-input-btn" type="button" (click)="submitCreate()">
+            <button class="add-subtask-input-btn" type="button" (click)="addSub()">
                 <img class="edit-icon edit-icon-check" id="add-check-icon" src="assets/Icons/taskBoard/check.png">
             </button>
         </div>
         }
     </div>
     <p class="errmsg">
-        @if (errorsCreate['subtaskName']) {
-        {{ errorsCreate['subtaskName'][0] }}
+        @if (errorsCreate['createSubtask.subtaskName']) {
+            {{ errorsCreate['createSubtask.subtaskName'][0] }}
         }
-        @if (this.formCreateSubtask.controls['subtaskName'].errors
-        && this.formCreateSubtask.controls['subtaskName'].errors['oneSubtaskOnly']) {
-        ; {{ errorsCreate['subtaskName'][1] }}
+    </p>
+    <p class="errmsg">
+        @if (subtasks().length == 1) {
+            Add another Subtask.
         }
     </p>
 </div>

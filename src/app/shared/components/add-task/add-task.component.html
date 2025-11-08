@@ -1,5 +1,5 @@
 <section class="add-task-section">
-    <form [formGroup]="formTask" (submit)="submitForm()">
+    <form [formGroup]="formTask" (ngSubmit)="submitForm()">
         <header class="add-task-header">
             @if(currentTask().id == '') {
             <h1 id="add-task-headline">Add Task</h1>
@@ -14,32 +14,32 @@
 
                 <div class="input-wrapper">
                     <label class="add-task-input-lbl" for="title">Title <b>*</b></label>
-                    <input class="add-task-input" type="text" id="title"
-                        placeholder="Enter a title" formControlName="title"/>
+                    <input class="add-task-input" type="text" id="title" placeholder="Enter a title"
+                        formControlName="title" />
                     <small class="error">
                         @if (errors['title']) {
-                            {{ errors['title'][0]}}
+                        {{ errors['title'][0]}}
                         }
                     </small>
                 </div>
 
                 <div class="input-wrapper">
                     <label class="add-task-input-lbl" for="descr">Description</label>
-                    <textarea name="descr" id="descr" class="add-task-input"
-                        placeholder="Enter a Description ..." formControlName="description"></textarea>
+                    <textarea name="descr" id="descr" class="add-task-input" placeholder="Enter a Description ..."
+                        formControlName="description"></textarea>
                 </div>
 
                 <div class="input-wrapper">
                     <label class="add-task-input-lbl">Due Date <b>*</b></label>
-                    @if (dueDateGroup) {
-                        <app-date-picker [dueDateGroup]="dueDateGroup" [selectedTimestamp]="currentTask().dueDate"
+
+                    <app-date-picker [dueDateGroup]="getFromgroup('dueDate')" [selectedTimestamp]="currentTask().dueDate"
                         (dateSelected)="currentTask().dueDate = $event"></app-date-picker>
-                        <small class="error">
-                            @if (errors['deathline']) {
-                                {{ errors['deathline'][0]}}
-                            }
-                        </small>
-                    }
+                    <small class="error">
+                        @if (errors['deathline']) {
+                        {{ errors['deathline'][0]}}
+                        }
+                    </small>
+
                 </div>
             </div>
 
@@ -59,12 +59,13 @@
 
                 <div class="input-wrapper add-task-category-container">
                     <label class="add-task-input-lbl">Category <b>*</b></label>
-                    <app-category-drop #category [currentCategory]="currentTask().category" (newCategory)="updateCategory($event)"></app-category-drop>
+                    <app-category-drop #category [currentCategory]="currentTask().category"
+                        (newCategory)="updateCategory($event)"></app-category-drop>
                 </div>
 
                 <div class="input-wrapper add-task-subtask-container">
                     <label class="add-task-input-lbl">Subtasks</label>
-                    <app-subtask [subtasks]="currentTask().subtasks"
+                    <app-subtask [createSubtaskGroup]="getFromgroup('createSubtask')" [subtasks]="currentTask().subtasks"
                         (outSubtasks)="updateSubtasks($event)"></app-subtask>
                 </div>
             </div>
@@ -78,5 +79,5 @@
             </div>
         </footer>
     </form>
-    
+
 </section>

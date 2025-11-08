@@ -71,6 +71,9 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     description: [desc],
     dueDate: this.fb.group({
       deathline: [ dueDate, [CustomValidator.strictRequired(), CustomValidator.dateFormat(), CustomValidator.dateInPast()]]
+    }),
+    createSubtask: this.fb.group({
+      subtaskName: ['', [CustomValidator.custoMinLength(3)]]
     })
   });
     this.val.registerForm('task', this.formTask);
@@ -86,13 +89,9 @@ export class AddtaskComponent implements OnInit, OnDestroy {
   // #region methods
 
   /** Validates a form. */
+  // #region Form methods
   private validate(): void {
     this.errors = this.val.validateForm('task');
-  }
-
-  get dueDateGroup(): FormGroup | null {
-    const dategroup = this.formTask.get('dueDate');
-    return dategroup ? dategroup as FormGroup : null;
   }
 
   get defaultDate(): string {
@@ -112,7 +111,12 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     return Timestamp.now();
   }
 
-  convertTimestamp(timestamp:Timestamp): string {
+  getFromgroup(name: string): FormGroup {
+    const dategroup = this.formTask.get(name);
+    return dategroup ? dategroup as FormGroup : new FormGroup(name);
+  }
+
+  private convertTimestamp(timestamp:Timestamp): string {
     const date: Date = timestamp.toDate();
     const day: string = String(date.getDate()).padStart(2, '0');
     const month: string = String(date.getMonth() + 1).padStart(2, '0');
@@ -137,6 +141,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
   clear() {
     this.formTask.reset();
   }
+  // #endregion
 
   // #region CRUD
   /**
