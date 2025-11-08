@@ -1,8 +1,9 @@
 export const firebaseConfig = {
-    apiKey: "AIzaSyA5PlY4eY4arHKrgMyXkQmdQqtbNwOgyl8", 
-    authDomain: "join-b08ef.firebaseapp.com", 
-    projectId: "join-b08ef", 
-    storageBucket: "join-b08ef.firebasestorage.app", 
-    messagingSenderId: "458487561187",
-    appId: "1:458487561187:web:a4195f2678309410b6fed6" 
-}
+    apiKey: "AIzaSyCuwKlKKYJQ5KGwfrc4G3bzAdy6aXYnllQ",
+    authDomain: "joinn-e0301.firebaseapp.com",
+    projectId: "joinn-e0301",
+    storageBucket: "joinn-e0301.firebasestorage.app",
+    messagingSenderId: "238488560285",
+    appId: "1:238488560285:web:618a2068550e4f88d6ea74",
+    measurementId: "G-X7Q7TP4TZB"
+};

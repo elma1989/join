@@ -6,8 +6,8 @@
 
     // #region header
     header {
-        @include all.size($w: 100%);
-        @include all.marpad($pad: 3dvw 4dvw 0 3dvw);
+        @include all.size($w: 100%, $h: 11rem);
+        @include all.marpad($pad: 3dvw 4dvw 0 3.5dvw);
         @include all.fl($alit: center, $jc: space-between);
         margin-bottom: 3rem;
 
@@ -115,6 +115,7 @@
 
             .task-list-header {
                 width: 100%;
+                height: auto;
                 @include all.marpad($pad: 1.5rem 0);
                 @include all.fl($jc: space-around, $alit: center, $gap: 7rem);
 
