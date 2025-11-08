@@ -35,7 +35,7 @@ b {
 }
 
 .add-task-section {
-    height: 100%;
+    height: 80dvh;
     @include all.marpad($pad: 3dvw);
 
     @include all.notebook {
@@ -63,12 +63,13 @@ b {
 }
 
 .add-task-main-container {
-    @include all.size($w: 100%, $h: 70dvh);
+    @include all.size($w: 100%, $h: 60dvh);
     @include all.fl($jc: space-between, $alit: start, $gap: 1rem);
 
     @include all.notebook {
         @include all.fl($flexdir: column, $alit: center);
         @include all.scrollbar();
+        height: 58dvh;
         overflow-y: auto;
         margin: 2rem 0;
     }

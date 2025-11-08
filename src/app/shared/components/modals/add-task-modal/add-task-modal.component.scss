@@ -15,6 +15,7 @@
     @include all.size($w: 90dvw, $h: 80dvh);
     max-width: 110rem;
     @include all.fl($jc: center, $alit: center);
+    padding: 2rem 0;
     background-color: white;
     border-radius: 16px;
     border: none;
