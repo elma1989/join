@@ -73,7 +73,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
       deathline: [ dueDate, [CustomValidator.strictRequired(), CustomValidator.dateFormat(), CustomValidator.dateInPast()]]
     }),
     createSubtask: this.fb.group({
-      subtaskName: ['', [CustomValidator.custoMinLength(3)]]
+      subtaskName: ['', [CustomValidator.customMinLength(3), CustomValidator.subtaskExist(() => this.currentTask().subtasks)]]
     })
   });
     this.val.registerForm('task', this.formTask);
@@ -131,7 +131,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
       this.currentTask().title = this.formTask.get('title')?.value ?? '';
       this.currentTask().description = this.formTask.get('description')?.value ?? '';
       this.currentTask().dueDate = this.formTimestamp;
-      console.log(this.currentTask());
+      this.addTask();
     }
   }
 

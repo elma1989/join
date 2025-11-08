@@ -97,6 +97,9 @@ export class ValidationService {
       case 'minlength':
         return `Minimal ${errorValue.requiredLength} sign required.`;
 
+      case 'customMinLength':
+        return `Minmal ${errorValue.customRequiredLength} sign required.`
+
       case 'email':
         return 'E-Mail format is not correct.';
 

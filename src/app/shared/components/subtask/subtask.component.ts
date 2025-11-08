@@ -63,7 +63,8 @@ export class SubtaskComponent implements OnInit, OnDestroy {
     this.newSubtask.name = this.createSubtaskGroup().get('subtaskName')?.value ?? '';
     const allSubtasks = this.subtasks();
     const exxits: boolean = allSubtasks.some(x => this.newSubtask.name == x.name);
-    if (!exxits) allSubtasks.push(this.newSubtask);
+    if (this.newSubtask.name.trim().length > 0 && !exxits) allSubtasks.push(this.newSubtask);
+    this.createSubtaskGroup().reset();
     this.outSubtasks.emit(allSubtasks);
     this.newSubtask = new SubTask();
     this.newSubtask.editMode = true;

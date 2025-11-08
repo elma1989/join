@@ -15,10 +15,10 @@ export class CustomValidator {
         }
     }
 
-    static custoMinLength(min: number): ValidatorFn {
+    static customMinLength(min: number): ValidatorFn {
         return (contol: AbstractControl): ValidationErrors | null => {
             const value = contol.value;
-            return (value && value.length < min) ? { minLength: true } : null;
+            return (value && value.length < min) ? { customMinLength: {customRequiredLength: min } } : null;
         }
     }
 
@@ -87,6 +87,15 @@ export class CustomValidator {
             return { dateInPast: true }
         }
     }
-    // #endregion
 
+    /** Checks, if Subtask allredy exists. */
+    static subtaskExist(getSubtasks:() => SubTask[]): ValidatorFn {
+        return (control: AbstractControl): ValidationErrors | null => {
+            const subtasks = getSubtasks();
+            const value = control.value;
+            const exists: boolean = subtasks.some(st => st.name == value);
+            return (exists) ? { subtaskExist: true } : null;
+        }
+    }
+    // #endregion
 }
