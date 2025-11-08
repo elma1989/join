@@ -18,11 +18,11 @@
     width: 100%;
     @include all.fl($jc: space-between, $alit: center);
     padding: 0 0.5rem;
-    border: 1px solid rgba(0,0,0,0.2);
+    border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 8px;
     background: white;
 
-    .add-subtask-input{
+    .add-subtask-input {
         width: 100%;
         font-size: 16px;
         padding: 1rem;
@@ -32,32 +32,33 @@
         background: white;
     }
 
-    .add-subtask-input-btns-container {
+    &.active {
+        outline: 1px solid #29ABE2;
+    }
+}
 
-        @include all.fl($alit: center);
-        
-        .add-subtask-input-btn {
+.add-subtask-input-btns-container {
+
+    @include all.fl($alit: center);
+
+    .add-subtask-input-btn {
+        @include all.size($w: 3rem, $h: 3rem);
+        background: transparent;
+
+        .edit-icon {
             @include all.size($w: 3rem, $h: 3rem);
             background: transparent;
 
-            .edit-icon {
-                @include all.size($w: 3rem, $h: 3rem);
-                background: transparent;
-
-                &:hover {
-                    @include all.size($w:3.2rem, $h: 3.2rem);
-                }
+            &:hover {
+                @include all.size($w: 3.2rem, $h: 3.2rem);
             }
         }
-
-        hr {
-            @include all.size($w: 0.2rem, $h: 3rem);
-            background: rgb(0, 0, 0, 0.3);
-            border: none
-        }
     }
-    &.active {
-        outline: 1px solid #29ABE2;
+
+    hr {
+        @include all.size($w: 0.2rem, $h: 3rem);
+        background: rgb(0, 0, 0, 0.3);
+        border: none
     }
 }
 
@@ -69,7 +70,7 @@ ol {
     overflow-y: auto;
     max-height: 12rem;
     @include all.scrollbar();
-    
+
     li {
         height: 4.8rem;
         width: 100%;
@@ -81,13 +82,12 @@ ol {
 
 // #endregion ordered list
 
-#region display item 
-.regular {
+#region display item .regular {
     font-size: 1.6rem;
     cursor: pointer;
 
     &:hover {
-        background: rgba(0,0,0,0.1);
+        background: rgba(0, 0, 0, 0.1);
         border-radius: 8px;
     }
 
@@ -105,8 +105,9 @@ ol {
 
             .edit-icon {
                 @include all.size($w: 3rem, $h: 3rem);
+
                 &:hover {
-                    @include all.size($w:3.2rem, $h: 3.2rem);
+                    @include all.size($w: 3.2rem, $h: 3.2rem);
                 }
             }
         }
@@ -117,8 +118,9 @@ ol {
             border: none
         }
     }
+
     &:hover {
-        .add-subtask-input-btns-container{
+        .add-subtask-input-btns-container {
             @include all.fl($alit: center);
         }
     }
