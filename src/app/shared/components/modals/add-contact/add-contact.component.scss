@@ -11,6 +11,10 @@
     z-index: 20;
 }
 
+.btn-set {
+    font-size: 1.8rem;
+}
+
 .add-contact-modal-container {
     @include all.size($w: 85dvw, $h: 80dvh);
     @include all.fl($jc: center, $alit: center);
@@ -124,6 +128,7 @@ main {
 
     .icon-area-mobile {
         display: none;
+
         @include all.mobile {
             display: flex;
             @include all.size($w: 12rem, $h: 12rem);
@@ -138,7 +143,7 @@ main {
     }
 
     .form-button-container {
-        @include all.fl($jc: flex-end, $gap: 1.6rem);
+        @include all.fl($jc: flex-end, $gap: 1.6rem, $alit: center);
         margin: 1.6rem 3.2rem 0 0;
 
         input {
@@ -150,6 +155,7 @@ main {
             justify-content: space-between;
             position: absolute;
             bottom: -6.4rem;
+
             input {
                 padding: 0.5rem;
                 font-size: 1.6rem;
@@ -251,5 +257,9 @@ main {
         width: 1.6rem;
         height: 1.6rem;
         font-size: 1.6rem;
+    }
+
+    &:hover {
+        color: #29ABE2;
     }
 }

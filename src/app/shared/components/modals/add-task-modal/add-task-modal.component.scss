@@ -37,11 +37,15 @@
         z-index: 2;
         font-size: 24px;
         background: transparent;
+
+        &:hover {
+            color: #29ABE2;
+        }
     }
 
     #add-task-modal-content {
         width: 100%;
         @include all.marpad($pad: 2rem);
     }
-    
+
 }
