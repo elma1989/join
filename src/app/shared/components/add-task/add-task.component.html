@@ -1,7 +1,7 @@
 <section class="add-task-section">
     <form [formGroup]="formTask" (ngSubmit)="submitForm()">
         <header class="add-task-header">
-            @if(currentTask().id == '') {
+            @if(currentTask().id == '' || addMode) {
             <h1 id="add-task-headline">Add Task</h1>
             }
             @else {

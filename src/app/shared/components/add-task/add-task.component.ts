@@ -46,8 +46,10 @@ export class AddtaskComponent implements OnInit, OnDestroy {
   cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
   fb: FormBuilder = inject(FormBuilder);
   val: ValidationService = inject(ValidationService);
+
   Priority = Priority;
   Category = Category;
+  addMode: boolean = false;
 
   currentTask: InputSignal<Task> = input.required<Task>();
   close: OutputEmitterRef<boolean> = output<boolean>();
@@ -62,6 +64,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
   // #endregion properties
   
   ngOnInit(): void {
+    this.addMode = this.currentTask().id == '';
     this.unsubContacts = this.getContactsSnapshot();
     const title = this.currentTask().id == ''? '' : this.currentTask().title;
     const desc = this.currentTask().id == ''? '' : this.currentTask().description;
@@ -167,6 +170,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     await this.fireDB.taskAddToDB('tasks', this.currentTask());
     this.cdr.detectChanges();
     this.clear();
+    this.tms.add('Task was added', 3000, 'success');
   }
   
   /**
@@ -175,7 +179,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
   protected async updateTask(): Promise<void> {
     await this.fireDB.taskUpdateInDB('tasks', this.currentTask());
     this.closeModal();
-    // this.tms.add('Task was updated', 3000, 'success');
+    this.tms.add('Task was updated', 3000, 'success');
   }
 
 
