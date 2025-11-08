@@ -5,19 +5,34 @@ import { ModalService } from '../../shared/services/modal.service';
 import { NavItemComponent } from '../../shared/components/nav-item/nav-item.component';
 
 
+/**
+ * Represents a navigation item in the sidebar.
+ */
 export interface NavItemData {
-      sectionId: string,
-      title: string,
-      imagePath: string,
-      section: SectionType,
-      active: boolean
+      /** Unique section identifier */
+      sectionId: string;
+      /** Display title of the section */
+      title: string;
+      /** Path to the section icon */
+      imagePath: string;
+      /** Type of the section (enum) */
+      section: SectionType;
+      /** Indicates whether the section is currently active */
+      active: boolean;
 }
 
+/**
+ * Represents a legal link item (e.g., Privacy Policy or Legal Notice).
+ */
 export interface LegalLinks {
-      sectionId: string,
-      title: string,
-      section: SectionType,
-      active: boolean
+      /** Unique section identifier */
+      sectionId: string;
+      /** Display title of the legal section */
+      title: string;
+      /** Type of the section (enum) */
+      section: SectionType;
+      /** Indicates whether the section is currently active */
+      active: boolean;
 }
 
 @Component({
@@ -27,6 +42,9 @@ export interface LegalLinks {
       styleUrl: './aside.component.scss'
 })
 export class AsideComponent {
+      //#region Attributes
+
+      /** List of main navigation items displayed in the sidebar */
       protected items: NavItemData[] = [
             {
                   sectionId: 'Summary',
@@ -40,14 +58,14 @@ export class AsideComponent {
                   title: 'Add task',
                   imagePath: 'assets/Icons/contact/addTask.png',
                   section: SectionType.TASK,
-                  active: true,
+                  active: false
             },
             {
                   sectionId: 'Boards',
                   title: 'Boards',
                   imagePath: 'assets/Icons/contact/Board.png',
                   section: SectionType.BOARD,
-                  active: false,
+                  active: false
             },
             {
                   sectionId: 'Contacts',
@@ -55,9 +73,10 @@ export class AsideComponent {
                   imagePath: 'assets/Icons/contact/Contacts.png',
                   section: SectionType.CONTACT,
                   active: false
-            },
+            }
       ];
 
+      /** List of legal links (Privacy Policy, Legal Notice, etc.) */
       protected itemLegal: LegalLinks[] = [
             {
                   sectionId: 'Privacy',
@@ -70,27 +89,40 @@ export class AsideComponent {
                   title: 'Legal Notice',
                   section: SectionType.LEGAL,
                   active: false
-            },
+            }
       ];
+
+      /** Emits the selected section to parent components */
       selectedSection: OutputEmitterRef<SectionType> = output<SectionType>();
+
+      /** Service for handling modal dialogs */
       protected modalService: ModalService = inject(ModalService);
 
-      private activateItem<T extends { active: boolean; section: SectionType }>(
-            list: T[],
-            index: number
-      ): void {
-            if (index < 0 || index >= list.length) return;
-            list.forEach((item, i) => (item.active = i === index));
-            this.selectedSection.emit(list[index].section);
-      }
+      //#endregion
 
+      //#region Methods
+
+      /**
+       * Activates a main navigation item and emits the selected section.
+       * @param index Index of the selected navigation item
+       */
       selectSection(index: number): void {
-            this.itemLegal.forEach(i => (i.active = false));
-            this.activateItem(this.items, index);
+            this.items.forEach((item, i) => {
+                  item.active = i === index;
+            });
+            this.selectedSection.emit(this.items[index].section);
       }
 
+      /**
+       * Activates a legal navigation item and emits the selected legal section.
+       * @param index Index of the selected legal item
+       */
       selectLegal(index: number): void {
-            this.items.forEach(i => (i.active = false));
-            this.activateItem(this.itemLegal, index);
+            this.itemLegal.forEach((item, i) => {
+                  item.active = i === index;
+            });
+            this.selectedSection.emit(this.itemLegal[index].section);
       }
+
+      //#endregion
 }

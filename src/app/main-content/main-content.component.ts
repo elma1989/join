@@ -22,13 +22,13 @@ import { SummmaryComponent } from './summmary/summmary.component';
     PrivacyPolicyComponent,
     LegalNoticeComponent,
     SummmaryComponent
-],
+  ],
   templateUrl: './main-content.component.html',
   styleUrl: './main-content.component.scss'
 })
 export class MainContentComponent {
   protected readonly SectionType = SectionType;
-  protected currentSection: SectionType = SectionType.TASK;
+  protected currentSection: SectionType = SectionType.BOARD;
 
   changeSection(section: SectionType) {
     this.currentSection = section;
