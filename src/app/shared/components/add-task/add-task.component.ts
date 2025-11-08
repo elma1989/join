@@ -76,6 +76,8 @@ export class AddtaskComponent implements OnDestroy {
     await this.fireDB.taskAddToDB('tasks', this.currentTask());
     this.cdr.detectChanges();
     this.clear();
+    this.closeModal();
+    this.tms.add('Task was created', 3000, 'success');
   }
 
   /**
@@ -84,7 +86,7 @@ export class AddtaskComponent implements OnDestroy {
   protected async updateTask(): Promise<void> {
     await this.fireDB.taskUpdateInDB('tasks', this.currentTask());
     this.closeModal();
-    // this.tms.add('Task was updated', 3000, 'success');
+    this.tms.add('Task was updated', 3000, 'success');
   }
 
   /**
