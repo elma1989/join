@@ -94,12 +94,12 @@
         }
 
         @include all.tablet {
-            height: 70dvh;
+            height: 65dvh;
             padding: 0 1rem 4rem 1rem;
         }
 
         @include all.mobile {
-            height: 59dvh;
+            height: 54dvh;
         }
 
         .task-list {
