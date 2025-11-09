@@ -5,7 +5,8 @@
     // #region detail-header
     .contact-detail-header {
         @include all.fl($jc: space-between, $alit: center);
-        @include all.size($h: 8rem, $w: 90%);
+        @include all.size($h: 8rem, $w: 100%);
+        max-width: 90dvw;
 
         .header-info {
             @include all.fl($alit: center, $gap: 2rem);
@@ -20,6 +21,7 @@
             }
 
             h2 {
+                width: 100%;
                 font-weight: lighter;
                 letter-spacing: 2px;
             }

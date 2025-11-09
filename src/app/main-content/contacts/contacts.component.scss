@@ -24,8 +24,8 @@
     }
 
     .contact-detail {
-        @include all.size($h: 90dvh, $w: 50%);
-        @include all.marpad($pad: 8rem 0 0 5rem);
+        @include all.size($h: 90dvh, $w: 100%);
+        @include all.marpad($pad: 5rem 0 0 2rem);
         
         @include all.notebook {
             @include all.size($h: 90dvh);
@@ -33,17 +33,13 @@
         
         @include all.tablet {
             @include all.size($w: 80%, $h: 80dvh);
+            padding: 4rem
         }
 
         @include all.mobile {
             @include all.size($w: 100%, $h: 80dvh);
             padding: 2rem;
         }
-
-        // @media(max-width: 425px) {
-        //     // width: 90%;
-        //     @include all.marpad($pad: 2rem 2rem);
-        // }
     }
 }
 
