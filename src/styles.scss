@@ -1,4 +1,5 @@
-@use './../public/styles/all_styles.scss' as all;
+@use '../public/styles/all_styles.scss' as all;
+@forward '../public/styles/fonts.scss';
 
 * {
     position: relative;
@@ -7,7 +8,7 @@
     box-sizing: border-box;
     text-decoration: none;
     scroll-behavior: smooth;
-    // list-style: none;
+    border: unset;
 }
 
 html {
@@ -15,19 +16,15 @@ html {
 }
 
 body {
-    background: rgb(211, 211, 211, 0.4);
+    background: #ededed;
     max-width: 1920px;
-    overflow: hidden;
+    font-size: 1.6rem;
+    font-family: 'Inter', sans-serif;
 }
 
-button,
+button, a,
 input {
-    border: unset; // Vorgabe in Checkliste
-}
-
-button {
-    cursor: pointer; // Vorgabe in Checklist
-    background: transparent;
+    cursor: pointer;
 }
 
 a {
@@ -37,13 +34,13 @@ a {
 
 .content {
     display: grid;
-    grid-template-columns: 20rem 1fr;
+    grid-template-columns: 20rem auto;
     grid-template-rows: 10dvh 90dvh;
     grid-template-areas: "aside header" "aside main";
     height: 100dvh;
 
     @include all.tablet {
-        grid-template-columns: 1fr;
+        grid-template-columns: 100%;
         grid-template-rows: 10dvh 80dvh 10dvh;
         grid-template-areas:
             "header"
@@ -56,43 +53,15 @@ a {
     display: none;
 }
 
-@include all.tablet {
-    .mob_none {
-        display: none;
-    }
-}
-
-@include all.mobile {
-    .smart_none {
-        display: none;
-    }
-}
-
-.d_flex {
-    display: flex;
-    z-index: 1000;
-}
-
 h1 {
-    font: bold 6.4rem 'Interbold', sans-serif;
-
-    @media(max-width: 425px) {
-        font-size: 4.7rem;
-    }
+    font: bold 4.2rem 'Interbold', sans-serif;
 }
 
-
-h2, a, p, h3, span {
-    font-family: 'InterLight', sans-serif;
+h2 {
+    font-size: 3.4rem;
 }
 
-.overlay {
-    justify-content: center;
-
-    .content {
-        display: flex;
-        justify-content: center;
-    }
+h3 {
+    font-size: 1.8rem;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+

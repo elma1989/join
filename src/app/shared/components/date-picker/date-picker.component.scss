@@ -1,3 +1,5 @@
+@use '../../../../../public/styles/all_styles' as all;
+
 .date-picker-container {
     position: relative;
     display: inline-block;
@@ -20,14 +22,9 @@
         width: 100%;
         background: white;
 
-        // &:hover {
-        //     border: 1px solid #29ABE2;
-        // }
-
         input {
             border: none;
             outline: none;
-            // flex: 1;
             width: 100%;
             font-size: 14px;
             background: transparent;
@@ -42,15 +39,17 @@
         }
     }
 
-    .error-message {
+    .warning {
+        display: flex;
+        height: 1.7rem;
         color: #d32f2f;
-        font-size: 12px;
-        margin-top: 4px;
+        font-size: 1.6rem;
+        margin: 0.5rem 0;
     }
 
     .calendar-popup {
         position: absolute;
-        top: -270px;
+        top: -300px;
         left: 0;
         background: white;
         border: 1px solid #ccc;

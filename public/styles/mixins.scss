@@ -1,4 +1,5 @@
 @use "sass:string";
+// @forward '../styles/fonts';
 
 @mixin marpad($pad: 0, $mar: 0) {
 	padding: $pad;
@@ -15,13 +16,9 @@
 	gap: $gap;
 }
 
-@mixin size($w: 100%, $h: 100%, $minW: 0, $minH: auto, $maxW: none, $maxH: none) {
+@mixin size($w: auto, $h: auto) {
 	width: $w;
-	min-width: $minW;
-	max-width: $maxW;
 	height: $h;
-	min-height: $minH;
-	max-height: $maxH;
 }
 
 @mixin absolute($pos: absolute, $top: auto, $left: auto, $bottom: auto, $right: auto) {
@@ -32,8 +29,8 @@
 	right: $right;
 }
 
-@mixin borRad($c: white, $radius: 16px, $thick: 1px) {
-    border: $thick solid $c;
+@mixin borRad($c: white, $radius: 16px, $thick: 1px, $design: solid) {
+    border: $thick $design $c;
     border-radius: $radius;
 }
 
@@ -46,6 +43,7 @@
 	display: inline-block;
 	max-width: 100%;
 	white-space: nowrap;
+	word-wrap: break-word;
 	overflow: hidden; 
 	text-overflow: ellipsis;
 }
@@ -54,4 +52,9 @@
 	font-size: $size;
 	font-family: $family;
 	font-weight: $weight;
+}
+
+@mixin scrollbar() {
+	scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
 }

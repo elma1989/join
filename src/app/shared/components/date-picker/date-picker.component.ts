@@ -4,47 +4,51 @@ import {
   computed,
   input,
   output,
+  HostListener,
+  ElementRef,
+  InputSignal,
+  inject,
+  OnInit,
+  OnDestroy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Timestamp } from '@angular/fire/firestore';
+import { ValidationService } from '../../services/validation.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-date-picker',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './date-picker.component.html',
   styleUrls: ['./date-picker.component.scss'],
 })
-export class DatePickerComponent {
-  /** Eingehender Wert vom Parent */
-  selectedTimestamp = input.required<Timestamp>();
+export class DatePickerComponent implements OnInit, OnDestroy {
 
-  /** Gibt das neu gewählte Datum zurück */
+  // #region attributes
+
+  selectedTimestamp = input.required<Timestamp>();
+  dueDateGroup: InputSignal<FormGroup> = input.required<FormGroup>();
   dateSelected = output<Timestamp>();
 
-  /** Zeigt oder versteckt den Kalender */
-  protected showCalendar = signal(false);
+  private val: ValidationService = inject(ValidationService);
 
-  /** interner aktueller Monat und Jahr */
+  private subFormChange!: Subscription;
+  
+  protected showCalendar = signal(false);
   protected activeMonth = signal<number>(Timestamp.now().toDate().getMonth());
   protected activeYear = signal<number>(Timestamp.now().toDate().getFullYear());
-
-  /** Dropdown-Werte */
   protected months = [
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'
   ];
-
   protected years = Array.from({ length: 50 }, (_, i) => 2000 + i);
-
-  /** Computed Label für Inputfeld */
+  protected warningMessage = signal<string | null>(null);
   protected inputValue = computed(() => {
     const d = this.selectedTimestamp().toDate();
     return `${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}/${d.getFullYear()}`;
   });
-
-  /** Berechnung der Tage für den Grid */
   readonly days = computed(() => {
     const month = this.activeMonth();
     const year = this.activeYear();
@@ -80,19 +84,82 @@ export class DatePickerComponent {
     return grid;
   });
 
-  /** Öffnen/Schließen */
+  protected errors: Record<string, string[]> = {};
+  // #endregion attributes
+
+  constructor(private elementRef: ElementRef) {}
+
+  ngOnInit(): void {
+    this.subFormChange = this.dateGroup.valueChanges.subscribe(() => this.validate());
+  }
+
+  ngOnDestroy(): void {
+    this.subFormChange.unsubscribe();
+  }
+
+  // #region methods
+  // #region Form-Mangement
+  /** 
+   * Gets the FormGroup.
+   * @returns - FromGroup from input.
+   */
+  get dateGroup(): FormGroup {
+    return this.dueDateGroup();
+  }
+
+  protected validate() {
+    this.errors = this.val.validateForm('task');
+  }
+
+  /**
+   * Set the selected date to current.
+   * 
+   * @param day object with timestamp and boolean of is currentMonth.
+   * @returns only if it is a date in past. sets warningMessage.
+   */
+  selectDate(day: { date: Timestamp; isCurrentMonth: boolean }) {
+    if (this.isPastDate(day.date)) {
+      this.warningMessage.set('cannot set date in past.');
+      this.showCalendar.set(false);
+      return;
+    }
+
+    this.warningMessage.set(null);
+    this.dateGroup.get('deathline')?.setValue(this.getFrenchDate(day.date))
+    this.showCalendar.set(false);
+  }
+
+  /**
+   * Converts a timestamp into string.
+   * @param timestamp - Timestamp to convert.
+   * @returns French date as string.
+   */
+  private getFrenchDate(timestamp: Timestamp): string {
+    const date: Date = timestamp.toDate();
+    const day: string = String(date.getDate()).padStart(2, '0');
+    const month: string = String(date.getMonth() + 1).padStart(2, '0');
+    const year: number = date.getFullYear();
+    return `${month}/${day}/${year}`;
+  }
+  // #endregion
+
+  // #region Calender-Mangement
+  /**
+   * toggles the visibility of calendar pop up.
+   * 
+   * @param event 
+   */
   toggleCalendar(event: Event) {
     event.stopPropagation();
     this.showCalendar.update((v) => !v);
   }
 
-  /** Auswahl eines Tages */
-  selectDate(day: { date: Timestamp; isCurrentMonth: boolean }) {
-    this.dateSelected.emit(day.date);
-    this.showCalendar.set(false);
-  }
-
-  /** Navigationsmethoden */
+  /**
+   * Sets the calendar to the next month.
+   * Switch year if it reaches last month.
+   * 
+   * button 'next' function
+   */
   nextMonth() {
     const month = this.activeMonth();
     const year = this.activeYear();
@@ -104,6 +171,12 @@ export class DatePickerComponent {
     }
   }
 
+  /**
+   * Sets the calendar to the previous month.
+   * Switch year if it reaches first month.
+   * 
+   * button 'prev' function
+   */
   prevMonth() {
     const month = this.activeMonth();
     const year = this.activeYear();
@@ -115,15 +188,30 @@ export class DatePickerComponent {
     }
   }
 
+  /**
+   * Set the new index of month array.
+   * 
+   * @param monthIndex index of month array.
+   */
   onMonthChange(monthIndex: number) {
     this.activeMonth.set(+monthIndex);
   }
 
+  /**
+   * Set the index of month array.
+   * 
+   * @param year index of year array.
+   */
   onYearChange(year: number) {
     this.activeYear.set(+year);
   }
 
-  /** Markierung des selektierten Datums */
+  /**
+   * Check if the day is selected.
+   * 
+   * @param day the day to check.
+   * @returns a boolean , true if day is selected.
+   */
   isSelected(day: Timestamp): boolean {
     const sel = this.selectedTimestamp().toDate();
     const d = day.toDate();
@@ -133,4 +221,32 @@ export class DatePickerComponent {
       d.getFullYear() === sel.getFullYear()
     );
   }
+
+  /**
+   * Check if it is a date in past.
+   * 
+   * @param ts the timestamp to check
+   * @returns a boolean , true if is past date.
+   */
+  protected isPastDate(ts: Timestamp): boolean {
+    const now = new Date();
+    const date = ts.toDate();
+    now.setHours(0, 0, 0, 0);
+    date.setHours(0, 0, 0, 0);
+    return date < now;
+  }
+
+  /**
+   * Click event of onClick outside of content to close pop up.
+   * 
+   * @param event click event on outside of content.
+   */
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    if (!this.elementRef.nativeElement.contains(event.target)) {
+      this.showCalendar.set(false);
+    }
+  }
+  // #endregion
+  // #endregion methods
 }

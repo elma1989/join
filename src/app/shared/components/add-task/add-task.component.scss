@@ -10,7 +10,6 @@ app-date-picker {
 
 b {
     color: red;
-
 }
 
 .input-wrapper {
@@ -20,13 +19,12 @@ b {
 
 .add-task-input-lbl {
     font-size: 18px;
-    font-family: 'InterRegular', sans-serif;
+    padding-bottom: 0.5rem;
 }
 
 .add-task-input {
     @include all.borRad($c: rgba(0, 0, 0, 0.2), $radius: 8px);
     @include all.marpad($pad: 1rem);
-    font-family: 'InterRegular', sans-serif;
     font-size: 16px;
 
     &:focus-visible {
@@ -37,138 +35,137 @@ b {
 }
 
 .add-task-section {
-    @include all.size();
+    height: 80dvh;
     @include all.marpad($pad: 3dvw);
 
-    @include all.mobile {
-        padding: 1dvw;
+    @include all.notebook {
+        height: 80dvh;
+        @include all.scrollbar();
+        padding: 2dvw;
     }
 
     #add-task-form {
-        height: 100%;
+        @include all.size($w: 100%, $h: 100%);
         @include all.fl($flexdir: column, $jc: space-between, $alit: space-between);
 
         .add-task-header {
+            height: 10dvh;
+            @include all.fl($alit: center);
+            margin-bottom: 2rem;
+
             h1 {
-                font-size: 42px;
                 font-family: 'Interbold', sans-serif;
+                font-size: 5rem;
             }
         }
 
-        .add-task-main-container {
-            @include all.fl($jc: space-between, $alit: start, $gap: 1rem);
+    }
+}
 
+.add-task-main-container {
+    @include all.size($w: 100%, $h: 60dvh);
+    @include all.fl($jc: space-between, $alit: start, $gap: 1rem);
 
-            @include all.notebook {
-                overflow-y: auto;
-                scrollbar-width: thin;
-                scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
-                margin: 2rem 0;
-                @include all.fl($flexdir: column, $alit: center);
-            }
+    @include all.notebook {
+        @include all.fl($flexdir: column, $alit: center);
+        @include all.scrollbar();
+        height: 58dvh;
+        overflow-y: auto;
+        margin: 2rem 0;
+    }
 
-            .add-task-info-block1 {
+    .add-task-info-block1 {
+        width: 50%;
+        @include all.fl($flexdir: column, $gap: 2rem);
 
-                width: 50%;
-                @include all.fl($flexdir: column, $gap: 2rem);
-
-                @include all.notebook {
-                    width: 90%;
-                }
-
-                @include all.mobile {
-                    width: 85dvw;
-                }
-
-                #add-task-info-description {
-                    height: 14dvh;
-                    font-family: 'InterRegular', sans-serif;
-                    overflow-y: auto;
-                    resize: none;
-                }
-            }
-
-            hr {
-                width: 0.2rem;
-                height: 110%;
-                margin: 0 1rem;
-                border: 1px solid rgba(0, 0, 0, 0.1);
-
-                @include all.notebook {
-                    display: none;
-                }
-            }
-
-            .add-task-info-block2 {
-                width: 50%;
-                @include all.fl($flexdir: column, $gap: 2rem);
-
-                @include all.notebook {
-                    width: 90%;
-                    margin: 2rem 0 5rem 0;
-                }
-
-                @include all.mobile {
-                    width: 85dvw;
-                }
-
-                .add-task-assigned-to {
-                    @include all.marpad($pad: 1rem, $mar: 0 2rem 0 0);
-
-                    .add-task-assign-to-option {
-                        @include all.limiter();
-                        outline: 1px solid #29ABE2;
-                    }
-                }
-
-                .add-task-category {
-                    @include all.borRad($radius: 8px);
-                    @include all.marpad($pad: 1rem, $mar: 0 2rem 0 0);
-
-                    &:focus-visible {
-                        outline: 1px solid #29ABE2;
-                    }
-                }
-            }
+        @include all.notebook {
+            width: 90%;
         }
 
-        .add-task-footer {
-            @include all.fl($jc: space-between, $alit: end);
-
-            .required-info-txt {
-                font-size: 1.5rem;
-
-                @include all.tablet {
-                    display: none;
-                }
-            }
-
-            @include all.tablet {
-                @include all.fl($flexdir: column);
-            }
-
-            .add-task-btn-container {
-                @include all.fl($jc: end, $gap: 2rem);
-
-                @include all.tablet {
-                    width: 100%;
-                    padding-left: 6rem;
-                }
-
-                .btn-default,
-                .btn-set {
-                    padding: 1rem;
-                }
-            }
+        #add-task-info-description {
+            @include all.scrollbar();
+            font-family: 'Inter', sans-serif;
+            height: 14dvh;
+            overflow-y: auto;
+            resize: none;
         }
+    }
 
-        .required-info-txt-mobile {
+    hr {
+        width: 0.2rem;
+        height: 75%;
+        margin: 0 1rem;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+
+        @include all.notebook {
             display: none;
+        }
+    }
 
-            @include all.tablet {
-                display: flex;
-                font-size: 1.2rem;
+    .add-task-info-block2 {
+        width: 50%;
+        @include all.fl($flexdir: column, $gap: 2rem);
+
+        @include all.notebook {
+            width: 90%;
+            margin: 2rem 0 3rem 0;
+        }
+
+        .add-task-assigned-to {
+            @include all.marpad($pad: 1rem, $mar: 0 2rem 0 0);
+
+            .add-task-assign-to-option {
+                @include all.limiter();
+                outline: 1px solid #29ABE2;
+            }
+        }
+
+        .add-task-category {
+            @include all.borRad($radius: 8px);
+            @include all.marpad($pad: 1rem, $mar: 0 2rem 0 0);
+
+            &:focus-visible {
+                outline: 1px solid #29ABE2;
+            }
+        }
+
+        .add-task-subtask-container {
+            height: 20rem;
+            app-subtask {
+                height: 19dvh;
             }
         }
     }
+}
+
+.add-task-footer {
+    @include all.fl($jc: space-between, $alit: end);
+
+    .required-info-txt {
+        font-size: 1.5rem;
+    }
+
+    @include all.tablet {
+        @include all.fl($flexdir: column, $gap: 1rem);
+    }
+
+    .add-task-btn-container {
+        @include all.fl($jc: end, $gap: 2rem);
+
+        @include all.tablet {
+            width: 100%;
+        }
+
+        .btn-default,
+        .btn-set {
+            padding: 1rem;
+        }
+    }
+}
+
+.error {
+    color: #d32f2f;
+    height: 1.7rem;
+    font-size: 1.6rem;
+    margin: 0.5rem 0;
 }

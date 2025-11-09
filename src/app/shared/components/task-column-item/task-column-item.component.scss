@@ -2,97 +2,126 @@
 
 :host {
 	@include all.fl();
-	@include all.size($h: auto);
 
-	@media(max-width: 1280px) {
-		@include all.marpad($mar: 0.5rem 0, $pad: 0.5rem);
-		@include all.size($h: auto);
-	}
-}
+	.task-column-container {
+		@include all.size($w: 26rem, $h: 28rem);
+		@include all.marpad($mar: 0 0 1rem 0, $pad: 1.5rem);
+		background: rgb(254, 253, 253);
+		border-radius: 1.6rem;
+		box-shadow: 0 0 5px lightgrey;
+		cursor: pointer;
 
-.task-column-container {
-	@include all.size($h: auto);
-	@include all.marpad($mar: 0 0 0.5rem 0, $pad: 1rem);
-	background: rgb(254, 253, 253);
-	border-radius: 1.6rem;
-	box-shadow: 0 0 5px lightgrey;
-
-	h2 {
-		@include all.size($w: fit-content, $minW: 10rem, $h: 3rem);
-		@include all.marpad($mar: 0 0 2rem 0, $pad: 0.5rem);
-		@include all.fl($jc: center);
-		@include all.font-style($size: 1.8rem, $weight: lighter);
-		color: white;
-		border-radius: 0.8rem;
-
-		@media(max-width: 1230px) {
-			@include all.marpad($mar: 0 0 1rem 0, $pad: 0.5rem);
+		@include all.notebook {
+			@include all.marpad($mar: 0 1rem 0 0, $pad: 1rem);
 		}
-	}
 
-	.blue {
-		background: #0038FF;
-	}
-
-	.green {
-		background: #1fd7c1;
-	}
-
-	.yellow {
-		background: teal;
-	}
-
-	.title {
-		@include all.size($h: auto);
-		@include all.limiter();
-		@include all.font-style($size: 1.8rem, $weight: bold);
-		margin-bottom: 1rem;
-		white-space: wrap;
-	}
-
-	.description {
-		@include all.size($h: auto);
-		@include all.limiter();
-		@include all.font-style($size: 1.8rem);
-		@include all.marpad($mar: 0 0 1rem 0);
-		white-space: wrap;
-		color: grey;
-	}
+		.task-column-item-header {
+			height: 3.5rem;
+			margin-bottom: 2rem;
+		}
 
 
-	.subtask-progress-box {
-		@include all.marpad($mar: 1rem 0, $pad: 0.6rem 0.8rem);
-	}
+		h2 {
+			@include all.size($w: fit-content, $h: 3rem);
+			@include all.marpad($mar: 0 0 2rem 0, $pad: 0.5rem);
+			@include all.fl($jc: center);
+			font-size: 1.8rem;
+			font-weight: lighter;
+			color: white;
+			border-radius: 0.8rem;
+		}
 
-	.progress-bar-wrapper {
-		@include all.fl($alit: center, $gap: 1rem);
-	}
+		.blue {
+			background: #0038FF;
+		}
 
-	.progress-bar-background {
-		flex-grow: 1;
-		@include all.size($h: 0.8rem);
-		background-color: #dedddd;
-		border-radius: 4px;
-		overflow: hidden;
-	}
+		.green {
+			background: #1fd7c1;
+		}
 
-	.progress-bar-fill {
-		@include all.size();
-		background-color: #3b82f6;
-		transition: width 0.3s ease-in-out;
-	}
+		.yellow {
+			background: teal;
+		}
 
-	.subtask-counter {
-		@include all.font-style($size: 1.5rem);
-		white-space: nowrap;
-	}
+		.title {
+			@include all.size($w: 100%, $h: auto);
+			@include all.limiter();
+			@include all.marpad($mar: 0 0 2rem 0);
+			font-size: 1.8rem;
+			font-weight: bold;
+			white-space: wrap;
+		}
 
-	.column-bottom-container {
-		@include all.fl($alit: center, $jc: space-between);
-		@include all.marpad($pad: 0 1rem);
+		.description {
+			@include all.size($w: 100%, $h: auto);
+			@include all.marpad($mar: 0 0 1rem 0);
+			display: -webkit-box;
+			-webkit-line-clamp: 2;
+			-webkit-box-orient: vertical;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: normal;
+			line-clamp: 2;
+			max-height: 7rem;
+			font-size: 1.8rem;
+			color: grey;
+		}
 
-		img {
-			@include all.size($w: 2rem, $h: 1.2rem);
+		.subtask-progress-box {
+			@include all.marpad($mar: 1rem 0, $pad: 0.6rem 0.8rem);
+		}
+
+		.subtask-progress-box::after {
+			content: attr(data-tooltip);
+			position: absolute;
+			bottom: 125%;
+			left: 50%;
+			transform: translateX(-50%);
+			background-color: #333;
+			color: #fff;
+			padding: 6px 10px;
+			border-radius: 6px;
+			white-space: nowrap;
+			opacity: 0;
+			pointer-events: none;
+			transition: opacity 0.2s ease;
+			font-size: 1.6rem;
+			z-index: 10;
+		}
+
+		.subtask-progress-box:hover::after {
+			opacity: 1;
+		}
+
+		.progress-bar-wrapper {
+			@include all.fl($alit: center, $gap: 1rem);
+		}
+
+		.progress-bar-background {
+			@include all.size($h: 0.8rem);
+			flex-grow: 1;
+			background-color: #dedddd;
+			border-radius: 4px;
+			overflow: hidden;
+		}
+
+		.progress-bar-fill {
+			@include all.size($w: 100%, $h: 0.8rem);
+			background-color: #3b82f6;
+			transition: width 0.3s ease-in-out;
+		}
+
+		.subtask-counter {
+			@include all.font-style($size: 1.5rem);
+			white-space: nowrap;
+		}
+
+		.column-bottom-container {
+			@include all.fl($alit: center, $jc: space-between);
+
+			img {
+				@include all.size($w: 2rem, $h: 1.2rem);
+			}
 		}
 	}
 }

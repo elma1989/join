@@ -1,52 +1,152 @@
-import { Component, inject, input, InputSignal, OnDestroy } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ChangeDetectorRef, Component, inject, input, InputSignal, OnDestroy, OnInit, output, OutputEmitterRef } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FirebaseDBService } from '../../services/firebase-db.service';
 import { Priority } from '../../enums/priority.enum';
 import { Task } from '../../classes/task';
 import { CommonModule } from '@angular/common';
 import { PriorityButtonsComponent } from "../priority-buttons/priority-buttons.component";
 import { Category } from '../../enums/category.enum';
-import { query, Unsubscribe, where, Query, onSnapshot, Timestamp } from '@angular/fire/firestore';
+import { query, Unsubscribe, where, Query, onSnapshot, Timestamp, Firestore, collection, CollectionReference, addDoc, updateDoc } from '@angular/fire/firestore';
 import { Contact } from '../../classes/contact';
 import { DatePickerComponent } from "../date-picker/date-picker.component";
 import { AssignContactsComponent } from "../assign-contacts/assign-contacts.component";
 import { ToastMsgService } from '../../services/toast-msg.service';
-import { SubtaskComponent } from '../../../main-content/board/subtask/subtask.component';
+import { SubtaskComponent } from '../subtask/subtask.component';
+import { SubtaskEditState } from '../../enums/subtask-edit-state';
+import { SubTask } from '../../classes/subTask';
+import { CategoryDropComponent } from "../category-drop/category-drop.component";
+import { ValidationService } from '../../services/validation.service';
+import { Subscription } from 'rxjs';
+import { CustomValidator } from '../../classes/custom-validator';
 
 
 @Component({
   selector: 'app-add-task',
   standalone: true,
-  imports: [CommonModule, FormsModule, PriorityButtonsComponent, DatePickerComponent, AssignContactsComponent, SubtaskComponent],
+  imports: [
+    CommonModule,
+    FormsModule, 
+    PriorityButtonsComponent, 
+    DatePickerComponent, 
+    AssignContactsComponent, 
+    SubtaskComponent, 
+    CategoryDropComponent,
+    ReactiveFormsModule
+  ],
   templateUrl: './add-task.component.html',
   styleUrl: './add-task.component.scss'
 })
-export class AddtaskComponent implements OnDestroy {
+export class AddtaskComponent implements OnInit, OnDestroy {
 
   // #region properties
 
   fireDB: FirebaseDBService = inject(FirebaseDBService);
+  fs: Firestore = inject(Firestore);
   tms: ToastMsgService = inject(ToastMsgService);
+  cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
+  fb: FormBuilder = inject(FormBuilder);
+  val: ValidationService = inject(ValidationService);
+
   Priority = Priority;
   Category = Category;
+  addMode: boolean = false;
 
   currentTask: InputSignal<Task> = input.required<Task>();
-  contacts: Array<Contact> = []
+  close: OutputEmitterRef<boolean> = output<boolean>();
+  contacts: Array<Contact> = [];
+  protected errors: Record<string, string[]> = {};
 
-  unsubContacts: Unsubscribe;
+  unsubContacts!: Unsubscribe;
+  subFormChange!: Subscription;
+
+  protected formTask!: FormGroup;
 
   // #endregion properties
   
-  constructor() {
+  ngOnInit(): void {
+    this.addMode = this.currentTask().id == '';
     this.unsubContacts = this.getContactsSnapshot();
+    const title = this.currentTask().id == ''? '' : this.currentTask().title;
+    const desc = this.currentTask().id == ''? '' : this.currentTask().description;
+    const dueDate = this.currentTask().id == ''? this.defaultDate : this.convertTimestamp(this.currentTask().dueDate);
+    this.formTask = this.fb.group({
+    title: [title, [CustomValidator.strictRequired(), CustomValidator.firstUpperCase(), Validators.minLength(3)]],
+    description: [desc],
+    dueDate: this.fb.group({
+      deathline: [ dueDate, [CustomValidator.strictRequired(), CustomValidator.dateFormat(), CustomValidator.dateInPast()]]
+    }),
+    createSubtask: this.fb.group({
+      subtaskName: ['', [CustomValidator.customMinLength(3), CustomValidator.subtaskExist(() => this.currentTask().subtasks)]]
+    })
+  });
+    this.val.registerForm('task', this.formTask);
+    this.subFormChange = this.formTask.valueChanges.subscribe(() => this.validate());
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.unsubContacts();
+    this.val.removeForm('task');
+    this.subFormChange.unsubscribe();
   }
 
   // #region methods
 
+  /** Validates a form. */
+  // #region Form methods
+  private validate(): void {
+    this.errors = this.val.validateForm('task');
+  }
+
+  get defaultDate(): string {
+    const date = new Date(Date.now());
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth()+1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${month}/${day}/${year}`;
+  }
+
+  get formTimestamp(): Timestamp {
+    const date: string = this.formTask.get('dueDate.deathline')?.value ?? '';
+    if (date) {
+      const [month, day, year]: number[] = date.split('/').map(x => Number(x));
+      return Timestamp.fromDate(new Date(year, month -1, day))
+    }
+    return Timestamp.now();
+  }
+
+  getFromgroup(name: string): FormGroup {
+    const dategroup = this.formTask.get(name);
+    return dategroup ? dategroup as FormGroup : new FormGroup(name);
+  }
+
+  private convertTimestamp(timestamp:Timestamp): string {
+    const date: Date = timestamp.toDate();
+    const day: string = String(date.getDate()).padStart(2, '0');
+    const month: string = String(date.getMonth() + 1).padStart(2, '0');
+    const year: number = date.getFullYear();
+    return `${month}/${day}/${year}`;
+  }
+
+  /** Submits a form. */
+  protected submitForm(): void {
+    this.validate();
+    if (this.formTask.valid) {
+      this.currentTask().title = this.formTask.get('title')?.value ?? '';
+      this.currentTask().description = this.formTask.get('description')?.value ?? '';
+      this.currentTask().dueDate = this.formTimestamp;
+      this.addTask();
+    }
+  }
+
+  /**
+   * Reset all inputs to default.
+   */
+  clear() {
+    this.formTask.reset();
+  }
+  // #endregion
+
+  // #region CRUD
   /**
    * Opens a two way data stream between code and firebase collection 'contacts'.
    * 
@@ -62,47 +162,27 @@ export class AddtaskComponent implements OnDestroy {
       });
     });
   }
-
-  /**
-   * Submit the entered data as new Task to DB
-   *  
-   * @param e event
+  
+  /** 
+   * Adds a task into Database. 
    */
-  async submitForm(e: SubmitEvent) {
-    if(this.currentTask().id == '') {
-      this.fireDB.addToDB('tasks', this.currentTask());
-      this.clear();
-      this.tms.add('Task was created', 3000, 'success');
-    } else {
-      this.fireDB.updateInDB('tasks', this.currentTask());
-      this.tms.add('Task was updated', 3000, 'success');
-    }
+  protected async addTask(): Promise<void> {
+    await this.fireDB.taskAddToDB('tasks', this.currentTask());
+    this.cdr.detectChanges();
+    this.clear();
+    this.closeModal();
+    this.tms.add('Task was created', 3000, 'success');
+  }
+  
+  /**
+   * Updates existing task in DB
+   */
+  protected async updateTask(): Promise<void> {
+    await this.fireDB.taskUpdateInDB('tasks', this.currentTask());
+    this.closeModal();
+    this.tms.add('Task was updated', 3000, 'success');
   }
 
-  /**
-   * Reset all inputs to default.
-   */
-  clear() {
-    this.currentTask.apply(new Task());
-
-    this.contacts.forEach(contact => {
-      contact.isChecked = false;
-    });
-    this.setChosenContacts([]);
-  }
-
-  /**
-   * Toggles a single contact option between selected and not selected.
-   * 
-   * @param contact the option to toggle. 
-   */
-  toggleAddContactToAssignTo(contact: Contact) {
-    if(this.currentTask().assignedTo.includes(contact.id)){
-      // remove
-    } else {
-      this.currentTask().assignedTo.push(contact.id);
-    }
-  }
 
   /**
    * Sets the due date of task. 
@@ -118,7 +198,7 @@ export class AddtaskComponent implements OnDestroy {
    * 
    * @param chosenContacts Array<Contact> with selected contacts
    */
-  setChosenContacts(chosenContacts: Array<Contact>) {
+  updateContacts(chosenContacts: Array<Contact>) {
     this.currentTask().contacts = chosenContacts;
     this.currentTask().assignedTo = [];
     chosenContacts.forEach((contact) => {
@@ -126,5 +206,36 @@ export class AddtaskComponent implements OnDestroy {
     })
   }
 
+  /**
+   * 
+   * @param category 
+   */
+  updateCategory(category: Category) {
+    this.currentTask().category = category;
+  }
+
+  /**
+   * Sets the submitted subtasks to task subTasks.
+   * @param subtasks 
+   */
+  updateSubtasks(subtasks: Array<SubTask>) {
+    this.currentTask().subtasks = [];
+    subtasks.forEach((subtask) => {
+      if(subtask.taskId == ''){
+        subtask.taskId = this.currentTask().id;
+      }
+      this.currentTask().subtasks.push(subtask);
+    });
+    this.currentTask().hasSubtasks = this.currentTask().subtasks.length >= 1;
+  }
+  // #endregion
+
+  /**
+   * if this component is part of a modal
+   * this method emits a close output which can handle by parent.
+   */
+  closeModal() {
+    this.close.emit(true);
+  }
   // #endregion methods
 }

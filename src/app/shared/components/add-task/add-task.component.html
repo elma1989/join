@@ -1,74 +1,83 @@
 <section class="add-task-section">
-    <form id="add-task-form" method="post" (submit)="submitForm($event)">
-        
+    <form [formGroup]="formTask" (ngSubmit)="submitForm()">
         <header class="add-task-header">
-            @if(currentTask().id == '') {
-                <h1 id="add-task-headline">Add Task</h1>
+            @if(currentTask().id == '' || addMode) {
+            <h1 id="add-task-headline">Add Task</h1>
             }
             @else {
-                <h1 id="add-task-headline">Edit Task</h1>
+            <h1 id="add-task-headline">Edit Task</h1>
             }
         </header>
-        
+
         <main class="add-task-main-container">
             <div class="add-task-info-block1">
+
                 <div class="input-wrapper">
                     <label class="add-task-input-lbl" for="title">Title <b>*</b></label>
-                    <input class="add-task-input" type="text" name="title" id="add-task-info-title" 
-                        placeholder="Enter a title" [(ngModel)]="currentTask().title" required>
+                    <input class="add-task-input" type="text" id="title" placeholder="Enter a title"
+                        formControlName="title" />
+                    <small class="error">
+                        @if (errors['title']) {
+                        {{ errors['title'][0]}}
+                        }
+                    </small>
                 </div>
+
                 <div class="input-wrapper">
                     <label class="add-task-input-lbl" for="descr">Description</label>
-                    <textarea name="descr" id="add-task-info-description" class="add-task-input" 
-                        placeholder="Enter a Description ..." [(ngModel)]="currentTask().description"></textarea>
+                    <textarea name="descr" id="descr" class="add-task-input" placeholder="Enter a Description ..."
+                        formControlName="description"></textarea>
                 </div>
+
                 <div class="input-wrapper">
-                    <label class="add-task-input-lbl" for="due-date-picker">Due Date <b>*</b></label>
-                    <app-date-picker name="due-date-picker"
-                        [selectedTimestamp]="currentTask().dueDate" (dateSelected)="currentTask().dueDate = $event">
-                    </app-date-picker>
+                    <label class="add-task-input-lbl">Due Date <b>*</b></label>
+
+                    <app-date-picker [dueDateGroup]="getFromgroup('dueDate')" [selectedTimestamp]="currentTask().dueDate"
+                        (dateSelected)="currentTask().dueDate = $event"></app-date-picker>
+                    <small class="error">
+                        @if (errors['deathline']) {
+                        {{ errors['deathline'][0]}}
+                        }
+                    </small>
+
                 </div>
             </div>
 
-            <hr>
+            <hr />
 
-            <div class="add-task-info-block2" >
+            <div class="add-task-info-block2">
                 <div class="input-wrapper add-task-priority-container">
-                    <label class="add-task-input-lbl" for="add-task-priority">Priority</label>
-                    <app-priority-buttons [task]="currentTask()" ></app-priority-buttons>
+                    <label class="add-task-input-lbl">Priority</label>
+                    <app-priority-buttons [task]="currentTask()"></app-priority-buttons>
                 </div>
+
                 <div class="input-wrapper add-task-assigned-to-container">
-                    <label class="add-task-input-lbl" for="add-task-assigned-to">Assigned to</label>
-                    <app-assign-contacts [options]="contacts" [selectedValues]="currentTask().contacts" (selectionChange)="setChosenContacts($event)"></app-assign-contacts>
+                    <label class="add-task-input-lbl">Assigned to</label>
+                    <app-assign-contacts [options]="contacts" [selectedValues]="currentTask().contacts"
+                        (selectionChange)="updateContacts($event)"></app-assign-contacts>
                 </div>
+
                 <div class="input-wrapper add-task-category-container">
-                    <label class="add-task-input-lbl" for="add-task-category">Category <b>*</b></label>
-                    <select name="add-task-category" id="add-task-category" 
-                        class="add-task-input add-task-category" [(ngModel)]="currentTask().category">
-                        @for(category of ( Category | keyvalue ); track $index){
-                            <option id="('add-task-category_' + $index)" class="add-task-category-option" [value]="category.value">{{ category.value }}</option>
-                        }
-                    </select>
+                    <label class="add-task-input-lbl">Category <b>*</b></label>
+                    <app-category-drop #category [currentCategory]="currentTask().category"
+                        (newCategory)="updateCategory($event)"></app-category-drop>
                 </div>
+
                 <div class="input-wrapper add-task-subtask-container">
-                    <app-subtask [subtasks]="currentTask().subtasks"></app-subtask>
+                    <label class="add-task-input-lbl">Subtasks</label>
+                    <app-subtask [createSubtaskGroup]="getFromgroup('createSubtask')" [subtasks]="currentTask().subtasks"
+                        (outSubtasks)="updateSubtasks($event)"></app-subtask>
                 </div>
-                <span class="required-info-txt-mobile"><b>*</b> this field is required</span>
             </div>
         </main>
-        
+
         <footer class="add-task-footer">
             <span class="required-info-txt"><b>*</b> this field is required</span>
             <div class="add-task-btn-container">
-                @if(currentTask().id == '') {
-                    <input class="btn-default" type="button" (click)="clear()" value="Clear">
-                    <input class="btn-set" type="submit" value="Create Task">
-                }
-                @else {
-                    <input class="btn-set" type="submit" value="Update Task">
-                }
+                <input class="btn-default" type="reset" value="Clear">
+                <input class="btn-set" type="submit" value="{{ currentTask().id == '' ? 'Create' : 'Edit'}} Task">
             </div>
         </footer>
-        
     </form>
+
 </section>

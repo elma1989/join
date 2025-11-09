@@ -1,47 +1,101 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, inject, output, OutputEmitterRef } from '@angular/core';
+import { Component, EventEmitter, HostListener, inject, Output, output, OutputEmitterRef } from '@angular/core';
 import { ModalService } from '../../services/modal.service';
 import { SectionType } from '../../enums/section-type';
 
 @Component({
-  /* Wenn der Selector so in eckige Klammern gesceiben wird,
-   * bedeutet das, die Komponente in ein normales Header-Tag eingebunden wird
-   * Der Name der Komponente app-header muss sich dabei vom Tag <header> unterscheien. */
   selector: 'header[app-header]',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.scss'
+  styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  selectedSection: OutputEmitterRef<SectionType> = output<SectionType>();
-  protected modalService: ModalService = inject(ModalService);
+ //#region Outputs and Services
 
-  isMenuVisible: boolean = false;
+  /** Emits the currently selected section (e.g., Legal, Privacy). */
+  @Output() selectedSection = new EventEmitter<SectionType>();
 
+  /** Service used to manage modals (e.g., Help modal). */
+  protected modalService = inject(ModalService);
+
+  //#endregion
+
+  //#region State
+
+  /** Determines whether the profile menu is currently visible. */
+  isMenuVisible = false;
+
+  //#endregion
+
+  //#region Menu Control Methods
+
+  /**
+   * Toggles the visibility of the profile menu.
+   */
   toggleMenu(): void {
     this.isMenuVisible = !this.isMenuVisible;
   }
 
+  /**
+   * Closes the menu and performs logout actions.
+   * In a full implementation, authentication services would handle this logic.
+   */
   logout(): void {
-    // Hier deine Logout-Logik einbauen
     console.log('User logged out');
+    this.closeMenu();
+  }
+
+  /**
+   * Closes the profile menu.
+   */
+  closeMenu(): void {
     this.isMenuVisible = false;
   }
 
+  //#endregion
+
+  //#region Section Navigation Methods
+
+  /**
+   * Opens the Privacy Policy section and closes the menu.
+   */
+  openPrivacy(): void {
+    this.selectedSection.emit(SectionType.PRIVACY);
+    this.closeMenu();
+  }
+
+  /**
+   * Opens the Legal Notice section and closes the menu.
+   */
+  openLegal(): void {
+    this.selectedSection.emit(SectionType.LEGAL);
+    this.closeMenu();
+  }
+
+  /**
+   * Closes the menu and opens the Help modal window.
+   */
+  openHelpFromMenu(): void {
+    this.closeMenu();
+    this.modalService.openHelpModal();
+  }
+
+  //#endregion
+
+  //#region Event Listeners
+
+  /**
+   * Detects clicks outside the profile container and closes the menu if necessary.
+   * @param event The DOM click event
+   */
   @HostListener('document:click', ['$event'])
   onClickOutside(event: Event): void {
     const target = event.target as HTMLElement;
     if (!target.closest('.profile-container')) {
-      this.isMenuVisible = false;
+      this.closeMenu();
     }
   }
 
-  openPrivacy() {
-    this.selectedSection.emit(SectionType.PRIVACY);
-  }
-
-  openLegal() {
-    this.selectedSection.emit(SectionType.LEGAL);
-  }
+  //#endregion
 }
