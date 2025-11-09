@@ -132,13 +132,14 @@
 
                 @media(max-width: 1280px) {
                     flex-direction: row;
+                    width: 78dvw;
                     gap: 1rem;
                 }
 
                 @include all.notebook {
                     @include all.size();
                     @include all.fl();
-                    max-width: 76dvw;
+                    max-width: 75dvw;
                     padding-bottom: 1rem;
                 }
 
