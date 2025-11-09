@@ -5,7 +5,7 @@
     // #region detail-header
     .contact-detail-header {
         @include all.fl($jc: space-between, $alit: center);
-        @include all.size($h: 8rem, $w: 100%);
+        @include all.size($h: 8rem, $w: 90%);
 
         .header-info {
             @include all.fl($alit: center, $gap: 2rem);
@@ -72,8 +72,19 @@
     // #region contact-info
     .contact-info-container {
         @include all.slightInFromRightAnimation();
-        @include all.size($w: 80%, $h: 75%);
-        @include all.marpad($mar: 3rem 0 0);
+        @include all.size($w: 100%, $h: 70%);
+        @include all.marpad($mar: 6rem 0 0);
+
+        @include all.tablet {
+            width: 100%;
+            margin: 2rem
+        }
+
+        @include all.mobile {
+            margin: 6rem 0 0 0 ;
+            // padding: 1rem;
+
+        }
 
         .contact-detail-header-row {
             @include all.fl($alit: center);
@@ -96,26 +107,21 @@
                     @include all.marpad($pad: 0 0 0 2rem);
                 }
 
-                @include all.smart {
-                    @include all.marpad($pad: 0 0 0 1rem);
-                }
-
                 .name {
                     display: -webkit-box;
-                    -webkit-line-clamp: 2;
+                    -webkit-line-clamp: 3;
                     -webkit-box-orient: vertical;
                     overflow: hidden;
                     text-overflow: ellipsis;
                     white-space: normal;
                     line-clamp: 2;
-                    max-height: 7rem;
-                    line-height: 3.5rem;
-                    margin-bottom: 2rem;
+                    max-height: 10rem;
+                    line-height: 3rem;
                     
                     font: 3.2rem 'InterBold', sans-serif;
 
-                    @include all.smart {
-                        @include all.size($h: 3dvh);
+                    @media(max-width: 400px) {
+                        @include all.size($w: 40dvw);
                         font-size: 2.2rem;
                     }
                 }
