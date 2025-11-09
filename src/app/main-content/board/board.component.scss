@@ -12,6 +12,7 @@
         margin-bottom: 3rem;
 
         @include all.tablet {
+            height: 7rem;
             margin-bottom: 0;
             padding: 2rem 2rem 0 2rem;
         }
