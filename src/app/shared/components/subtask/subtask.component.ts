@@ -52,6 +52,14 @@ export class SubtaskComponent implements OnInit, OnDestroy {
   private validate(): void {
     this.errorsCreate = this.val.validateForm('task');
   }
+
+  protected onFocus(): void {
+    this.newSubtask.editMode = true;
+  }
+
+  protected blur(): void {
+    this.newSubtask.editMode = false;
+  }
   // #region CRUD
 
   /**
