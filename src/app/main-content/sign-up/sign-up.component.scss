@@ -75,6 +75,7 @@ footer {
     margin-bottom: 1.6rem;
     height: 32dvh;
     overflow-y: auto;
+    @include all.scrollbar();
 
 }
 
