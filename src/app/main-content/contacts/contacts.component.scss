@@ -25,7 +25,7 @@
 
     .contact-detail {
         @include all.size($h: 90dvh, $w: 100%);
-        @include all.marpad($pad: 5rem 0 0 2rem);
+        @include all.marpad($pad: 5rem 0 0 4rem);
         
         @include all.notebook {
             @include all.size($h: 90dvh);
