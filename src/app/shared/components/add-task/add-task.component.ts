@@ -114,7 +114,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     return Timestamp.now();
   }
 
-  getFromgroup(name: string): FormGroup {
+  getFormgroup(name: string): FormGroup {
     const dategroup = this.formTask.get(name);
     return dategroup ? dategroup as FormGroup : new FormGroup(name);
   }
@@ -147,6 +147,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
    */
   clear() {
     this.formTask.reset();
+    if (this.addMode) this.currentTask().priority = Priority.MEDIUM;
   }
   // #endregion
 
