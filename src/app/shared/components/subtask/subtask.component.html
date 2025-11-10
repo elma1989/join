@@ -18,57 +18,59 @@
     </div>
     <p class="errmsg">
         @if (errorsCreate['createSubtask.subtaskName']) {
-            {{ errorsCreate['createSubtask.subtaskName'][0] }}
+        {{ errorsCreate['createSubtask.subtaskName'][0] }}
         }
     </p>
     <p class="errmsg">
         @if (subtasks().length == 1) {
-            Add another Subtask.
+        Add another Subtask.
         }
     </p>
 </div>
 <p class="errmsg" #errmsg></p>
-@if (subtasks() && subtasks().length > 0) {
-<ol>
-    @for (subtask of subtasks(); track $index) {
-    @if (subtask.editState != SubtaskEditState.DELETED) {
-    @if (subtask.editMode) {
-    <li>
-        <div class="add-subtask-container active">
-            <input #editsub type="text" class="add-subtask-input" name="add-subtask-input" placeholder="Edit name..."
-                [(ngModel)]="subtask.name" autocomplete="off">
+<div class="subtask-shown">
+    @if (subtasks() && subtasks().length > 0) {
+    <ol>
+        @for (subtask of subtasks(); track $index) {
+        @if (subtask.editState != SubtaskEditState.DELETED) {
+        @if (subtask.editMode) {
+        <li>
+            <div class="add-subtask-container active">
+                <input #editsub type="text" class="add-subtask-input" name="add-subtask-input"
+                    placeholder="Edit name..." [(ngModel)]="subtask.name" autocomplete="off">
 
-            <div class="add-subtask-input-btns-container">
-                <button class="add-subtask-input-btn" type="button" (click)="reset($index)">
-                    <img class="edit-icon edit-icon-reset" id="reset-icon-2" src="assets/Icons/taskBoard/close.png"
-                        alt="">
+                <div class="add-subtask-input-btns-container">
+                    <button class="add-subtask-input-btn" type="button" (click)="reset($index)">
+                        <img class="edit-icon edit-icon-reset" id="reset-icon-2" src="assets/Icons/taskBoard/close.png"
+                            alt="">
+                    </button>
+                    <hr>
+                    <button class="add-subtask-input-btn" type="button" (click)="updateSub($index)">
+                        <img class="edit-icon edit-icon-check" id="add-check-icon"
+                            src="assets/Icons/taskBoard/check.png" alt="">
+                    </button>
+                </div>
+            </div>
+        </li>
+        } @else {
+        <li class="regular" (dblclick)="selectEditInput($index)">
+            <span [title]="subtask.name">• {{ subtask.name.length > 30 ? (subtask.name | slice:0:30)
+                + '...' : subtask.name }}</span>
+
+            <div class="add-subtask-input-btns-container hover-btns">
+                <button class="add-subtask-input-btn" type="button" (click)="selectEditInput($index)">
+                    <img class="edit-icon edit-icon-edit" id="edit-icon" src="assets/Icons/taskBoard/edit.png" alt="">
                 </button>
                 <hr>
-                <button class="add-subtask-input-btn" type="button" (click)="updateSub($index)">
-                    <img class="edit-icon edit-icon-check" id="add-check-icon" src="assets/Icons/taskBoard/check.png"
+                <button class="add-subtask-input-btn" type="button" (click)="deleteSub($index)">
+                    <img class="edit-icon edit-icon-delete" id="add-delete-icon" src="assets/Icons/taskBoard/delete.png"
                         alt="">
                 </button>
             </div>
-        </div>
-    </li>
-    } @else {
-    <li class="regular" (dblclick)="selectEditInput($index)">
-        <span [title]="subtask.name">• {{ subtask.name.length > 30 ? (subtask.name | slice:0:30)
-            + '...' : subtask.name }}</span>
-
-        <div class="add-subtask-input-btns-container hover-btns">
-            <button class="add-subtask-input-btn" type="button" (click)="selectEditInput($index)">
-                <img class="edit-icon edit-icon-edit" id="edit-icon" src="assets/Icons/taskBoard/edit.png" alt="">
-            </button>
-            <hr>
-            <button class="add-subtask-input-btn" type="button" (click)="deleteSub($index)">
-                <img class="edit-icon edit-icon-delete" id="add-delete-icon" src="assets/Icons/taskBoard/delete.png"
-                    alt="">
-            </button>
-        </div>
-    </li>
+        </li>
+        }
+        }
+        }
+    </ol>
     }
-    }
-    }
-</ol>
-}
+</div>
