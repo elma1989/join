@@ -12,7 +12,7 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Timestamp } from '@angular/fire/firestore';
 import { ValidationService } from '../../services/validation.service';
 import { Subscription } from 'rxjs';
@@ -118,14 +118,13 @@ export class DatePickerComponent implements OnInit, OnDestroy {
    * @returns only if it is a date in past. sets warningMessage.
    */
   selectDate(day: { date: Timestamp; isCurrentMonth: boolean }) {
-    if (this.isPastDate(day.date)) {
-      this.warningMessage.set('cannot set date in past.');
-      this.showCalendar.set(false);
-      return;
+    const control = this.dateGroup.get('deathline');
+    if (control) {
+      control.setValue(this.getFrenchDate(day.date));
+      control.markAsDirty();
     }
 
-    this.warningMessage.set(null);
-    this.dateGroup.get('deathline')?.setValue(this.getFrenchDate(day.date))
+    this.validate();
     this.showCalendar.set(false);
   }
 
