@@ -12,7 +12,7 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Timestamp } from '@angular/fire/firestore';
 import { ValidationService } from '../../services/validation.service';
 import { Subscription } from 'rxjs';

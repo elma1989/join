@@ -70,7 +70,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     const desc = this.currentTask().id == '' ? '' : this.currentTask().description;
     const dueDate = this.currentTask().id == '' ? this.defaultDate : this.convertTimestamp(this.currentTask().dueDate);
     this.formTask = this.fb.group({
-      title: [title, [CustomValidator.strictRequired(), CustomValidator.firstUpperCase(), Validators.minLength(3)]],
+      title: [title, [CustomValidator.strictRequired(), Validators.minLength(3)]],
       description: [desc],
       dueDate: this.fb.group({
         deathline: [dueDate, [CustomValidator.strictRequired(), CustomValidator.dateFormat(), CustomValidator.dateInPast()]]
