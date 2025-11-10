@@ -27,6 +27,7 @@ b {
     @include all.borRad($c: rgba(0, 0, 0, 0.2), $radius: 8px);
     @include all.marpad($pad: 1rem);
     font-size: 16px;
+    cursor: text;
 
     &:focus-visible {
         border-inline: none;
@@ -64,7 +65,7 @@ b {
 }
 
 .add-task-main-container {
-    @include all.size($w: 100%, $h: 70dvh);
+    @include all.size($w: 100%, $h: 58dvh);
     @include all.fl($jc: space-between, $alit: start, $gap: 1rem);
 
     @include all.notebook {
@@ -105,15 +106,15 @@ b {
 
     .add-task-info-block2 {
         width: 50%;
-        @include all.fl($flexdir: column, $gap: 2rem);
+        @include all.fl($flexdir: column, $gap: 1rem);
 
         @include all.notebook {
             width: 90%;
             margin: 2rem 0 3rem 0;
         }
 
-        .add-task-assigned-to {
-            @include all.marpad($pad: 1rem, $mar: 0 2rem 0 0);
+        .add-task-assigned-to-container {
+            @include all.marpad($mar: 0 2rem 0 0);
 
             .add-task-assign-to-option {
                 @include all.limiter();
@@ -123,7 +124,7 @@ b {
 
         .add-task-category {
             @include all.borRad($radius: 8px);
-            @include all.marpad($pad: 1rem, $mar: 0 2rem 0 0);
+            @include all.marpad($pad: 1rem, $mar: 0 1rem 0 0);
 
             &:focus-visible {
                 outline: 1px solid #29ABE2;
@@ -133,7 +134,6 @@ b {
         .add-task-subtask-container {
             display: flex;
             height: 20rem;
-            width: 100%;
             app-subtask {
                 height: 19dvh;
             }
@@ -142,10 +142,11 @@ b {
 }
 
 .add-task-footer {
+    margin-top: 2rem;
     @include all.fl($jc: space-between, $alit: end);
 
     .required-info-txt {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
     }
 
     @include all.tablet {

@@ -211,6 +211,7 @@ main {
                 font-size: 1.6rem;
                 border: 1px solid #d1d1d1;
                 border-radius: 1rem;
+                cursor: text;
 
                 @include all.tablet {
                     width: 100%;
