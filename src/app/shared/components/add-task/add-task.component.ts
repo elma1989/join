@@ -147,7 +147,10 @@ export class AddtaskComponent implements OnInit, OnDestroy {
    */
   clear() {
     this.formTask.reset();
-    if (this.addMode) this.currentTask().priority = Priority.MEDIUM;
+    if (this.addMode) {
+      this.currentTask().priority = Priority.MEDIUM;
+      this.currentTask().contacts = [];
+    }
   }
   // #endregion
 
