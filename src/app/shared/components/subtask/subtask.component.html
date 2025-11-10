@@ -1,7 +1,7 @@
 <div>
-    <div class="add-subtask-container" [formGroup]="createSubtaskGroup()" [ngClass]="{'active': newSubtask.editMode}" (click)="endbleEditMode(-1)">
+    <div class="add-subtask-container" [formGroup]="createSubtaskGroup()" [ngClass]="{'active': newSubtask.editMode}" 
+    (click)="endbleEditMode(-1)" (focus)="onFocus()" (blur)="blur()">
         <input type="text" class="add-subtask-input" placeholder="Add new Subtask..."
-            (focus)="onFocus()" (blur)="blur()"
             formControlName="subtaskName" autocomplete="off">
 
         @if(newSubtask.editMode) {
