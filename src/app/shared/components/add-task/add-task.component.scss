@@ -112,7 +112,7 @@ b {
             margin: 2rem 0 3rem 0;
         }
 
-        .add-task-assigned-to {
+        .add-task-assigned-to-container {
             @include all.marpad($pad: 1rem, $mar: 0 2rem 0 0);
 
             .add-task-assign-to-option {
@@ -132,6 +132,7 @@ b {
 
         .add-task-subtask-container {
             height: 20rem;
+
             app-subtask {
                 height: 19dvh;
             }
@@ -143,7 +144,7 @@ b {
     @include all.fl($jc: space-between, $alit: end);
 
     .required-info-txt {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
     }
 
     @include all.tablet {
