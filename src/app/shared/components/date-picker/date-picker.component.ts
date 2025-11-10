@@ -47,7 +47,7 @@ export class DatePickerComponent implements OnInit, OnDestroy {
   protected warningMessage = signal<string | null>(null);
   protected inputValue = computed(() => {
     const d = this.selectedTimestamp().toDate();
-    return `${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}/${d.getFullYear()}`;
+    return this.getFrenchDate(this.selectedTimestamp());
   });
   readonly days = computed(() => {
     const month = this.activeMonth();
@@ -119,6 +119,7 @@ export class DatePickerComponent implements OnInit, OnDestroy {
    */
   selectDate(day: { date: Timestamp; isCurrentMonth: boolean }) {
     const control = this.dateGroup.get('deathline');
+    
     if (control) {
       control.setValue(this.getFrenchDate(day.date));
       control.markAsDirty();
@@ -126,6 +127,7 @@ export class DatePickerComponent implements OnInit, OnDestroy {
 
     this.validate();
     this.showCalendar.set(false);
+    this.dateSelected.emit(day.date);
   }
 
   /**
