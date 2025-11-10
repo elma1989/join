@@ -30,6 +30,7 @@
         inset: none;
         outline: none;
         background: white;
+        cursor: text;
     }
 
     &.active {
@@ -38,7 +39,6 @@
 }
 
 .add-subtask-input-btns-container {
-
     @include all.fl($alit: center);
 
     .add-subtask-input-btn {

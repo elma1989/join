@@ -39,6 +39,7 @@
             }
 
             .search-task {
+                
                 @include all.mobile {
                     display: none;
                 }

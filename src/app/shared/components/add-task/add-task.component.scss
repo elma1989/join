@@ -26,6 +26,7 @@ b {
     @include all.borRad($c: rgba(0, 0, 0, 0.2), $radius: 8px);
     @include all.marpad($pad: 1rem);
     font-size: 16px;
+    cursor: text;
 
     &:focus-visible {
         border-inline: none;
