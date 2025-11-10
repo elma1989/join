@@ -4,7 +4,8 @@
 input,
 select,
 textarea,
-app-date-picker {
+app-date-picker,
+app-subtask {
     width: 100%;
 }
 
@@ -130,7 +131,9 @@ b {
         }
 
         .add-task-subtask-container {
+            display: flex;
             height: 20rem;
+            width: 100%;
             app-subtask {
                 height: 19dvh;
             }
