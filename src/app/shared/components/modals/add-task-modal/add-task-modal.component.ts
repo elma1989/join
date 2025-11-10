@@ -27,28 +27,70 @@ import { Task } from '../../../classes/task';
     ])
   ]
 })
-export class AddTaskModalComponent implements AfterViewInit{
-
-  /** InputSignal for currentTask. */
+/**
+ * Component for adding a new task in a modal dialog.
+ */
+export class AddTaskModalComponent implements AfterViewInit {
+  /**
+   * The current task being edited or added.
+   */
   currentTask: InputSignal<Task> = input<Task>(new Task());
 
-  /** callback function on close => remove from DOM => will be set in ModalService */
+  /**
+   * Optional callback that gets called when the modal is fully dissolved/closed.
+   */
   dissolve?: () => void;
 
+  /**
+   * Flag indicating whether the modal is currently open.
+   */
   isOpen = false;
 
+  /**
+   * Internal flag to track dragging state during mouse events.
+   */
+  private isDragging = false;
 
+  /**
+   * Lifecycle hook called after the component's view has been initialized.
+   * Opens the modal with a small delay for animations.
+   */
   ngAfterViewInit() {
-    setTimeout(() => this.isOpen = true, 10); // Animation trigger
+    setTimeout(() => this.isOpen = true, 10);
   }
 
   /**
-   * Closes the modal
-   * 
-   * Use a timeout to defer the close function for animation.
+   * Closes the modal and triggers the optional dissolve callback after a delay.
    */
   closeModal() {
     this.isOpen = false;
     setTimeout(() => this.dissolve?.(), 400);
+  }
+
+  /**
+   * Handles mouse down events on the overlay.
+   * If the user clicks on the overlay without dragging, the modal closes.
+   *
+   * @param event - The mouse event triggered on the overlay.
+   */
+  overlayMouseDown(event: MouseEvent) {
+    if (event.target !== event.currentTarget) {
+      return;
+    }
+
+    let isDragging = false;
+
+    const onMouseMove = () => isDragging = true;
+
+    const onMouseUp = () => {
+      if (!isDragging) {
+        this.closeModal();
+      }
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseup', onMouseUp);
+    };
+
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', onMouseUp);
   }
 }
