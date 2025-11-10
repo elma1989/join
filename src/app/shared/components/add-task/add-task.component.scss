@@ -70,7 +70,7 @@ b {
     @include all.notebook {
         @include all.fl($flexdir: column, $alit: center);
         @include all.scrollbar();
-        height: 58dvh;
+        height: 55dvh;
         overflow-y: auto;
         margin: 2rem 0;
     }
