@@ -1,4 +1,4 @@
-<div>
+<!-- <div> -->
     <div class="add-subtask-container" [formGroup]="createSubtaskGroup()" [ngClass]="{'active': newSubtask.editMode}" 
     (click)="endbleEditMode(-1)" (focus)="onFocus()" (blur)="blur()">
         <input type="text" class="add-subtask-input" placeholder="Add new Subtask..."
@@ -26,7 +26,7 @@
         Add another Subtask.
         }
     </p>
-</div>
+<!-- </div> -->
 <p class="errmsg" #errmsg></p>
 <div class="subtask-shown">
     @if (subtasks() && subtasks().length > 0) {

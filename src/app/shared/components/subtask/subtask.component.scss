@@ -15,18 +15,12 @@
 
 // #region input field
 .add-subtask-container {
-    width: 38dvw;
+    width: 100%;
     @include all.fl($jc: space-between, $alit: center);
     padding: 0 0.5rem;
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 8px;
     background: white;
-    @include all.notebook {
-        width: 68dvw;
-    }
-    @include all.tablet {
-        width: 85dvw;
-    }
 
     .add-subtask-input {
         width: 100%;
