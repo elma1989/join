@@ -75,7 +75,7 @@
             <span class="required-info-txt"><b>*</b> this field is required</span>
             <div class="add-task-btn-container">
                 <input class="btn-default" type="reset" value="Clear">
-                <input class="btn-set" type="submit" value="{{ currentTask().id == '' ? 'Create' : 'Edit'}} Task">
+                <input class="btn-set" type="submit" value="{{ addMode ? 'Create' : 'Edit'}} Task">
             </div>
         </footer>
     </form>
