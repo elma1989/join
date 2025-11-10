@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, input, InputSignal } from '@angular/core';
+import { AfterViewInit, Component, HostListener, input, InputSignal } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { AddtaskComponent } from "../../add-task/add-task.component";
 import { Task } from '../../../classes/task';
@@ -68,29 +68,42 @@ export class AddTaskModalComponent implements AfterViewInit {
   }
 
   /**
-   * Handles mouse down events on the overlay.
-   * If the user clicks on the overlay without dragging, the modal closes.
-   *
-   * @param event - The mouse event triggered on the overlay.
-   */
-  overlayMouseDown(event: MouseEvent) {
-    if (event.target !== event.currentTarget) {
-      return;
-    }
+ * Handles the mousedown event on the modal overlay.
+ * If the user clicks directly on the overlay (not on the modal content),
+ * it resets the dragging flag to detect potential drag events.
+ *
+ * @param event - The MouseEvent triggered on the overlay.
+ */
+overlayMouseDown(event: MouseEvent) {
+  if (event.target !== event.currentTarget) return;
+  this.isDragging = false;
+}
 
-    let isDragging = false;
+/**
+ * Handles global mousemove events.
+ * Sets the dragging flag to true if the mouse is moved, 
+ * preventing the modal from closing when dragging.
+ *
+ * @param event - The MouseEvent triggered on window mouse movement.
+ */
+@HostListener('window:mousemove', ['$event'])
+onMouseMove(event: MouseEvent) {
+  this.isDragging = true;
+}
 
-    const onMouseMove = () => isDragging = true;
-
-    const onMouseUp = () => {
-      if (!isDragging) {
-        this.closeModal();
-      }
-      window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('mouseup', onMouseUp);
-    };
-
-    window.addEventListener('mousemove', onMouseMove);
-    window.addEventListener('mouseup', onMouseUp);
+/**
+ * Handles global mouseup events.
+ * If the mouse was not moved (no drag), it closes the modal.
+ * Resets the dragging flag after handling.
+ *
+ * @param event - The MouseEvent triggered on window mouse up.
+ */
+@HostListener('window:mouseup', ['$event'])
+onMouseUp(event: MouseEvent) {
+  if (!this.isDragging) {
+    this.closeModal();
   }
+  this.isDragging = false;
+}
+
 }
