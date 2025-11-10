@@ -71,7 +71,7 @@ b {
         @include all.scrollbar();
         height: 55dvh;
         overflow-y: auto;
-        margin: 2rem 0;
+        @include all.marpad($mar: 2rem 0, $pad: 4rem 0 0 0);
     }
 
     .add-task-info-block1 {
