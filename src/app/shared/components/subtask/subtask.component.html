@@ -30,7 +30,7 @@
 <p class="errmsg" #errmsg></p>
 @if (subtasks() && subtasks().length > 0) {
 <ol>
-    @for (subtask of subtasks(); track $index) {
+    @for (subtask of reverseSubtasks() ;track $index) {
     @if (subtask.editState != SubtaskEditState.DELETED) {
     @if (subtask.editMode) {
     <li>
