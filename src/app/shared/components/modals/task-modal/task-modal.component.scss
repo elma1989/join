@@ -108,6 +108,7 @@
 		.description {
 			@include all.fl($alit: center);
 			@include all.marpad($mar: 1rem 0 0.6rem 0);
+			font-size: 1.8rem;
 		}
 	}
 
@@ -205,6 +206,7 @@
 	button {
 		@include all.fl($alit: center, $gap: 1rem);
 		background: transparent;
+		font-size: 1.6rem;
 	}
 
 	hr {

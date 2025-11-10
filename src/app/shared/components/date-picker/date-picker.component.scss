@@ -26,7 +26,7 @@
             border: none;
             outline: none;
             width: 100%;
-            font-size: 14px;
+            font-size: 1.6rem;
             background: transparent;
         }
 
@@ -43,7 +43,6 @@
         display: flex;
         height: 1.7rem;
         color: #d32f2f;
-        font-size: 1.6rem;
         margin: 0.5rem 0;
     }
 
@@ -68,7 +67,7 @@
                 border: 1px solid #ccc;
                 border-radius: 4px;
                 padding: 4px;
-                font-size: 13px;
+                font-size: 1.6rem;
             }
         }
 
@@ -80,7 +79,7 @@
 
             .weekday {
                 font-weight: 600;
-                font-size: 12px;
+                font-size: 1.6rem;
                 color: #555;
                 margin-bottom: 4px;
             }
