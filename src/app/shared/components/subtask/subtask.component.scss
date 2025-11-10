@@ -13,6 +13,11 @@
     width: 100%;
 }
 
+.main-add-subtask {
+    @include all.fl($flexdir: column);
+    width: 100%;
+}
+
 // #region input field
 .add-subtask-container {
     width: 100%;

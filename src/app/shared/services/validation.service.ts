@@ -69,7 +69,7 @@ export class ValidationService {
    * @param path - Path to push.
    */
   private pushErrorByControl(control: FormControl, errors: Record<string, string[]>, path: string): void {
-    if (control.errors) {
+    if (control.dirty && control.errors) {
       errors[path] = [];
       for (const errorKey in control.errors) {
         errors[path].push(this.getErrorMessage(errorKey, control.errors[errorKey]))

@@ -1,5 +1,5 @@
 <section class="add-task-section">
-    <form [formGroup]="formTask" (ngSubmit)="submitForm()">
+    <form [formGroup]="formTask" (ngSubmit)="submitForm()" (reset)="clear()">
         <header class="add-task-header">
             @if(currentTask().id == '' || addMode) {
             <h1 id="add-task-headline">Add Task</h1>
@@ -32,7 +32,7 @@
                 <div class="input-wrapper">
                     <label class="add-task-input-lbl">Due Date <b>*</b></label>
 
-                    <app-date-picker [dueDateGroup]="getFromgroup('dueDate')"
+                    <app-date-picker [dueDateGroup]="getFormgroup('dueDate')"
                         [selectedTimestamp]="currentTask().dueDate"
                         (dateSelected)="currentTask().dueDate = $event"></app-date-picker>
                     <small class="error">
@@ -66,7 +66,7 @@
 
                 <div class="input-wrapper add-task-subtask-container">
                     <label class="add-task-input-lbl">Subtasks</label>
-                    <app-subtask [createSubtaskGroup]="getFromgroup('createSubtask')"
+                    <app-subtask [createSubtaskGroup]="getFormgroup('createSubtask')"
                         [subtasks]="currentTask().subtasks" (outSubtasks)="updateSubtasks($event)"></app-subtask>
                 </div>
             </div>

@@ -47,7 +47,7 @@ export class DatePickerComponent implements OnInit, OnDestroy {
   protected warningMessage = signal<string | null>(null);
   protected inputValue = computed(() => {
     const d = this.selectedTimestamp().toDate();
-    return `${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}/${d.getFullYear()}`;
+    return this.getFrenchDate(this.selectedTimestamp());
   });
   readonly days = computed(() => {
     const month = this.activeMonth();
@@ -118,15 +118,16 @@ export class DatePickerComponent implements OnInit, OnDestroy {
    * @returns only if it is a date in past. sets warningMessage.
    */
   selectDate(day: { date: Timestamp; isCurrentMonth: boolean }) {
-    if (this.isPastDate(day.date)) {
-      this.warningMessage.set('cannot set date in past.');
-      this.showCalendar.set(false);
-      return;
+    const control = this.dateGroup.get('deathline');
+    
+    if (control) {
+      control.setValue(this.getFrenchDate(day.date));
+      control.markAsDirty();
     }
 
-    this.warningMessage.set(null);
-    this.dateGroup.get('deathline')?.setValue(this.getFrenchDate(day.date))
+    this.validate();
     this.showCalendar.set(false);
+    this.dateSelected.emit(day.date);
   }
 
   /**
