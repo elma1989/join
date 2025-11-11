@@ -49,7 +49,7 @@ export class AddTaskModalComponent implements AfterViewInit {
   /**
    * Internal flag to track dragging state during mouse events.
    */
-  private isDragging = false;
+  protected isDragging = false;
 
   /**
    * Lifecycle hook called after the component's view has been initialized.
