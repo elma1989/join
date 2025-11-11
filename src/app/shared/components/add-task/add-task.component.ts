@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, input, InputSignal, OnDestroy, OnInit, output, OutputEmitterRef } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, inject, input, InputSignal, OnDestroy, OnInit, output, OutputEmitterRef } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FirebaseDBService } from '../../services/firebase-db.service';
 import { Priority } from '../../enums/priority.enum';

@@ -56,9 +56,7 @@ export class SummmaryComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
     this.subscribeTasksStatusCount();
-    setTimeout(() => {
       this.cdr.detectChanges();
-    }, 1000);
   }
 
   /**
@@ -93,17 +91,32 @@ export class SummmaryComponent implements OnInit, OnDestroy {
 
   //#region updateStatusCounts
   /**
-   * Updates the count of tasks in each status category.
-   * @param tasks - Array of Task objects to calculate counts from.
-   * @private
-   */
+ * Calculates and updates the number of tasks in each status category.
+ *
+ * Iterates through the provided list of tasks and increments the counters
+ * for each corresponding status type (To Do, In Progress, In Review, Done).
+ * Also updates the total number of tasks.
+ *
+ * @param {Task[]} tasks - The list of task objects to evaluate.
+ * @returns {void}
+ * @private
+ */
   private updateStatusCounts(tasks: Task[]): void {
-    this.todoCount = tasks.filter(t => t.status === TaskStatusType.TODO).length;
-    this.progressCount = tasks.filter(t => t.status === TaskStatusType.PROGRESS).length;
-    this.reviewCount = tasks.filter(t => t.status === TaskStatusType.REVIEW).length;
-    this.doneCount = tasks.filter(t => t.status === TaskStatusType.DONE).length;
-    this.totalTasks = tasks.length;
-  }
+
+  tasks.forEach(task => {
+    if (task.status === TaskStatusType.TODO) {
+      this.todoCount++;
+    } else if (task.status === TaskStatusType.PROGRESS) {
+      this.progressCount++;
+    } else if (task.status === TaskStatusType.REVIEW) {
+      this.reviewCount++;
+    } else if (task.status === TaskStatusType.DONE) {
+      this.doneCount++;
+    }
+  });
+
+  this.totalTasks = tasks.length;
+}
   //#endregion
 
 
@@ -134,7 +147,8 @@ export class SummmaryComponent implements OnInit, OnDestroy {
 
     priorityTasks.forEach(task => sortedTasks.push(task));
 
-    return sortedTasks;
+    // return sortedTasks;
+    return this.filterPriority(filteredTasks);
   }
   //#endregion
 
@@ -207,17 +221,14 @@ export class SummmaryComponent implements OnInit, OnDestroy {
         filteredTasks.filter(task => task.priority == Priority.URGENT).forEach(task => {
           sortedTasks.push(task);
         });
-        console.log('URGENT');
       } else if (filteredTasks.filter(task => task.priority == Priority.MEDIUM).length >= 1) {
         filteredTasks.filter(task => task.priority == Priority.MEDIUM).forEach(task => {
           sortedTasks.push(task);
         });
-        console.log('MEDIUM');
       } else if (filteredTasks.filter(task => task.priority == Priority.LOW).length >= 1) {
         filteredTasks.filter(task => task.priority == Priority.LOW).forEach(task => {
           sortedTasks.push(task);
         });
-        console.log('LOW');
       }
     }
 
