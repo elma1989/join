@@ -54,7 +54,7 @@
 
                 <div class="input-wrapper add-task-assigned-to-container">
                     <label class="add-task-input-lbl">Assigned to</label>
-                    <app-assign-contacts [options]="contacts" [selectedValues]="currentTask().contacts"
+                    <app-assign-contacts [options]="contacts" [selectedValues]="currentTask().contacts" [isVisible]="visibleAssignentContacts"
                         (selectionChange)="updateContacts($event)"></app-assign-contacts>
                 </div>
 

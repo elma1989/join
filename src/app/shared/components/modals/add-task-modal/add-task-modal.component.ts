@@ -25,7 +25,7 @@ import { Task } from '../../../classes/task';
         animate('400ms ease-in')
       ])
     ])
-  ]
+  ],
 })
 /**
  * Component for adding a new task in a modal dialog.
@@ -74,36 +74,36 @@ export class AddTaskModalComponent implements AfterViewInit {
  *
  * @param event - The MouseEvent triggered on the overlay.
  */
-overlayMouseDown(event: MouseEvent) {
-  if (event.target !== event.currentTarget) return;
-  this.isDragging = false;
-}
-
-/**
- * Handles global mousemove events.
- * Sets the dragging flag to true if the mouse is moved, 
- * preventing the modal from closing when dragging.
- *
- * @param event - The MouseEvent triggered on window mouse movement.
- */
-@HostListener('window:mousemove', ['$event'])
-onMouseMove(event: MouseEvent) {
-  this.isDragging = true;
-}
-
-/**
- * Handles global mouseup events.
- * If the mouse was not moved (no drag), it closes the modal.
- * Resets the dragging flag after handling.
- *
- * @param event - The MouseEvent triggered on window mouse up.
- */
-@HostListener('window:mouseup', ['$event'])
-onMouseUp(event: MouseEvent) {
-  if (!this.isDragging) {
-    this.closeModal();
+  overlayMouseDown(event: MouseEvent) {
+    if (event.target !== event.currentTarget) return;
+    this.isDragging = false;
   }
-  this.isDragging = false;
+
+  /**
+   * Handles global mousemove events.
+   * Sets the dragging flag to true if the mouse is moved, 
+   * preventing the modal from closing when dragging.
+   *
+   * @param event - The MouseEvent triggered on window mouse movement.
+   */
+  @HostListener('window:mousemove', ['$event'])
+  onMouseMove(event: MouseEvent) {
+    this.isDragging = true;
+  }
+
+  /**
+   * Handles global mouseup events.
+   * If the mouse was not moved (no drag), it closes the modal.
+   * Resets the dragging flag after handling.
+   *
+   * @param event - The MouseEvent triggered on window mouse up.
+   */
+  @HostListener('window:mouseup', ['$event'])
+  onMouseUp(event: MouseEvent) {
+    if (!this.isDragging) {
+      this.closeModal();
+    }
+    this.isDragging = false;
+  }
 }
 
-}

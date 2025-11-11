@@ -34,7 +34,10 @@ import { CustomValidator } from '../../classes/custom-validator';
     ReactiveFormsModule
   ],
   templateUrl: './add-task.component.html',
-  styleUrl: './add-task.component.scss'
+  styleUrl: './add-task.component.scss',
+  host: {
+    '(click)': 'onHostClick($event)'
+  }
 })
 export class AddtaskComponent implements OnInit, OnDestroy {
 
@@ -60,6 +63,8 @@ export class AddtaskComponent implements OnInit, OnDestroy {
   subFormChange!: Subscription;
 
   protected formTask!: FormGroup;
+
+  protected visibleAssignentContacts = false;
 
   // #endregion properties
 
@@ -243,6 +248,16 @@ export class AddtaskComponent implements OnInit, OnDestroy {
    */
   closeModal() {
     this.close.emit(true);
+  }
+
+  
+  onHostClick(e: Event) {
+    this.visibleAssignentContacts = false;
+  }
+
+  onClickAssignedMember(e: Event) {
+    this.visibleAssignentContacts = true;
+    e.stopPropagation()
   }
   // #endregion methods
 }
