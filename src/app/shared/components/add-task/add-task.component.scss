@@ -43,7 +43,6 @@ b {
     @include all.notebook {
         height: 80dvh;
         @include all.scrollbar();
-        padding: 2dvw;
     }
 
     #add-task-form {
