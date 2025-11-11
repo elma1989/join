@@ -45,13 +45,12 @@ h1 {
 }
 
 .add-task-section {
-    height: 80dvh;
+    height: 90dvh;
     @include all.marpad($pad: 3dvw);
 
     @include all.notebook {
         height: 80dvh;
         @include all.scrollbar();
-        padding: 2dvw;
     }
 
     #add-task-form {
@@ -150,7 +149,7 @@ h1 {
 }
 
 .add-task-footer {
-    margin-top: 2rem;
+    margin-top: 5rem;
     @include all.fl($jc: space-between, $alit: end);
 
     .required-info-txt {

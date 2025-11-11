@@ -2,7 +2,11 @@
 @forward "../../../../public/styles/component-styles";
 
 :host {
-    @include all.size($h: 85dvh);
+    @include all.size($h: 90dvh);
+
+    @include all.tablet {
+        @include all.size($h: 80dvh);
+    }
 
     // #region header
     header {
@@ -88,7 +92,7 @@
         height: 74dvh;
 
         @media(max-width: 1280px) {
-            @include all.size($h: 70dvh);
+            @include all.size($h: 72dvh);
             @include all.fl($flexdir: column);
             @include all.scrollbar();
             padding: 0 1rem 4rem 1rem;
@@ -96,12 +100,12 @@
         }
 
         @include all.tablet {
-            height: 65dvh;
+            height: 70dvh;
             padding: 0 1rem 4rem 1rem;
         }
 
         @include all.mobile {
-            height: 52dvh;
+            height: 60dvh;
         }
 
         .task-list {
@@ -130,10 +134,12 @@
                 @include all.fl($flexdir: column);
                 @include all.scrollbar();
                 overflow: auto;
+                height: 67dvh;
 
                 @media(max-width: 1280px) {
                     flex-direction: row;
                     width: 78dvw;
+                    height: auto;
                     gap: 1rem;
                 }
 
