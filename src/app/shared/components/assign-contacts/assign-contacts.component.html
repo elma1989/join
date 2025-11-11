@@ -19,9 +19,8 @@
     </div>
 
     @if (isOpen) {
-        <div class="options">
-            <input type="text" placeholder="search..." class="search" [(ngModel)]="searchTerm" (ngModelChange)="searchTerm"
-                (click)="$event.stopPropagation()" />
+        <div class="options" (click)="$event.stopPropagation()" >
+            <input type="text" placeholder="search..." class="search" [(ngModel)]="searchTerm" (ngModelChange)="searchTerm"/>
             @if (filteredOptions().length) {
                 @for (option of filteredOptions(); track option.id) {
                     <div class="option" (click)="toggleSelection(option)">
