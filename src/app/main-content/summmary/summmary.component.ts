@@ -98,12 +98,25 @@ export class SummmaryComponent implements OnInit, OnDestroy {
    * @private
    */
   private updateStatusCounts(tasks: Task[]): void {
-    this.todoCount = tasks.filter(t => t.status === TaskStatusType.TODO).length;
-    this.progressCount = tasks.filter(t => t.status === TaskStatusType.PROGRESS).length;
-    this.reviewCount = tasks.filter(t => t.status === TaskStatusType.REVIEW).length;
-    this.doneCount = tasks.filter(t => t.status === TaskStatusType.DONE).length;
-    this.totalTasks = tasks.length;
-  }
+  this.todoCount = 0;
+  this.progressCount = 0;
+  this.reviewCount = 0;
+  this.doneCount = 0;
+
+  tasks.forEach(task => {
+    if (task.status === TaskStatusType.TODO) {
+      this.todoCount++;
+    } else if (task.status === TaskStatusType.PROGRESS) {
+      this.progressCount++;
+    } else if (task.status === TaskStatusType.REVIEW) {
+      this.reviewCount++;
+    } else if (task.status === TaskStatusType.DONE) {
+      this.doneCount++;
+    }
+  });
+
+  this.totalTasks = tasks.length;
+}
   //#endregion
 
 
