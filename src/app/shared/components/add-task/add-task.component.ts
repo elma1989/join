@@ -64,8 +64,6 @@ export class AddtaskComponent implements OnInit, OnDestroy {
 
   protected formTask!: FormGroup;
 
-  protected visibleAssignentContacts = false;
-
   // #endregion properties
 
   ngOnInit(): void {
@@ -248,16 +246,6 @@ export class AddtaskComponent implements OnInit, OnDestroy {
    */
   closeModal() {
     this.close.emit(true);
-  }
-
-  
-  onHostClick(e: Event) {
-    this.visibleAssignentContacts = false;
-  }
-
-  onClickAssignedMember(e: Event) {
-    this.visibleAssignentContacts = true;
-    e.stopPropagation()
   }
   // #endregion methods
 }

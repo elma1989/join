@@ -25,8 +25,6 @@ export class AssignContactsComponent implements OnChanges{
   searchTerm: string = '';
   selectedValuesLocal: Array<Contact> = [];
 
-  isVisible: InputSignal<boolean> = input.required<boolean>();
-
   // #endregion attributes
 
   constructor(private elementRef: ElementRef) {}
