@@ -56,9 +56,7 @@ export class SummmaryComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
     this.subscribeTasksStatusCount();
-    setTimeout(() => {
       this.cdr.detectChanges();
-    }, 1000);
   }
 
   /**
@@ -93,15 +91,17 @@ export class SummmaryComponent implements OnInit, OnDestroy {
 
   //#region updateStatusCounts
   /**
-   * Updates the count of tasks in each status category.
-   * @param tasks - Array of Task objects to calculate counts from.
-   * @private
-   */
+ * Calculates and updates the number of tasks in each status category.
+ *
+ * Iterates through the provided list of tasks and increments the counters
+ * for each corresponding status type (To Do, In Progress, In Review, Done).
+ * Also updates the total number of tasks.
+ *
+ * @param {Task[]} tasks - The list of task objects to evaluate.
+ * @returns {void}
+ * @private
+ */
   private updateStatusCounts(tasks: Task[]): void {
-  this.todoCount = 0;
-  this.progressCount = 0;
-  this.reviewCount = 0;
-  this.doneCount = 0;
 
   tasks.forEach(task => {
     if (task.status === TaskStatusType.TODO) {
@@ -147,7 +147,8 @@ export class SummmaryComponent implements OnInit, OnDestroy {
 
     priorityTasks.forEach(task => sortedTasks.push(task));
 
-    return sortedTasks;
+    // return sortedTasks;
+    return this.filterPriority(filteredTasks);
   }
   //#endregion
 
@@ -220,17 +221,14 @@ export class SummmaryComponent implements OnInit, OnDestroy {
         filteredTasks.filter(task => task.priority == Priority.URGENT).forEach(task => {
           sortedTasks.push(task);
         });
-        console.log('URGENT');
       } else if (filteredTasks.filter(task => task.priority == Priority.MEDIUM).length >= 1) {
         filteredTasks.filter(task => task.priority == Priority.MEDIUM).forEach(task => {
           sortedTasks.push(task);
         });
-        console.log('MEDIUM');
       } else if (filteredTasks.filter(task => task.priority == Priority.LOW).length >= 1) {
         filteredTasks.filter(task => task.priority == Priority.LOW).forEach(task => {
           sortedTasks.push(task);
         });
-        console.log('LOW');
       }
     }
 
