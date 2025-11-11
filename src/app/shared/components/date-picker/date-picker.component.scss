@@ -1,5 +1,13 @@
 @use '../../../../../public/styles/all_styles' as all;
 
+input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font: 1.6rem 'Inter', sans-serif;
+    background: transparent;
+}
+
 .date-picker-container {
     position: relative;
     display: inline-block;
@@ -22,20 +30,12 @@
         width: 100%;
         background: white;
 
-        input {
-            border: none;
-            outline: none;
-            width: 100%;
-            font-size: 1.6rem;
-            background: transparent;
-        }
-
         .calendar-icon {
             width: 20px;
             height: 20px;
             opacity: 0.7;
             cursor: pointer;
-            
+
         }
     }
 
