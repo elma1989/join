@@ -6,7 +6,7 @@
 
 	// #region summary-header
 	.summary-header {
-		@include all.size($h: 8rem);
+		@include all.size();
 		@include all.fl($jc: start, $alit: center);
 
 		.summary-header-info {
