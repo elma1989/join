@@ -119,7 +119,7 @@ input[type=password].error:focus {
     height: 2rem;
     color: #e60026;
     font: 1.6rem 'Inter', sans-serif;
-    padding: 0.2rem 2rem;
+    @include all.marpad($mar: 0.5rem 0, $pad: 0.2rem 2rem);
 }
 
 .check-field {

@@ -29,7 +29,7 @@ export class SignUpComponent implements OnInit, OnDestroy{
     acceptPolicy: [false]
   });
 
-  protected errors!: Record<string, string[]>;
+  protected errors: Record<string, string[]> = {};
   // #endregion
 
   ngOnInit(): void {
@@ -50,7 +50,6 @@ export class SignUpComponent implements OnInit, OnDestroy{
   protected submitForm() {
     this.validate();
     console.log(this.errors);
-    console.log(this.form.value);
   }
   // #endregion
 }
