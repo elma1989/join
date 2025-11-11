@@ -20,7 +20,7 @@
 
     @if (isVisible()) {
         <div class="options" >
-            <input type="text" placeholder="search..." class="search" [(ngModel)]="searchTerm" (ngModelChange)="searchTerm"
+            <input type="text" placeholder="search..." class="search" [(ngModel)]="searchTerm" (ngModelChange)="searchTerm" 
                 (click)="onClickAssignedMember($event)" />
             @if (filteredOptions().length) {
                 @for (option of filteredOptions(); track option.id) {
