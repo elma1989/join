@@ -43,6 +43,43 @@ export class ValidationService {
   }
 
   /**
+   * Gets all errors of a form;
+   * @param formType - Name of form.
+   * @returns Record of validation errors
+   */
+  getAllErrors(formType: string): Record<string, any> {
+    const result: Record<string, any> = {};
+    const form = this.forms.get(formType);
+
+    if (form) this.validateAll(form, result)
+    
+    return result;
+  }
+
+  /**
+   * Gets all errors of a FrormGroup.
+   * @param control - FromGroup or FormControl to validate.
+   * @param path - Path to control
+   * @returns Record of valdation errors
+   */
+  private validateAll(control: AbstractControl, result: Record<string,any>, path: string = ''): void {
+
+    if (control instanceof FormGroup) {
+      Object.keys(control.controls).forEach(key => {
+        const child = control.get(key);
+        if (child) {
+          const childPath = path ? `${path}.${key}` : key;
+          this.validateAll(child, result, childPath);
+        }
+      })
+    } else if (control instanceof FormControl) {
+      if (control.errors) {
+        result[path] = control.errors;
+      }
+    }
+  }
+
+  /**
    * Collects errors in forms recursively.
    * @param control - Control to check.
    * @param errors - Record of errors.
@@ -69,7 +106,7 @@ export class ValidationService {
    * @param path - Path to push.
    */
   private pushErrorByControl(control: FormControl, errors: Record<string, string[]>, path: string): void {
-    if (control.errors) {
+    if (control.dirty && control.errors) {
       errors[path] = [];
       for (const errorKey in control.errors) {
         errors[path].push(this.getErrorMessage(errorKey, control.errors[errorKey]))
