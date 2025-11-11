@@ -34,10 +34,7 @@ import { CustomValidator } from '../../classes/custom-validator';
     ReactiveFormsModule
   ],
   templateUrl: './add-task.component.html',
-  styleUrl: './add-task.component.scss',
-  host: {
-    '(click)': 'onHostClick($event)'
-  }
+  styleUrl: './add-task.component.scss'
 })
 export class AddtaskComponent implements OnInit, OnDestroy {
 

@@ -13,6 +13,14 @@ b {
     color: red;
 }
 
+input[type=text], textarea {
+    font: 1.6rem 'Inter', sans-serif;
+}
+
+h1 {
+    font: 5rem 'InterBold', sans-serif; 
+}
+
 .input-wrapper {
     width: 100%;
     @include all.fl($flexdir: column, $gap: 0.5rem);
