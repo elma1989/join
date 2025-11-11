@@ -45,7 +45,7 @@ h1 {
 }
 
 .add-task-section {
-    height: 90dvh;
+    height: 82dvh;
     @include all.marpad($pad: 3dvw);
 
     @include all.notebook {
@@ -149,7 +149,7 @@ h1 {
 }
 
 .add-task-footer {
-    margin-top: 5rem;
+    margin-top: 3rem;
     @include all.fl($jc: space-between, $alit: end);
 
     .required-info-txt {

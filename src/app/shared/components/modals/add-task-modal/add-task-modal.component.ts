@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, HostListener, input, InputSignal } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, input, InputSignal } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { AddtaskComponent } from "../../add-task/add-task.component";
 import { Task } from '../../../classes/task';
@@ -28,39 +28,51 @@ import { Task } from '../../../classes/task';
   ],
 })
 /**
- * Component for adding a new task in a modal dialog.
+ * Component responsible for displaying and managing a modal dialog
+ * used to add or edit a task.
  */
 export class AddTaskModalComponent implements AfterViewInit {
   /**
-   * The current task being edited or added.
+   * The current task being edited or created.
    */
   currentTask: InputSignal<Task> = input<Task>(new Task());
 
   /**
-   * Optional callback that gets called when the modal is fully dissolved/closed.
+   * Optional callback function that is executed
+   * after the modal is fully closed and dissolved.
    */
   dissolve?: () => void;
 
   /**
-   * Flag indicating whether the modal is currently open.
+   * Flag that indicates whether the modal is currently open.
    */
   isOpen = false;
 
+  constructor(private el: ElementRef) {}
+
   /**
-   * Internal flag to track dragging state during mouse events.
+   * Internal flag used to track whether the user is currently dragging the mouse.
+   * Helps differentiate between click and drag actions.
    */
   protected isDragging = false;
 
   /**
-   * Lifecycle hook called after the component's view has been initialized.
-   * Opens the modal with a small delay for animations.
+   * Internal flag that tracks whether the last click happened inside the modal.
+   * Used to prevent closing the modal when clicking inside its content.
+   */
+  protected clickModalInside = false;
+
+  /**
+   * Lifecycle hook called once the component's view has been initialized.
+   * Opens the modal slightly delayed to allow the animation to trigger properly.
    */
   ngAfterViewInit() {
     setTimeout(() => this.isOpen = true, 10);
   }
 
   /**
-   * Closes the modal and triggers the optional dissolve callback after a delay.
+   * Closes the modal window and triggers the optional dissolve callback
+   * after a short delay to match the closing animation duration.
    */
   closeModal() {
     this.isOpen = false;
@@ -68,23 +80,31 @@ export class AddTaskModalComponent implements AfterViewInit {
   }
 
   /**
- * Handles the mousedown event on the modal overlay.
- * If the user clicks directly on the overlay (not on the modal content),
- * it resets the dragging flag to detect potential drag events.
- *
- * @param event - The MouseEvent triggered on the overlay.
- */
+   * Handles the mousedown event on the overlay background.
+   * If the click occurs directly on the overlay (not on the modal content),
+   * the dragging state is reset to prepare for a potential outside click.
+   *
+   * @param event - The MouseEvent triggered when the user clicks on the overlay.
+   */
   overlayMouseDown(event: MouseEvent) {
     if (event.target !== event.currentTarget) return;
     this.isDragging = false;
   }
 
   /**
-   * Handles global mousemove events.
-   * Sets the dragging flag to true if the mouse is moved, 
-   * preventing the modal from closing when dragging.
+   * Marks that the user has clicked inside the modal.
+   * This prevents the modal from closing when clicking on internal elements.
+   */
+  onModalClick() {
+    this.clickModalInside = true;
+  }
+
+  /**
+   * Handles global mouse move events.
+   * Sets the dragging flag to true when the mouse is moved,
+   * indicating that the user is performing a drag operation.
    *
-   * @param event - The MouseEvent triggered on window mouse movement.
+   * @param event - The MouseEvent triggered when the mouse moves.
    */
   @HostListener('window:mousemove', ['$event'])
   onMouseMove(event: MouseEvent) {
@@ -92,18 +112,31 @@ export class AddTaskModalComponent implements AfterViewInit {
   }
 
   /**
-   * Handles global mouseup events.
-   * If the mouse was not moved (no drag), it closes the modal.
-   * Resets the dragging flag after handling.
+   * Handles the global mouseup event fired anywhere in the window.
+   * Determines whether the mouseup occurred inside or outside the modal.
+   * If the mouseup happens outside the modal and no dragging was detected,
+   * the modal will be closed.
    *
-   * @param event - The MouseEvent triggered on window mouse up.
+   * @param event - The MouseEvent triggered when the user releases the mouse button.
    */
   @HostListener('window:mouseup', ['$event'])
   onMouseUp(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    
+    const modalElement = this.el.nativeElement.querySelector('.add-task-modal-container');
+    
+    // If the mouseup occurred inside the modal, do not close it
+    if (modalElement && modalElement.contains(target)) {
+      this.isDragging = false;
+      return;
+    }
+
+    // If the mouseup occurred outside and no drag action happened, close the modal
     if (!this.isDragging) {
       this.closeModal();
     }
+
+    // Reset dragging state
     this.isDragging = false;
   }
 }
-
