@@ -12,98 +12,151 @@ import { SectionType } from '../../shared/enums/section-type';
   selector: 'section[summary]',
   imports: [CommonModule],
   templateUrl: './summmary.component.html',
-  styleUrls: ['./summmary.component.scss']
+  styleUrls: ['./summmary.component.scss'],
 })
 export class SummmaryComponent implements OnInit, OnDestroy {
-  //Attribute
+  //region Attributes
+  /**
+   * Change detector reference used to manually trigger UI updates
+   * when Firestore data changes asynchronously.
+   * @private
+   */
   private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
-  @Output() selectedSection = new EventEmitter<SectionType>();
-
-  Priority = Priority;
-
-  goToBoard(): void {
-    this.selectedSection.emit(SectionType.BOARD);
-  }
 
   /**
-   * Holds the unsubscribe function for the Firestore tasks snapshot listener.
+   * Event emitter used to notify the parent component when
+   * the user navigates to a different section (e.g., the board view).
+   */
+  @Output() selectedSection = new EventEmitter<SectionType>();
+
+  /**
+   * Exposes the Priority enum to the template for easy access.
+   */
+  Priority = Priority;
+
+  /**
+   * Holds the unsubscribe function for the Firestore snapshot listener.
+   * Ensures that the listener is properly detached on component destruction.
    * @private
    */
   private unsubTasks!: Unsubscribe;
 
+  /** Number of tasks currently in the "To Do" status. */
   todoCount: number = 0;
+
+  /** Number of tasks currently in progress. */
   progressCount: number = 0;
+
+  /** Number of tasks currently under review. */
   reviewCount: number = 0;
+
+  /** Number of tasks that are completed. */
   doneCount: number = 0;
 
+  /** Total number of tasks retrieved from Firestore. */
   totalTasks: number = 0;
-  sortedTasks: Task[] = [];
-  //endregion
 
-
-  //constructor
   /**
-   * Creates the TaskSummaryComponent.
-   * @param fireDB - Service used to interact with Firestore.
+   * List of today’s tasks filtered and sorted by priority.
+   * Used to display the next upcoming or urgent tasks.
    */
-  constructor(private fireDB: FirebaseDBService) { }
-  //endregion
+  sortedTasks: Task[] = [];
 
-  //#region ngOnInit/ngOnDestroy
+  // #endregion
+
   /**
-   * Lifecycle hook called after component initialization.
-   * Subscribes to the tasks status count and triggers change detection after a short delay.
+   * Creates an instance of `SummmaryComponent`.
+   * @param fireDB The service responsible for communicating with Firestore.
+   */
+  constructor(private fireDB: FirebaseDBService) {}
+
+  // #region Lifecycle Hooks
+
+  /**
+   * Angular lifecycle hook called once after component initialization.
+   * Subscribes to Firestore task updates and triggers change detection.
+   *
+   * @returns {void}
    */
   ngOnInit(): void {
     this.subscribeTasksStatusCount();
-      this.cdr.detectChanges();
+    this.cdr.detectChanges();
   }
 
   /**
-   * Lifecycle hook called before the component is destroyed.
-   * Ensures the tasks subscription is unsubscribed to avoid memory leaks.
+   * Angular lifecycle hook called before the component is destroyed.
+   * Cleans up active Firestore listeners to prevent memory leaks.
+   *
+   * @returns {void}
    */
   ngOnDestroy(): void {
     if (this.unsubTasks) this.unsubTasks();
   }
-  //#endregion
 
+  // #endregion
 
-  //#region subscribeTasksStatusCount
+  // #region Navigation
+
   /**
-   * Subscribes to the Firestore 'tasks' collection snapshot.
-   * Updates task lists, status counts, priority counts, and recalculates highest priority on each change.
+   * Emits an event to navigate to the board section.
+   *
+   * @returns {void}
+   */
+  goToBoard(): void {
+    this.selectedSection.emit(SectionType.BOARD);
+  }
+
+  // #endregion
+
+  // #region Firestore Subscription
+
+  /**
+   * Subscribes to Firestore’s "tasks" collection.
+   *
+   * Whenever a change occurs in Firestore, this method:
+   * - Retrieves all tasks from the snapshot.
+   * - Calculates today’s most relevant tasks (`getNextTasks()`).
+   * - Updates the task status counts (`updateStatusCounts()`).
+   * - Triggers manual UI refresh via ChangeDetectorRef.
+   *
    * @private
+   * @returns {void}
    */
   private subscribeTasksStatusCount(): void {
-    this.unsubTasks = onSnapshot(this.fireDB.getCollectionRef('tasks'), snapshot => {
-      const tasks: Task[] = snapshot.docs.map(doc => new Task(doc.data() as TaskObject));
+    this.unsubTasks = onSnapshot(
+      this.fireDB.getCollectionRef('tasks'),
+      (snapshot) => {
+        const tasks: Task[] = snapshot.docs.map(
+          (doc) => new Task(doc.data() as TaskObject)
+        );
 
-      this.sortedTasks = this.getNextTasks(tasks);
+        this.sortedTasks = this.getNextTasks(tasks);
+        this.updateStatusCounts(tasks);
 
-      this.updateStatusCounts(tasks);
-
-      this.cdr.detectChanges();
-    });
+        this.cdr.detectChanges();
+      }
+    );
   }
-  //#endregion
 
+  // #endregion
 
-  //#region updateStatusCounts
+  // #region Update Task Counts
+
   /**
- * Calculates and updates the number of tasks in each status category.
- *
- * Iterates through the provided list of tasks and increments the counters
- * for each corresponding status type (To Do, In Progress, In Review, Done).
- * Also updates the total number of tasks.
- *
- * @param {Task[]} tasks - The list of task objects to evaluate.
- * @returns {void}
- * @private
- */
+   * Calculates the total number of tasks in each status category.
+   * Resets counters before recounting to avoid accumulation.
+   *
+   * @private
+   * @param {Task[]} tasks - The list of tasks retrieved from Firestore.
+   * @returns {void}
+   */
   private updateStatusCounts(tasks: Task[]): void {
+    this.todoCount = 0;
+    this.progressCount = 0;
+    this.reviewCount = 0;
+    this.doneCount = 0;
 
-  tasks.forEach(task => {
+    tasks.forEach(task => {
     if (task.status === TaskStatusType.TODO) {
       this.todoCount++;
     } else if (task.status === TaskStatusType.PROGRESS) {
@@ -115,125 +168,80 @@ export class SummmaryComponent implements OnInit, OnDestroy {
     }
   });
 
-  this.totalTasks = tasks.length;
-}
-  //#endregion
+    this.totalTasks = tasks.length;
+  }
 
+  // #endregion
 
-  //#region getNextTasks
+  // #region Get Next Tasks (Daily)
+
   /**
-   * Returns the next set of tasks to be processed, based on their due date and priority.
-   * 
-   * The method first finds the lowest (earliest) due date among all given tasks,
-   * filters tasks that share this date, and then sorts them by priority 
-   * (URGENT → MEDIUM → LOW).
-   * 
+   * Returns a list of today’s active tasks sorted by priority.
+   *
+   * Only tasks with a due date matching today’s date are included.
+   * Tasks marked as "DONE" are ignored.
+   *
    * @private
-   * @param {Task[]} tasks - The list of tasks to process.
-   * @returns {Task[]} - A sorted array of the next tasks to be handled.
+   * @param {Task[]} tasks - The list of all tasks from Firestore.
+   * @returns {Task[]} The filtered and priority-sorted list of today's tasks.
    */
   private getNextTasks(tasks: Task[]): Task[] {
     if (tasks.length === 0) return [];
 
-    let sortedTasks: Array<Task> = [];
+    const todayString = new Date().toDateString();
 
-    let lowestDate = this.getLowestDueDate(tasks);
-
-    let filteredTasks: Task[] = this.filterTasksLowestDate(tasks, lowestDate);
-
-    if (filteredTasks.length == 0) return [];
-
-    let priorityTasks = this.filterPriority(filteredTasks);
-
-    priorityTasks.forEach(task => sortedTasks.push(task));
-
-    // return sortedTasks;
-    return this.filterPriority(filteredTasks);
-  }
-  //#endregion
-
-
-  //#region getLowestDueDate
-  /**
-   * Determines the lowest (earliest) due date among a list of tasks.
-   * 
-   * Tasks with the status `DONE` are ignored.
-   * 
-   * @private
-   * @param {Task[]} tasks - The list of tasks to inspect.
-   * @returns {Timestamp} - The earliest due date found.
-   */
-  private getLowestDueDate(tasks: Task[]): Timestamp {
-    let lowestDate = Timestamp.fromMillis(
-      Timestamp.now().toMillis() + (24 * 60 * 60 * 1000 * 365)
+    const todaysTasks = tasks.filter(
+      (task) =>
+        task.dueDate.toDate().toDateString() === todayString &&
+        task.status !== TaskStatusType.DONE
     );
 
-    tasks.forEach((task) => {
-      if (task.dueDate.seconds < lowestDate.seconds && task.status != TaskStatusType.DONE) {
-        lowestDate = task.dueDate;
-      }
-    });
+    if (todaysTasks.length === 0) return [];
 
-    return lowestDate;
-  }
-  //#endregion
-
-
-  //#region filterTasksLowestDate
-  /**
-   * Filters all tasks that have the same due date as the provided lowest date.
-   * 
-   * @private
-   * @param {Task[]} tasks - The list of tasks to filter.
-   * @param {Timestamp} lowestDate - The lowest due date to match.
-   * @returns {Task[]} - A list of tasks with the same due date as the lowest date.
-   */
-  
-  //#endregion
-  private filterTasksLowestDate(tasks: Task[], lowestDate: Timestamp): Task[] {     
-    return tasks.filter(task =>       
-      task.dueDate.toDate().toDateString() === lowestDate.toDate().toDateString()     
-    );   
+    return this.filterPriority(todaysTasks);
   }
 
-  //#region filterPriority
+  // #endregion
+
+  // #region Filter Priority
+
   /**
-   * Filters and sorts tasks by priority.
-   * 
-   * If multiple tasks share the same due date, the method prioritizes tasks as follows:
+   * Filters and sorts the given list of tasks based on their priority level.
+   *
+   * The priority order is:
    * 1. URGENT
    * 2. MEDIUM
    * 3. LOW
-   * 
-   * Only tasks with the highest available priority level among the filtered list are returned.
-   * 
+   *
+   * If multiple tasks share the same priority, they are all included.
+   *
    * @private
-   * @param {Task[]} filteredTasks - The tasks that share the same lowest due date.
-   * @returns {Task[]} - A sorted list of tasks by priority.
+   * @param {Task[]} filteredTasks - The list of today’s tasks to sort by priority.
+   * @returns {Task[]} The sorted list of high-priority tasks.
    */
   private filterPriority(filteredTasks: Task[]): Task[] {
     const sortedTasks: Task[] = [];
 
-    if (filteredTasks.length == 1) {
+    if (filteredTasks.length === 1) {
       sortedTasks.push(filteredTasks[0]);
     } else {
-      if (filteredTasks.filter(task => task.priority == Priority.URGENT).length >= 1) {
-        filteredTasks.filter(task => task.priority == Priority.URGENT).forEach(task => {
-          sortedTasks.push(task);
-        });
-      } else if (filteredTasks.filter(task => task.priority == Priority.MEDIUM).length >= 1) {
-        filteredTasks.filter(task => task.priority == Priority.MEDIUM).forEach(task => {
-          sortedTasks.push(task);
-        });
-      } else if (filteredTasks.filter(task => task.priority == Priority.LOW).length >= 1) {
-        filteredTasks.filter(task => task.priority == Priority.LOW).forEach(task => {
-          sortedTasks.push(task);
-        });
+      if (filteredTasks.some((task) => task.priority === Priority.URGENT)) {
+        sortedTasks.push(
+          ...filteredTasks.filter((task) => task.priority === Priority.URGENT)
+        );
+      } else if (filteredTasks.some((task) => task.priority === Priority.MEDIUM)) {
+        sortedTasks.push(
+          ...filteredTasks.filter((task) => task.priority === Priority.MEDIUM)
+        );
+      } else if (filteredTasks.some((task) => task.priority === Priority.LOW)) {
+        sortedTasks.push(
+          ...filteredTasks.filter((task) => task.priority === Priority.LOW)
+        );
       }
     }
 
     return sortedTasks;
   }
-  //#endregion
 
+  // #endregion
 }

@@ -45,8 +45,13 @@ h1 {
 }
 
 .add-task-section {
-    height: 90dvh;
+    height: 82dvh;
     @include all.marpad($pad: 3dvw);
+
+    @media screen and (min-width: 1900px) {
+			width: 100%;
+			height: auto;
+		}
 
     @include all.notebook {
         height: 80dvh;
@@ -75,10 +80,14 @@ h1 {
     @include all.size($w: 100%, $h: 58dvh);
     @include all.fl($jc: space-between, $alit: start, $gap: 1rem);
 
+    @media screen and (min-width: 1900px) {
+            height: 50dvh;
+		}
+
     @include all.notebook {
         @include all.fl($flexdir: column, $alit: center);
         @include all.scrollbar();
-        height: 55dvh;
+        height: 50dvh;
         overflow-y: auto;
         @include all.marpad($mar: 2rem 0, $pad: 4rem 0 0 0);
     }
@@ -149,7 +158,7 @@ h1 {
 }
 
 .add-task-footer {
-    margin-top: 5rem;
+    margin-top: 3rem;
     @include all.fl($jc: space-between, $alit: end);
 
     .required-info-txt {

@@ -9,7 +9,12 @@
         @include all.marpad($pad: 0 3rem 0 8rem);
         grid-area: header;
         background: white;
-        box-shadow: 0 1px 6px -2px grey;
+        box-shadow: 0 4px 3px -3px rgba(0, 0, 0, 0.4);
+
+        @media screen and (min-width: 1900px) {
+			width: 100%;
+			height: 80%;
+		}
 
         @include all.tablet {
             @include all.marpad($pad: 1.5rem);
