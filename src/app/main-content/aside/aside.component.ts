@@ -1,4 +1,4 @@
-import { Component, inject, output, OutputEmitterRef } from '@angular/core';
+import { Component, effect, inject, input, InputSignal, output, OutputEmitterRef } from '@angular/core';
 import { SectionType } from '../../shared/enums/section-type';
 import { CommonModule } from '@angular/common';
 import { ModalService } from '../../shared/services/modal.service';
@@ -92,13 +92,17 @@ export class AsideComponent {
             }
       ];
 
-      /** Emits the selected section to parent components */
+      currentSection: InputSignal<SectionType> = input.required<SectionType>();
       selectedSection: OutputEmitterRef<SectionType> = output<SectionType>();
 
       /** Service for handling modal dialogs */
       protected modalService: ModalService = inject(ModalService);
 
       //#endregion
+
+      constructor() {
+            effect(() => this.checkSection());
+      }
 
       //#region Methods
 
@@ -122,6 +126,14 @@ export class AsideComponent {
                   item.active = i === index;
             });
             this.selectedSection.emit(this.itemLegal[index].section);
+      }
+
+      private checkSection() {
+            const section: SectionType = this.currentSection();
+            this.items.forEach(item => {
+                  item.active = false;
+                  if (item.section == section) item.active = true;
+            })
       }
 
       //#endregion
