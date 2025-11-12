@@ -97,5 +97,39 @@ export class CustomValidator {
             return (exists) ? { subtaskExist: true } : null;
         }
     }
+
+    /**
+     * Checks, if password indludes upper case, lower case, number and special-character.
+     * @param name - Name of type (uppperCase, lowerCase, number, special)
+     * @returns ValidationError or null
+     */
+    static includes(name: 'upperCase'| 'lowerCase' | 'number' | 'special'): ValidatorFn {
+        return (control: AbstractControl): ValidationErrors | null => {
+            const regex: RegExp = CustomValidator.getRegex(name);
+            const value = control.value;
+            const error = { [name]: true};
+            if (typeof value != 'string') return error;
+            const match = value.match(regex);
+            if (!match) return error;
+            return match.length < 1 ? error : null;
+        }
+    }
+
+    /**
+     * Gets regular expression for type.
+     * @param name - Name of type.
+     * @returns regular expression for type.
+     */
+    static getRegex(name: string): RegExp {
+        switch(name) {
+            case 'upperCase':
+                return /[A-ZÄÖÜ]/;
+            case 'lowerCase':
+                return /[a-zäöüß]/;
+            case 'number':
+                return /[0-9]/;
+            default: return /[^A-Za-zÄäÖöÜü0-9/s]/;
+        }
+    }
     // #endregion
 }

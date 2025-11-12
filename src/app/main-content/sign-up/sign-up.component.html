@@ -12,33 +12,33 @@
     <form [formGroup]="form" (ngSubmit)="submitForm()">
         <div class="input-area">
             <div class="input-field">
-                <input formControlName="firstname" type="text" placeholder="Frirst name">
+                <input formControlName="firstname" type="text" [ngClass]="{error: errors['firstname']}" placeholder="Frirst name">
                 <div class="errmsg">{{ errors['firstname'] ? errors['firstname'][0] : ''}}</div>
                 <img class="formicon" src="/assets/Icons/signon/person.png">
             </div>
             <div class="input-field">
-                <input formControlName="lastname" type="text" placeholder="Last name">
+                <input formControlName="lastname" type="text" [ngClass]="{error: errors['lastname']}" placeholder="Last name">
                 <div class="errmsg">{{ errors['lastname'] ? errors['lastname'][0] : ''}}</div>
                 <img class="formicon" src="/assets/Icons/signon/person.png">
             </div>
             <div class="input-field">
-                <input formControlName="email" type="text" placeholder="E-Mail">
+                <input formControlName="email" type="text"  [ngClass]="{error: errors['email']}" placeholder="E-Mail">
                 <div class="errmsg">{{ errors['email'] ? errors['email'][0] : ''}}</div>
                 <img class="formicon" src="/assets/Icons/signon/mail.png">
             </div>
             <div class="input-field">
-                <input formControlName="tel" type="text" placeholder="Tel-No.">
+                <input formControlName="tel" type="text"  [ngClass]="{error: errors['tel']}" placeholder="Tel-No.">
                 <div class="errmsg">{{ errors['tel'] ? errors['tel'][0] : ''}}</div>
                 <img class="formicon" src="/assets/Icons/contact/call.png">
             </div>
             <div class="input-field">
-                <input formControlName="password" type="password" placeholder="Password">
+                <input formControlName="password" type="password"  [ngClass]="{error: errors['password']}" placeholder="Password">
                 <div class="errmsg">{{ errors['password'] ? errors['password'][0] : ''}}</div>
                 <img class="formicon invis" src="/assets/Icons/signon/visibility_off.png">
                 <img class="formicon vis d_none" src="/assets/Icons/signon/visibility.png">
             </div>
             <div class="input-field">
-                <input formControlName="passwordConfirm" type="password" placeholder="Confirm Password">
+                <input formControlName="passwordConfirm" type="password" [ngClass]="{error: errors['passwordConfirm']}" placeholder="Confirm Password">
                 <div class="errmsg">{{ errors['passwordConfirm'] ? errors['passwordConfirm'][0] : ''}}</div>
                 <img class="formicon" src="/assets/Icons/signon/visibility_off.png">
                 <img class="formicon d_none" src="/assets/Icons/signon/visibility.png">
@@ -46,7 +46,7 @@
         </div>
         <div class="check-field">
             <input formControlName="acceptPolicy" type="checkbox" id="chk-privacy-policy">
-            <label for="chk-privacy-policy">I accept <a>Privacy policy</a></label>
+            <div class="labelwraper"><label for="chk-privacy-policy">I accept </label><a>Privacy policy</a></div>
         </div>
         <div class="submit-field">
             <input type="submit" value="Sign up" class="btn-set">

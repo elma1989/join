@@ -3,12 +3,14 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ValidationService } from '../../shared/services/validation.service';
 import { CustomValidator } from '../../shared/classes/custom-validator';
 import { Subscription } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'section[sign-up]',
   imports: [
-    ReactiveFormsModule
-  ],
+    ReactiveFormsModule,
+    CommonModule
+],
   templateUrl: './sign-up.component.html',
   styleUrl: './sign-up.component.scss'
 })
@@ -24,7 +26,12 @@ export class SignUpComponent implements OnInit, OnDestroy{
     lastname: ['', [CustomValidator.strictRequired(), Validators.minLength(3), CustomValidator.firstUpperCase()]],
     email: ['', [CustomValidator.strictRequired(), Validators.email, Validators.minLength(10)]],
     tel: ['', [CustomValidator.strictRequired(), CustomValidator.tel, Validators.minLength(10)]],
-    password: ['', [CustomValidator.strictRequired(), Validators.minLength(10)]],
+    password: ['', [CustomValidator.strictRequired(), 
+      CustomValidator.includes('upperCase'), 
+      CustomValidator.includes('lowerCase'), 
+      CustomValidator.includes('number'), 
+      CustomValidator.includes('special'), 
+      Validators.minLength(10)]],
     passwordConfirm: ['', [CustomValidator.strictRequired(), Validators.minLength(10)]],
     acceptPolicy: [false]
   });
