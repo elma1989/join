@@ -1,6 +1,6 @@
 <div class="modal-overlay" (mousedown)="overlayMouseDown($event)">
 
-    <dialog class="add-task-modal-container" [@slideInOut]="isOpen ? 'open' : 'closed'" (mousedown)="onModalClick(); $event.stopPropagation()">
+    <dialog class="add-task-modal-container" [@slideInOut]="isOpen ? 'open' : 'closed'" (mousedown)=" $event.stopPropagation()">
         <button id="add-task-close-btn" type="button" (click)="closeModal()">X</button>
         <app-add-task id="add-task-modal-content" [currentTask]="currentTask()" (close)="closeModal()"></app-add-task>
     

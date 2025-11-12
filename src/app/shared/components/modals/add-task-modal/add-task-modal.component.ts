@@ -57,12 +57,6 @@ export class AddTaskModalComponent implements AfterViewInit {
   protected isDragging = false;
 
   /**
-   * Internal flag that tracks whether the last click happened inside the modal.
-   * Used to prevent closing the modal when clicking inside its content.
-   */
-  protected clickModalInside = false;
-
-  /**
    * Lifecycle hook called once the component's view has been initialized.
    * Opens the modal slightly delayed to allow the animation to trigger properly.
    */
@@ -92,14 +86,6 @@ export class AddTaskModalComponent implements AfterViewInit {
   }
 
   /**
-   * Marks that the user has clicked inside the modal.
-   * This prevents the modal from closing when clicking on internal elements.
-   */
-  onModalClick() {
-    this.clickModalInside = true;
-  }
-
-  /**
    * Handles global mouse move events.
    * Sets the dragging flag to true when the mouse is moved,
    * indicating that the user is performing a drag operation.
@@ -112,31 +98,23 @@ export class AddTaskModalComponent implements AfterViewInit {
   }
 
   /**
-   * Handles the global mouseup event fired anywhere in the window.
-   * Determines whether the mouseup occurred inside or outside the modal.
-   * If the mouseup happens outside the modal and no dragging was detected,
-   * the modal will be closed.
+   * Handles the global `mouseup` event on the window.
+   * 
+   * When the user releases the mouse button, this method checks whether
+   * a drag operation is currently active.
+   * - If `isDragging` is `true`, it simply ends the drag operation without closing the modal.
+   * - If no dragging was detected, the modal will be closed.
    *
-   * @param event - The MouseEvent triggered when the user releases the mouse button.
+   * @param event - The `MouseEvent` triggered when the user releases the mouse button.
    */
   @HostListener('window:mouseup', ['$event'])
   onMouseUp(event: MouseEvent) {
-    const target = event.target as HTMLElement;
-    
-    const modalElement = this.el.nativeElement.querySelector('.add-task-modal-container');
-    
-    // If the mouseup occurred inside the modal, do not close it
-    if (modalElement && modalElement.contains(target)) {
+    if (this.isDragging) {
       this.isDragging = false;
       return;
     }
 
-    // If the mouseup occurred outside and no drag action happened, close the modal
-    if (!this.isDragging) {
-      this.closeModal();
-    }
-
-    // Reset dragging state
+    this.closeModal();
     this.isDragging = false;
   }
 }
