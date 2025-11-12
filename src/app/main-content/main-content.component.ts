@@ -28,7 +28,7 @@ import { SummmaryComponent } from './summmary/summmary.component';
 })
 export class MainContentComponent {
   protected readonly SectionType = SectionType;
-  protected currentSection: SectionType = SectionType.BOARD;
+  protected currentSection: SectionType = SectionType.SUMMARY;
 
   changeSection(section: SectionType) {
     this.currentSection = section;

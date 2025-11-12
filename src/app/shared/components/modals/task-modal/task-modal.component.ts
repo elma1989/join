@@ -1,4 +1,4 @@
-import { Component, inject, input, InputSignal, output } from '@angular/core';
+import { Component, HostListener, inject, input, InputSignal, output } from '@angular/core';
 import { Task } from '../../../classes/task';
 import { Category } from '../../../enums/category.enum';
 import { CommonModule } from '@angular/common';
@@ -51,6 +51,12 @@ export class TaskModalComponent {
   /** Flag indicating if the modal is currently open */
   isOpen = false;
 
+  /**
+   * Internal flag used to track whether the user is currently dragging the mouse.
+   * Helps differentiate between click and drag actions.
+   */
+  protected isDragging = false;
+
   /** Optional callback to be executed when the modal is closed/dissolved */
   dissolve?: () => void;
 
@@ -91,5 +97,43 @@ export class TaskModalComponent {
     subtask.finished = checked;
 
     await this.fireDB.updateInDB('subtasks', subtask);
+  }
+
+  /**
+   * Handles the mousedown event on the overlay background.
+   * If the click occurs directly on the overlay (not on the modal content),
+   * the dragging state is reset to prepare for a potential outside click.
+   *
+   * @param event - The MouseEvent triggered when the user clicks on the overlay.
+   */
+  overlayMouseDown(event: MouseEvent) {
+    if (event.target !== event.currentTarget) return;
+    this.closeTaskModal();
+  }
+
+  /**
+   * Handles global mouse move events.
+   * Sets the dragging flag to true when the mouse is moved,
+   * indicating that the user is performing a drag operation.
+   *
+   * @param event - The MouseEvent triggered when the mouse moves.
+   */
+  @HostListener('window:mousemove', ['$event'])
+  onMouseMove(event: MouseEvent) {
+    this.isDragging = true;
+  }
+
+  /**
+   * Handles the global mouseup event fired anywhere in the window.
+   * Determines whether the mouseup occurred inside or outside the modal.
+   * If the mouseup happens outside the modal and no dragging was detected,
+   * the modal will be closed.
+   *
+   * @param event - The MouseEvent triggered when the user releases the mouse button.
+   */
+  @HostListener('window:mouseup', ['$event'])
+  onMouseUp(event: MouseEvent) {
+
+    this.isDragging = false;
   }
 }

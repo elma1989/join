@@ -13,6 +13,11 @@
 		inset: 0;
 		background: rgba(0, 0, 0, 0.1);
 		z-index: 12;
+
+		@media screen and (min-width: 1900px) {
+			width: 75%;
+			height: 80%;
+		}
 	}
 
 	.task-detail-main-container {
@@ -26,11 +31,16 @@
 	}
 
 	.task-modal-detail-container {
-		@include all.size($w: 50rem, $h: 85dvh);
+		@include all.size($w: 50rem, $h: 75dvh);
 		@include all.marpad($pad: 2rem);
 		background: rgb(254, 253, 253);
 		border-radius: 2rem;
 		box-shadow: 0 0 5px lightgrey;
+
+		@media screen and (min-width: 1920px) {
+			height: 50dvh;
+			width: 20dvw;
+		}
 
 		@media(max-width: 520px) {
 			width: 95dvw;

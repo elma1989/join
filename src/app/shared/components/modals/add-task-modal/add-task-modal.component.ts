@@ -48,8 +48,6 @@ export class AddTaskModalComponent implements AfterViewInit {
    */
   isOpen = false;
 
-  constructor(private el: ElementRef) {}
-
   /**
    * Internal flag used to track whether the user is currently dragging the mouse.
    * Helps differentiate between click and drag actions.
