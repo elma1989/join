@@ -4,6 +4,7 @@ import { ValidationService } from '../../shared/services/validation.service';
 import { CustomValidator } from '../../shared/classes/custom-validator';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { User } from '../../shared/classes/user';
 
 @Component({
   selector: 'section[sign-up]',
@@ -55,7 +56,13 @@ export class SignUpComponent implements OnInit, OnDestroy{
   }
 
   protected submitForm() {
+    this.val.polluteForm('signup');
     this.validate();
+    if (this.form.valid) {
+      const { acceptPolicy, passwordConfirm, ...userdata } = this.form.value;
+      const user = new User(userdata);
+      console.log(user);
+    }
     console.log(this.val.getAllErrors('signup'));
   }
   // #endregion
