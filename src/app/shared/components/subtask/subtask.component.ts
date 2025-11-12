@@ -87,7 +87,9 @@ export class SubtaskComponent implements OnInit, OnDestroy {
     if (this.validateSubtask(this.subtasks()[index])) {
       const allSubtasks = this.subtasks();
       allSubtasks[allSubtasks.length - index - 1].editMode = false;
-      allSubtasks[allSubtasks.length - index - 1].editState = SubtaskEditState.CHANGED;
+      if (allSubtasks[allSubtasks.length - index - 1].editState != SubtaskEditState.NEW) {
+        allSubtasks[allSubtasks.length - index - 1].editState = SubtaskEditState.CHANGED;
+      } 
       this.outSubtasks.emit(allSubtasks);
     }
   }
@@ -100,7 +102,8 @@ export class SubtaskComponent implements OnInit, OnDestroy {
   deleteSub(index: number): void {
     const allSubtasks = this.subtasks();
     allSubtasks[allSubtasks.length - index - 1].editMode = false;
-    allSubtasks[allSubtasks.length - index - 1].editState = SubtaskEditState.DELETED;
+    if (allSubtasks[allSubtasks.length - index - 1].editState == SubtaskEditState.NEW) allSubtasks.splice(allSubtasks.length - index - 1, 1)
+    else allSubtasks[allSubtasks.length - index - 1].editState = SubtaskEditState.DELETED;
     this.outSubtasks.emit(allSubtasks);
   }
 
@@ -113,7 +116,7 @@ export class SubtaskComponent implements OnInit, OnDestroy {
    * @param index - Index of subtaskarray
    */
   protected selectEditInput(index: number) {
-    this.endbleEditMode(index);
+    this.endbleEditMode(this.subtasks().length - index - 1);
     this.focusEdit();
   }
 
