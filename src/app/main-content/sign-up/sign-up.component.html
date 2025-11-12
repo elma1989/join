@@ -45,8 +45,11 @@
             </div>
         </div>
         <div class="check-field">
-            <input formControlName="acceptPolicy" type="checkbox" id="chk-privacy-policy">
-            <div class="labelwraper"><label for="chk-privacy-policy">I accept </label><a>Privacy policy</a></div>
+            <div class="check-item">
+                <input formControlName="acceptPolicy" type="checkbox" id="chk-privacy-policy">
+                <label for="chk-privacy-policy">I accept</label><a>Privacy policy</a>
+            </div>
+            <div class="errmsg">{{ errors['acceptPolicy'] ? errors['acceptPolicy'][0] : ''}}</div>
         </div>
         <div class="submit-field">
             <input type="submit" value="Sign up" class="btn-set">

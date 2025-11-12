@@ -56,6 +56,7 @@ export class ValidationService {
     return result;
   }
 
+  /** Checks, if confirm password matches password. */
   confirmPassword(): ValidatorFn {
     return (): ValidationErrors | null => {
       const form = this.forms.get('signup');
@@ -181,6 +182,9 @@ export class ValidationService {
 
       case 'confirmMissmatch':
         return 'Password confirm does not match.'
+
+      case 'acceptPolicy':
+        return 'You have to accept the privacy policy.'
 
       case 'pattern':
         return 'Format is not correct.';

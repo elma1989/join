@@ -131,5 +131,12 @@ export class CustomValidator {
             default: return /[^A-Za-zÄäÖöÜü0-9/s]/;
         }
     }
+
+    /** Checks if user has policy acepted. */
+    static acceptPolicy(): ValidatorFn {
+        return (control: AbstractControl): ValidationErrors | null => {
+            return control.value ? null : { acceptPolicy: true };
+        }
+    }
     // #endregion
 }

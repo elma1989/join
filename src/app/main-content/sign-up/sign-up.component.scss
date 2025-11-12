@@ -123,17 +123,23 @@ input[type=password].error:focus {
 }
 
 .check-field {
-    @include all.fl($alit: center, $gap: 1.6rem);
+    @include all.fl($flexdir: column, $jc: center, $gap: 0.5rem);
 
     [type=checkbox] {
         opacity: 0;
         width: 2.4rem;
         height: 2.4rem;
+        margin-right: 2rem;
+    }
+
+    .check-item {
+        @include all.fl($alit: center);
     }
 
     label {
         position: static;
         font: 1.6rem 'Inter', sans-serif;
+        margin-right: 0.5rem;
     }
 
     a {
@@ -164,6 +170,10 @@ input[type=password].error:focus {
         width: 2.4rem;
         height: 2.4rem;
         background: url(../../../../public/assets/Icons/signon/checked.png) no-repeat center / contain;
+    }
+
+    .errmsg {
+        padding-left:4.4rem;
     }
 }
 

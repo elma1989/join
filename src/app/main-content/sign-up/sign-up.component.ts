@@ -33,7 +33,7 @@ export class SignUpComponent implements OnInit, OnDestroy{
       CustomValidator.includes('special'), 
       Validators.minLength(10)]],
     passwordConfirm: ['', [CustomValidator.strictRequired(), this.val.confirmPassword()]],
-    acceptPolicy: [false]
+    acceptPolicy: [false, [CustomValidator.acceptPolicy()]]
   });
 
   protected errors: Record<string, string[]> = {};
@@ -56,7 +56,7 @@ export class SignUpComponent implements OnInit, OnDestroy{
 
   protected submitForm() {
     this.validate();
-    console.log(this.errors);
+    console.log(this.val.getAllErrors('signup'));
   }
   // #endregion
 }
