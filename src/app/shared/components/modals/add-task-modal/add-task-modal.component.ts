@@ -98,23 +98,19 @@ export class AddTaskModalComponent implements AfterViewInit {
   }
 
   /**
-   * Handles the global `mouseup` event on the window.
-   * 
-   * When the user releases the mouse button, this method checks whether
-   * a drag operation is currently active.
-   * - If `isDragging` is `true`, it simply ends the drag operation without closing the modal.
-   * - If no dragging was detected, the modal will be closed.
+   * Handles the global mouseup event fired anywhere in the window.
+   * Determines whether the mouseup occurred inside or outside the modal.
+   * If the mouseup happens outside the modal and no dragging was detected,
+   * the modal will be closed.
    *
-   * @param event - The `MouseEvent` triggered when the user releases the mouse button.
+   * @param event - The MouseEvent triggered when the user releases the mouse button.
    */
   @HostListener('window:mouseup', ['$event'])
   onMouseUp(event: MouseEvent) {
     if (this.isDragging) {
-      this.isDragging = false;
-      return;
+      this.closeModal();
     }
 
-    this.closeModal();
     this.isDragging = false;
   }
 }
