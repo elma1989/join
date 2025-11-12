@@ -70,7 +70,7 @@ export class SubtaskComponent implements OnInit, OnDestroy {
     this.newSubtask.editState = SubtaskEditState.NEW;
     this.newSubtask.name = this.createSubtaskGroup().get('subtaskName')?.value ?? '';
     const allSubtasks = this.subtasks();
-    const exxits: boolean = allSubtasks.some(x => this.newSubtask.name == x.name);
+    const exxits: boolean = allSubtasks.some(x => this.newSubtask.name == x.name && x.editState != SubtaskEditState.DELETED);
     if (this.newSubtask.name.trim().length > 0 && !exxits) allSubtasks.push(this.newSubtask);
     this.createSubtaskGroup().reset();
     this.outSubtasks.emit(allSubtasks);
@@ -86,8 +86,8 @@ export class SubtaskComponent implements OnInit, OnDestroy {
   updateSub(index: number): void {
     if (this.validateSubtask(this.subtasks()[index])) {
       const allSubtasks = this.subtasks();
-      allSubtasks[index].editMode = false;
-      allSubtasks[index].editState = SubtaskEditState.CHANGED;
+      allSubtasks[allSubtasks.length - index - 1].editMode = false;
+      allSubtasks[allSubtasks.length - index - 1].editState = SubtaskEditState.CHANGED;
       this.outSubtasks.emit(allSubtasks);
     }
   }
@@ -99,8 +99,8 @@ export class SubtaskComponent implements OnInit, OnDestroy {
    */
   deleteSub(index: number): void {
     const allSubtasks = this.subtasks();
-    allSubtasks[index].editMode = false;
-    allSubtasks[index].editState = SubtaskEditState.DELETED;
+    allSubtasks[allSubtasks.length - index - 1].editMode = false;
+    allSubtasks[allSubtasks.length - index - 1].editState = SubtaskEditState.DELETED;
     this.outSubtasks.emit(allSubtasks);
   }
 
