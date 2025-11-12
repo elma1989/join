@@ -13,6 +13,11 @@
     width: 100%;
 }
 
+.main-add-subtask {
+    @include all.fl($flexdir: column);
+    width: 100%;
+}
+
 // #region input field
 .add-subtask-container {
     width: 100%;
@@ -30,6 +35,7 @@
         inset: none;
         outline: none;
         background: white;
+        cursor: text;
     }
 
     &.active {
@@ -38,7 +44,6 @@
 }
 
 .add-subtask-input-btns-container {
-
     @include all.fl($alit: center);
 
     .add-subtask-input-btn {
@@ -65,18 +70,27 @@
 // #endregion input field
 
 // #region ordered list
-ol {
-    width: 100%;
-    overflow-y: auto;
-    max-height: 12rem;
-    @include all.scrollbar();
 
-    li {
-        height: 4.8rem;
+.subtask-shown {
+    width: 100%;
+    height: 11dvh;
+    box-shadow: inset 0 0 0.7rem rgba(0, 0, 0, 0.5);
+    border-radius: 0.8rem;
+    padding: 0.5rem;
+
+    ol {
         width: 100%;
-        font-size: 16px;
-        @include all.fl($jc: space-between, $alit: center);
-        background: transparent;
+        overflow-y: auto;
+        max-height: 8rem;
+        @include all.scrollbar();
+
+        li {
+            height: 4.8rem;
+            width: 99%;
+            font-size: 16px;
+            @include all.fl($jc: space-between, $alit: center);
+            background: transparent;
+        }
     }
 }
 
@@ -101,10 +115,10 @@ ol {
         padding-right: 1rem;
 
         .add-subtask-input-btn {
-            @include all.size($w: 3rem, $h: 3rem);
+            @include all.size($w: 1.5rem, $h: 2rem);
 
             .edit-icon {
-                @include all.size($w: 3rem, $h: 3rem);
+                @include all.size($w: 2rem, $h: 2rem);
 
                 &:hover {
                     @include all.size($w: 3.2rem, $h: 3.2rem);

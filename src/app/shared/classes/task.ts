@@ -24,9 +24,7 @@ export class Task implements DBObject{
 	description: string = '';
 
 	/** definition of date until task hast to be done, (not in past) */
-	dueDate: Timestamp = Timestamp.fromMillis(
-	  Timestamp.now().toMillis() + (24 * 60 * 60 * 1000)
-	);
+	dueDate: Timestamp = Timestamp.now();
 
 	/** priority of task, defines how important is task */
 	priority: Priority = Priority.MEDIUM;

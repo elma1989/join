@@ -1,11 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, ElementRef, HostListener, inject, input, InputSignal, OnDestroy, OnInit, output, OutputEmitterRef, Renderer2, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, computed, ElementRef, inject, input, InputSignal, OnDestroy, OnInit, output, OutputEmitterRef, Renderer2, ViewChild } from '@angular/core';
 import { SubTask } from '../../classes/subTask';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SubtaskEditState } from '../../enums/subtask-edit-state';
 import { ValidationService } from '../../services/validation.service';
 import { Subscription } from 'rxjs';
-import { CustomValidator } from '../../classes/custom-validator';
 
 @Component({
   selector: 'app-subtask',
@@ -21,6 +20,7 @@ export class SubtaskComponent implements OnInit, OnDestroy {
   // #region Attributes
 
   subtasks: InputSignal<SubTask[]> = input.required<SubTask[]>();
+  protected reverseSubtasks = computed(() => [...this.subtasks()].reverse());
   createSubtaskGroup: InputSignal<FormGroup> = input.required<FormGroup>();
   outSubtasks: OutputEmitterRef<SubTask[]> = output<SubTask[]>()
   protected newSubtask = new SubTask();
@@ -52,6 +52,14 @@ export class SubtaskComponent implements OnInit, OnDestroy {
   private validate(): void {
     this.errorsCreate = this.val.validateForm('task');
   }
+
+  protected onFocus(): void {
+    this.newSubtask.editMode = true;
+  }
+
+  protected blur(): void {
+    this.newSubtask.editMode = false;
+  }
   // #region CRUD
 
   /**
@@ -62,7 +70,7 @@ export class SubtaskComponent implements OnInit, OnDestroy {
     this.newSubtask.editState = SubtaskEditState.NEW;
     this.newSubtask.name = this.createSubtaskGroup().get('subtaskName')?.value ?? '';
     const allSubtasks = this.subtasks();
-    const exxits: boolean = allSubtasks.some(x => this.newSubtask.name == x.name);
+    const exxits: boolean = allSubtasks.some(x => this.newSubtask.name == x.name && x.editState != SubtaskEditState.DELETED);
     if (this.newSubtask.name.trim().length > 0 && !exxits) allSubtasks.push(this.newSubtask);
     this.createSubtaskGroup().reset();
     this.outSubtasks.emit(allSubtasks);
@@ -78,8 +86,10 @@ export class SubtaskComponent implements OnInit, OnDestroy {
   updateSub(index: number): void {
     if (this.validateSubtask(this.subtasks()[index])) {
       const allSubtasks = this.subtasks();
-      allSubtasks[index].editMode = false;
-      allSubtasks[index].editState = SubtaskEditState.CHANGED;
+      allSubtasks[allSubtasks.length - index - 1].editMode = false;
+      if (allSubtasks[allSubtasks.length - index - 1].editState != SubtaskEditState.NEW) {
+        allSubtasks[allSubtasks.length - index - 1].editState = SubtaskEditState.CHANGED;
+      } 
       this.outSubtasks.emit(allSubtasks);
     }
   }
@@ -91,8 +101,9 @@ export class SubtaskComponent implements OnInit, OnDestroy {
    */
   deleteSub(index: number): void {
     const allSubtasks = this.subtasks();
-    allSubtasks[index].editMode = false;
-    allSubtasks[index].editState = SubtaskEditState.DELETED;
+    allSubtasks[allSubtasks.length - index - 1].editMode = false;
+    if (allSubtasks[allSubtasks.length - index - 1].editState == SubtaskEditState.NEW) allSubtasks.splice(allSubtasks.length - index - 1, 1)
+    else allSubtasks[allSubtasks.length - index - 1].editState = SubtaskEditState.DELETED;
     this.outSubtasks.emit(allSubtasks);
   }
 
@@ -105,7 +116,7 @@ export class SubtaskComponent implements OnInit, OnDestroy {
    * @param index - Index of subtaskarray
    */
   protected selectEditInput(index: number) {
-    this.endbleEditMode(index);
+    this.endbleEditMode(this.subtasks().length - index - 1);
     this.focusEdit();
   }
 
@@ -197,25 +208,6 @@ export class SubtaskComponent implements OnInit, OnDestroy {
     this.sendErrMsg('');
     return true;
   }
-
-
-  /**
-   * Click event of onClick outside of content to close pop up.
-   * 
-   * @param event click event on outside of content.
-   */
-  // @HostListener('document:click', ['$event'])
-  // onDocumentClick(event: MouseEvent) {
-  //   if (!this.elementRef.nativeElement.contains(event.target)) {
-  //     event.preventDefault();
-  //     const activeSubtasks = this.subtasks().filter(subtask => subtask.editMode);
-  //     activeSubtasks.forEach((subtask) => {
-  //       subtask.editMode = false;
-  //     })
-  //     this.newSubtask.editMode = false;
-  //   }
-  // }
-
   // #endregion helper
 
   // #endregion methods

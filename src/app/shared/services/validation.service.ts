@@ -93,6 +93,16 @@ export class ValidationService {
   }
 
   /**
+   * Pollutes a form.
+   * @param formType - Name of form.
+   */
+  polluteForm(formType: string): void {
+    const form = this.forms.get(formType);
+
+    if (form) this.polluteRecursively(form);
+  }
+
+  /**
    * Collects errors in forms recursively.
    * @param control - Control to check.
    * @param errors - Record of errors.
@@ -124,6 +134,25 @@ export class ValidationService {
       for (const errorKey in control.errors) {
         errors[path].push(this.getErrorMessage(errorKey, control.errors[errorKey]))
       }
+    }
+  }
+
+  /**
+   * Pollutes alle FromControls recursively.
+   * @param control - Control to pollute.
+   * @param path - Path of control
+   */
+  private polluteRecursively(control: AbstractControl, path: string = ''): void {
+    if (control instanceof FormGroup) {
+      Object.keys(control.controls).forEach(key => {
+        const child = control.get(key);
+        if (child) {
+          const childPath = path ? `${path}.${key}` : key;
+          this.polluteRecursively(child, childPath);
+        }
+      });
+    } else if (control instanceof FormControl) {
+      control.markAsDirty();
     }
   }
 

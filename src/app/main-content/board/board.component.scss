@@ -2,7 +2,11 @@
 @forward "../../../../public/styles/component-styles";
 
 :host {
-    @include all.size($h: 85dvh);
+    @include all.size($h: 90dvh);
+
+    @include all.tablet {
+        @include all.size($h: 80dvh);
+    }
 
     // #region header
     header {
@@ -12,6 +16,7 @@
         margin-bottom: 3rem;
 
         @include all.tablet {
+            height: 7rem;
             margin-bottom: 0;
             padding: 2rem 2rem 0 2rem;
         }
@@ -39,6 +44,7 @@
             }
 
             .search-task {
+                
                 @include all.mobile {
                     display: none;
                 }
@@ -86,7 +92,7 @@
         height: 74dvh;
 
         @media(max-width: 1280px) {
-            @include all.size($h: 70dvh);
+            @include all.size($h: 72dvh);
             @include all.fl($flexdir: column);
             @include all.scrollbar();
             padding: 0 1rem 4rem 1rem;
@@ -128,16 +134,19 @@
                 @include all.fl($flexdir: column);
                 @include all.scrollbar();
                 overflow: auto;
+                height: 67dvh;
 
                 @media(max-width: 1280px) {
                     flex-direction: row;
+                    width: 78dvw;
+                    height: auto;
                     gap: 1rem;
                 }
 
                 @include all.notebook {
                     @include all.size();
                     @include all.fl();
-                    max-width: 76dvw;
+                    max-width: 75dvw;
                     padding-bottom: 1rem;
                 }
 
@@ -179,6 +188,7 @@
 // #region CDK-Drag-Drop
 
 .cdk-drop-list-dragging {
+    height: 70dvh;
     border: 3px dotted #800000;
 }
 

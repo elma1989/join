@@ -12,18 +12,28 @@
 	<p class="description limiter">{{task().description}}</p>
 
 	@if (isSubtaskProgressVisible) {
-	<div class="subtask-progress-box" [attr.data-tooltip]="completedSubtaskCount + ' von ' + totalSubtaskCount + ' Subtasks erledigt'">
+	<div
+	class="subtask-progress-box"
+	(click)="$event.stopPropagation()">
 
-		<div class="progress-bar-wrapper">
-			<div class="progress-bar-background">
-				<div class="progress-bar-fill" [style.width.%]="subtaskProgressPercentage"></div>
-			</div>
-			<span class="subtask-counter">
-				{{ completedSubtaskCount }}/{{ totalSubtaskCount }} Subtasks
-			</span>
+	<div class="progress-bar-wrapper">
+		<div class="progress-bar-background">
+			<div class="progress-bar-fill" [style.width.%]="subtaskProgressPercentage"></div>
 		</div>
-
+		<span class="subtask-counter">
+			{{ completedSubtaskCount }}/{{ totalSubtaskCount }} Subtasks
+		</span>
 	</div>
+
+	<div class="subtask-tooltip">
+		<strong>{{ completedSubtaskCount }} von {{ totalSubtaskCount }} Subtasks erledigt</strong>
+		<ul class="subtask-list">
+			<li *ngFor="let sub of task().subtasks" class="subtask-item">
+				<span [class.completed]="sub.finished">{{ sub.name }}</span>
+			</li>
+		</ul>
+	</div>
+</div>
 	}
 	<div class="column-bottom-container">
 		<app-contact-icon-list [contacts]="task().contacts"></app-contact-icon-list>

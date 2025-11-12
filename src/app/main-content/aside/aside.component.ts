@@ -101,9 +101,7 @@ export class AsideComponent {
       //#endregion
 
       constructor() {
-            effect(() => {
-                  this.changeActiveSection();
-            });
+            effect(() => this.checkSection());
       }
 
       //#region Methods
@@ -130,12 +128,13 @@ export class AsideComponent {
             this.selectedSection.emit(this.itemLegal[index].section);
       }
 
-      /** Sets current section as active. */
-      private changeActiveSection() {
+      private checkSection() {
+            const section: SectionType = this.currentSection();
             this.items.forEach(item => {
                   item.active = false;
-                  if (item.section == this.currentSection()) item.active = true;
-            });
+                  if (item.section == section) item.active = true;
+            })
       }
+
       //#endregion
 }

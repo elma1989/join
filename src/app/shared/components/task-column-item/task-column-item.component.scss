@@ -68,29 +68,78 @@
 		}
 
 		.subtask-progress-box {
+			position: relative;
 			@include all.marpad($mar: 1rem 0, $pad: 0.6rem 0.8rem);
-		}
+			cursor: pointer;
 
-		.subtask-progress-box::after {
-			content: attr(data-tooltip);
-			position: absolute;
-			bottom: 125%;
-			left: 50%;
-			transform: translateX(-50%);
-			background-color: #333;
-			color: #fff;
-			padding: 6px 10px;
-			border-radius: 6px;
-			white-space: nowrap;
-			opacity: 0;
-			pointer-events: none;
-			transition: opacity 0.2s ease;
-			font-size: 1.6rem;
-			z-index: 10;
-		}
+			.progress-bar-wrapper {
+				.progress-bar-background {
+					background-color: #e0e0e0;
+					border-radius: 4px;
+					height: 6px;
+					overflow: hidden;
 
-		.subtask-progress-box:hover::after {
-			opacity: 1;
+					.progress-bar-fill {
+						background-color: #f4b400;
+						height: 100%;
+						transition: width 0.3s ease;
+					}
+				}
+
+				.subtask-counter {
+					display: block;
+					text-align: right;
+					font-size: 1.2rem;
+					color: #555;
+					margin-top: 0.3rem;
+				}
+			}
+
+			.subtask-tooltip {
+				position: absolute;
+				bottom: 125%;
+				left: 50%;
+				transform: translateX(-50%);
+				background-color: #333;
+				color: #eae9e9;
+				padding: 0.6rem 1rem;
+				border-radius: 8px;
+				box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+				font-size: 1.4rem;
+				white-space: nowrap;
+				opacity: 0;
+				pointer-events: none;
+				transition: opacity 0.2s ease;
+				z-index: 10;
+				width: max-content;
+
+				.subtask-list {
+					list-style: none;
+					margin: 1rem 0 0;
+					padding: 0;
+
+					.subtask-item {
+						display: flex;
+						align-items: center;
+						gap: 0.4rem;
+						font-size: 1.3rem;
+
+						input {
+							pointer-events: none;
+							accent-color: #f4b400;
+						}
+
+						.completed {
+							text-decoration: line-through;
+							color: #aaa;
+						}
+					}
+				}
+			}
+
+			&:hover .subtask-tooltip {
+				opacity: 1;
+			}
 		}
 
 		.progress-bar-wrapper {

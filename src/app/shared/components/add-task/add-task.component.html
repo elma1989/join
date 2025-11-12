@@ -1,5 +1,5 @@
 <section class="add-task-section">
-    <form [formGroup]="formTask" (ngSubmit)="submitForm()">
+    <form [formGroup]="formTask" (ngSubmit)="submitForm()" (reset)="clear()">
         <header class="add-task-header">
             @if(currentTask().id == '' || addMode) {
             <h1 id="add-task-headline">Add Task</h1>
@@ -29,10 +29,11 @@
                         formControlName="description"></textarea>
                 </div>
 
-                <div class="input-wrapper">
+                <div class="input-wrapper" id="due-date">
                     <label class="add-task-input-lbl">Due Date <b>*</b></label>
 
-                    <app-date-picker [dueDateGroup]="getFromgroup('dueDate')" [selectedTimestamp]="currentTask().dueDate"
+                    <app-date-picker [dueDateGroup]="getFormgroup('dueDate')"
+                        [selectedTimestamp]="currentTask().dueDate"
                         (dateSelected)="currentTask().dueDate = $event"></app-date-picker>
                     <small class="error">
                         @if (errors['deathline']) {
@@ -65,8 +66,8 @@
 
                 <div class="input-wrapper add-task-subtask-container">
                     <label class="add-task-input-lbl">Subtasks</label>
-                    <app-subtask [createSubtaskGroup]="getFromgroup('createSubtask')" [subtasks]="currentTask().subtasks"
-                        (outSubtasks)="updateSubtasks($event)"></app-subtask>
+                    <app-subtask [createSubtaskGroup]="getFormgroup('createSubtask')"
+                        [subtasks]="currentTask().subtasks" (outSubtasks)="updateSubtasks($event)"></app-subtask>
                 </div>
             </div>
         </main>
@@ -74,10 +75,11 @@
         <footer class="add-task-footer">
             <span class="required-info-txt"><b>*</b> this field is required</span>
             <div class="add-task-btn-container">
-                <input class="btn-default" type="reset" value="Clear">
-                <input class="btn-set" type="submit" value="{{ currentTask().id == '' ? 'Create' : 'Edit'}} Task">
+            @if (addMode) { <input class="btn-default" type="reset" value="Clear">}
+                <input class="btn-set" type="submit" value="{{ addMode ? 'Create' : 'Edit'}} Task" (click)="closeModal()">
             </div>
         </footer>
+        
     </form>
 
 </section>

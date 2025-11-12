@@ -18,9 +18,9 @@
         <span class="arrow">{{ isOpen ? '▲' : '▼' }}</span>
     </div>
 
-    @if (isOpen) {
-        <div class="options">
-            <input type="text" placeholder="search..." class="search" [(ngModel)]="searchTerm" (ngModelChange)="searchTerm"
+    @if ( isOpen ) {
+        <div class="options" >
+            <input type="text" placeholder="search..." class="search" [(ngModel)]="searchTerm" (ngModelChange)="searchTerm" 
                 (click)="$event.stopPropagation()" />
             @if (filteredOptions().length) {
                 @for (option of filteredOptions(); track option.id) {

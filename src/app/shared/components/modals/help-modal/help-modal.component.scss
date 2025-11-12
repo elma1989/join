@@ -15,9 +15,14 @@
 #help-close-btn {
     position: absolute;
     top: 2rem;
-    right: 2rem;
+    right: 3rem;
     font-size: 20px;
+    background: transparent;
     z-index: 1;
+
+    &:hover {
+        color: #29ABE2
+    }
 }
 
 .help-modal-container {

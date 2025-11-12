@@ -1,4 +1,4 @@
-import { Component, HostListener, ElementRef, SimpleChanges, InputSignal, input, output, OutputEmitterRef, OnChanges } from '@angular/core';
+import { Component, HostListener, ElementRef, SimpleChanges, InputSignal, input, output, OutputEmitterRef, OnChanges, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Contact } from '../../classes/contact';
@@ -95,6 +95,5 @@ export class AssignContactsComponent implements OnChanges{
       this.isOpen = false;
     }
   }
-
   // #endregion methods
 }
