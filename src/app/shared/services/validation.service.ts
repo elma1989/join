@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -56,6 +56,18 @@ export class ValidationService {
     return result;
   }
 
+  confirmPassword(): ValidatorFn {
+    return (): ValidationErrors | null => {
+      const form = this.forms.get('signup');
+      if (!form) return null;
+      const passwordControl = form.get('password');
+      const passwordConfirmControl = form.get('passwordConfirm');
+      if (!passwordControl || !passwordConfirmControl) return null;
+      return passwordControl.value == passwordConfirmControl.value ? null : { confirmMissmatch: true };
+    }
+  }
+
+  // #region Helper
   /**
    * Gets all errors of a FrormGroup.
    * @param control - FromGroup or FormControl to validate.
@@ -167,10 +179,14 @@ export class ValidationService {
       case 'subtaskExist':
         return 'Subtask allready exists.';
 
+      case 'confirmMissmatch':
+        return 'Password confirm does not match.'
+
       case 'pattern':
         return 'Format is not correct.';
     }
     return 'Value is invalid.';
   }
+  // #endregion
   // #endregion
 }

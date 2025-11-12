@@ -32,7 +32,7 @@ export class SignUpComponent implements OnInit, OnDestroy{
       CustomValidator.includes('number'), 
       CustomValidator.includes('special'), 
       Validators.minLength(10)]],
-    passwordConfirm: ['', [CustomValidator.strictRequired(), Validators.minLength(10)]],
+    passwordConfirm: ['', [CustomValidator.strictRequired(), this.val.confirmPassword()]],
     acceptPolicy: [false]
   });
 
