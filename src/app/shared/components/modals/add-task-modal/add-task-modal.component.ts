@@ -82,7 +82,7 @@ export class AddTaskModalComponent implements AfterViewInit {
    */
   overlayMouseDown(event: MouseEvent) {
     if (event.target !== event.currentTarget) return;
-    this.isDragging = false;
+    this.closeModal();
   }
 
   /**
@@ -107,9 +107,6 @@ export class AddTaskModalComponent implements AfterViewInit {
    */
   @HostListener('window:mouseup', ['$event'])
   onMouseUp(event: MouseEvent) {
-    if (this.isDragging) {
-      this.closeModal();
-    }
 
     this.isDragging = false;
   }
