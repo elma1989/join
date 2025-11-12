@@ -129,6 +129,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
 
   /** Submits a form. */
   protected submitForm(): void {
+    this.val.polluteForm('task');
     this.validate();
     if (this.formTask.valid) {
       this.currentTask().title = this.formTask.get('title')?.value ?? '';
