@@ -50,7 +50,7 @@ h1 {
 
     @media screen and (min-width: 1900px) {
 			width: 100%;
-			height: auto;
+			height: 50dvh;
 		}
 
     @include all.notebook {
@@ -81,7 +81,7 @@ h1 {
     @include all.fl($jc: space-between, $alit: start, $gap: 1rem);
 
     @media screen and (min-width: 1900px) {
-            height: 50dvh;
+            height: 35dvh;
 		}
 
     @include all.notebook {

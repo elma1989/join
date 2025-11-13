@@ -9,11 +9,6 @@
     align-items: center;
     justify-content: center;
     z-index: 12;
-
-    @media screen and (min-width: 1900px) {
-			width: 75%;
-			height: 80%;
-		}
 }
 
 .add-task-modal-container {
@@ -26,10 +21,13 @@
     border: none;
     box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.2);
 
-    @media screen and (min-width: 1900px) {
-			width: 75%;
-			height: 80%;
-		}
+    @media screen and (min-width: 1920px) {
+        position: absolute;
+        top: 20rem;
+        left: 100rem;
+        width: 20dvw;
+        height: 50dvh;
+    }
 
     @include all.notebook {
         box-shadow: 8px 0 8px rgba(0, 0, 0, 0.2), -8px 0 8px rgba(0, 0, 0, 0.2);

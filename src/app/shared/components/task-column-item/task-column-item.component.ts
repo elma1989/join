@@ -4,13 +4,14 @@ import { ContactIconListComponent } from "../contact-icon-list/contact-icon-list
 import { Category } from '../../enums/category.enum';
 import { CommonModule } from '@angular/common';
 import { ModalService } from '../../services/modal.service';
-import { FirebaseDBService } from '../../services/firebase-db.service';
 import { Firestore } from '@angular/fire/firestore';
 import { SubtaskEditState } from '../../enums/subtask-edit-state';
+import { FormsModule } from '@angular/forms';
+
 
 @Component({
   selector: 'app-task-column-item',
-  imports: [ContactIconListComponent, CommonModule],
+  imports: [ContactIconListComponent, CommonModule, FormsModule],
   templateUrl: './task-column-item.component.html',
   styleUrl: './task-column-item.component.scss'
 })
@@ -54,5 +55,10 @@ export class TaskColumnItemComponent {
    */
   get isSubtaskProgressVisible(): boolean {
     return this.totalSubtaskCount >= 2;
+  }
+
+  onSubtaskToggle(subtask: { finished: boolean }): void {
+  subtask.finished = !subtask.finished;
+  // this.fireDB.updateSubtaskStatus(this.task().id, subtask);
   }
 }
