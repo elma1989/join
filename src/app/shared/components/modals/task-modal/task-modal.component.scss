@@ -32,14 +32,6 @@
 		border-radius: 2rem;
 		box-shadow: 0 0 5px lightgrey;
 
-		@media screen and (min-width: 1920px) {		
-			position: absolute;
-			top: 30rem;
-			left: 100rem;
-			height: 40dvh;
-			width: 15dvw;
-		}
-
 		@media(max-width: 520px) {
 			width: 95dvw;
 		}

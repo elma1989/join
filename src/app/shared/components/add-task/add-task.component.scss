@@ -48,10 +48,9 @@ h1 {
     height: 82dvh;
     @include all.marpad($pad: 3dvw);
 
-    @media screen and (min-width: 1900px) {
-			width: 100%;
-			height: 50dvh;
-		}
+    @media(max-width: 1920px) {
+        border: 2px solid red;
+    }
 
     @include all.notebook {
         height: 80dvh;
