@@ -6,6 +6,8 @@ import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { User } from '../../shared/classes/user';
 import { AuthService } from '../../shared/services/auth.service';
+import { Contact } from '../../shared/classes/contact';
+import { doc, Firestore, setDoc } from '@angular/fire/firestore';
 
 @Component({
   selector: 'section[sign-up]',
@@ -21,6 +23,7 @@ export class SignUpComponent implements OnInit, OnDestroy{
   private fb: FormBuilder = inject(FormBuilder);
   private val: ValidationService = inject(ValidationService);
   private auth: AuthService = inject(AuthService);
+  private fs: Firestore = inject(Firestore);
 
   private subFromChanges!: Subscription;
 
@@ -28,7 +31,7 @@ export class SignUpComponent implements OnInit, OnDestroy{
     firstname: ['', [CustomValidator.strictRequired(), Validators.minLength(3), CustomValidator.firstUpperCase()]],
     lastname: ['', [CustomValidator.strictRequired(), Validators.minLength(3), CustomValidator.firstUpperCase()]],
     email: ['', [CustomValidator.strictRequired(), Validators.email, Validators.minLength(10)]],
-    tel: ['', [CustomValidator.strictRequired(), CustomValidator.tel, Validators.minLength(10)]],
+    tel: ['', [CustomValidator.strictRequired(), CustomValidator.tel(), Validators.minLength(10)]],
     password: ['', [CustomValidator.strictRequired(), 
       CustomValidator.includes('upperCase'), 
       CustomValidator.includes('lowerCase'), 
@@ -58,28 +61,26 @@ export class SignUpComponent implements OnInit, OnDestroy{
   }
 
   /** Submits a form */
-  protected submitForm() {
+  protected async submitForm() {
     this.val.polluteForm('signup');
     this.validate();
     if (this.form.valid) {
       const { acceptPolicy, passwordConfirm, ...userdata } = this.form.value;
       const user = new User(userdata);
       user.group = user.firstname[0];
-      this.register(user);
+      await this.auth.register(user);
+      await this.createContact(user as Contact);
     }
-    console.log(this.val.getAllErrors('signup'));
   }
 
   /**
-   * Registers a user.
-   * @param user - Instance of user to register.
+   * Crates a contact for new user.
+   * @param contact - Contact to create.
    */
-  private register(user: User) {
-    const userCred$ = this.auth.register(user.email, user.password).subscribe({
-        next: cred => user.id = cred.user.uid,
-        error: err => console.error(err)
-      });
-      console.log(user);
+  private async createContact(contact: Contact): Promise<void> {
+    if (contact.id) {
+      await setDoc(doc(this.fs, 'contacts', contact.id), contact.toJSON());
+    }
   }
   // #endregion
 }

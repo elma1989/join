@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, onAuthStateChanged, User, UserCredential } from '@angular/fire/auth';
-import { BehaviorSubject, from, Observable } from 'rxjs';
+import { Auth, createUserWithEmailAndPassword, onAuthStateChanged, UserCredential } from '@angular/fire/auth';
+import { User } from '../classes/user';
 
 @Injectable({
   providedIn: 'root'
@@ -8,12 +8,6 @@ import { BehaviorSubject, from, Observable } from 'rxjs';
 export class AuthService {
 
   private auth: Auth = inject(Auth);
-  private userSubject: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
-  user$: Observable<User | null> = this.userSubject.asObservable();
-
-  constructor() {
-    onAuthStateChanged(this.auth, user => this.userSubject.next(user));
-  }
 
   /**
    * Registers a user.
@@ -21,7 +15,9 @@ export class AuthService {
    * @param password Password of user.
    * @returns User-Credential as Observable
    */
-  register(email: string, password: string): Observable<UserCredential> {
-    return from(createUserWithEmailAndPassword(this.auth, email, password))
+  async register(user: User): Promise<UserCredential> {
+    const cred = await createUserWithEmailAndPassword(this.auth, user.email, user.password);
+    user.id = cred.user.uid;
+    return cred;
   }
 }

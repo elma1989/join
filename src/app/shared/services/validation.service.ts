@@ -195,7 +195,7 @@ export class ValidationService {
         return 'E-Mail format is not correct.';
 
       case 'tel':
-        return 'Use format: 0<prefix phone number> <phone number>';
+        return 'Use format: 0<prefix> <phone number>';
 
       case 'dateFormat':
         return 'Use format: MM/DD/YYYY.';
