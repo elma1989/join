@@ -1,15 +1,14 @@
-<div class="add-subtask-container" [formGroup]="createSubtaskGroup()" [ngClass]="{'active': newSubtask.editMode}"
-    (click)="endbleEditMode(-1)" (focus)="onFocus()" (blur)="blur()">
+<div class="add-subtask-container" [formGroup]="createSubtaskGroup()" [ngClass]="{'active': newSubtask.editMode}">
     <input type="text" class="add-subtask-input" placeholder="Add new Subtask..." formControlName="subtaskName"
-        autocomplete="off">
+        (click)="endbleEditMode(-1)" (focus)="onFocus()" (blur)="blur()" autocomplete="off">
 
     @if(newSubtask.editMode) {
     <div class="add-subtask-input-btns-container">
-        <button class="add-subtask-input-btn" type="button" (click)="resetCreate()">
+        <button class="add-subtask-input-btn" type="button" (click)="resetCreate()" (focus)="onFocus()" (blur)="blur()">
             <img class="edit-icon edit-icon-reset" id="reset-icon" src="assets/Icons/taskBoard/close.png">
         </button>
         <hr>
-        <button class="add-subtask-input-btn" type="button" (click)="addSub()">
+        <button class="add-subtask-input-btn" type="button" (click)="addSub()" (focus)="onFocus()" (blur)="blur()">
             <img class="edit-icon edit-icon-check" id="add-check-icon" src="assets/Icons/taskBoard/check.png">
         </button>
     </div>
