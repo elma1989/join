@@ -5,6 +5,7 @@ import { CustomValidator } from '../../shared/classes/custom-validator';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { User } from '../../shared/classes/user';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'section[sign-up]',
@@ -19,6 +20,7 @@ export class SignUpComponent implements OnInit, OnDestroy{
   // #region Attributes
   private fb: FormBuilder = inject(FormBuilder);
   private val: ValidationService = inject(ValidationService);
+  private auth: AuthService = inject(AuthService);
 
   private subFromChanges!: Subscription;
 
@@ -55,15 +57,29 @@ export class SignUpComponent implements OnInit, OnDestroy{
     this.errors = this.val.validateForm('signup');
   }
 
+  /** Submits a form */
   protected submitForm() {
     this.val.polluteForm('signup');
     this.validate();
     if (this.form.valid) {
       const { acceptPolicy, passwordConfirm, ...userdata } = this.form.value;
       const user = new User(userdata);
-      console.log(user);
+      user.group = user.firstname[0];
+      this.register(user);
     }
     console.log(this.val.getAllErrors('signup'));
+  }
+
+  /**
+   * Registers a user.
+   * @param user - Instance of user to register.
+   */
+  private register(user: User) {
+    const userCred$ = this.auth.register(user.email, user.password).subscribe({
+        next: cred => user.id = cred.user.uid,
+        error: err => console.error(err)
+      });
+      console.log(user);
   }
   // #endregion
 }
