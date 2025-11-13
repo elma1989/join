@@ -23,10 +23,10 @@
 
     @media screen and (min-width: 1920px) {
         position: absolute;
-        top: 10rem;
+        top: 20rem;
         left: 100rem;
-        width: 75%;
-        height: 70dvh;
+        width: 20dvw;
+        height: 50dvh;
     }
 
     @include all.notebook {
