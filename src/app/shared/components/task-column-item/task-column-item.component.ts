@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { ModalService } from '../../services/modal.service';
 import { FirebaseDBService } from '../../services/firebase-db.service';
 import { Firestore } from '@angular/fire/firestore';
+import { SubtaskEditState } from '../../enums/subtask-edit-state';
 
 @Component({
   selector: 'app-task-column-item',
@@ -28,14 +29,14 @@ export class TaskColumnItemComponent {
    * Berechnet die Anzahl der abgeschlossenen Unteraufgaben.
    */
   get completedSubtaskCount(): number {
-    return this.task().subtasks.filter(sub => sub.finished).length;
+    return this.task().subtasks.filter(sub => sub.editState != SubtaskEditState.DELETED && sub.finished).length;
   }
 
   /**
    * Gibt die Gesamtzahl der Unteraufgaben zurück.
    */
   get totalSubtaskCount(): number {
-    return this.task().subtasks.length;
+    return this.task().subtasks.filter (sub => sub.editState != SubtaskEditState.DELETED).length;
   }
 
   /**
