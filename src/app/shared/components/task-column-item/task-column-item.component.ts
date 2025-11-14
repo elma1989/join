@@ -59,6 +59,5 @@ export class TaskColumnItemComponent {
 
   onSubtaskToggle(subtask: { finished: boolean }): void {
   subtask.finished = !subtask.finished;
-  // this.fireDB.updateSubtaskStatus(this.task().id, subtask);
   }
 }
