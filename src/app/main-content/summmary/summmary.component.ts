@@ -133,32 +133,32 @@ export class SummmaryComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Returns the next tasks to display, either for today or the next upcoming due date,
-   * filtered by priority and excluding tasks that are marked as DONE.
-   * @param tasks - Array of Task objects.
-   * @returns Array of Task objects sorted by priority.
-   * @private
-   */
+ * Determines the next tasks to display:
+ * - First returns all non-DONE tasks due today.
+ * - If none exist, returns tasks with the nearest future due date.
+ * Past tasks and tasks marked as DONE are ignored.
+ *
+ * @param tasks - List of all tasks.
+ * @returns Tasks due today or at the next upcoming date, sorted by priority.
+ * @private
+ */
   private getNextTasks(tasks: Task[]): Task[] {
-    if (tasks.length === 0) return [];
+  if (tasks.length === 0) return [];
+  const today = new Date(), todayStart = new Date(today.setHours(0, 0, 0, 0));
+  const todayStr = todayStart.toDateString();
 
-    const todayString = new Date().toDateString();
-    const todaysTasks = tasks.filter(
-      (task) =>
-        task.dueDate.toDate().toDateString() === todayString &&
-        task.status !== TaskStatusType.DONE
-    );
+  const todays = tasks.filter(t =>
+    t.dueDate.toDate().toDateString() === todayStr &&
+    t.status !== TaskStatusType.DONE
+  );
+  if (todays.length) return this.filterPriority(todays);
 
-    if (todaysTasks.length > 0) {
-      return this.filterPriority(todaysTasks);
-    }
+  const future = tasks.filter(t => t.dueDate.toDate() >= todayStart);
+  if (!future.length) return [];
 
-    const lowestDate = this.getLowestDueDate(tasks);
-    const filteredTasks = this.filterTasksLowestDate(tasks, lowestDate);
-    if (filteredTasks.length === 0) return [];
-
-    return this.filterPriority(filteredTasks);
-  }
+  const nextDate = this.getLowestDueDate(future);
+  return this.filterPriority(this.filterTasksLowestDate(future, nextDate));
+}
 
   /**
    * Filters tasks to only include those that have the exact given due date.

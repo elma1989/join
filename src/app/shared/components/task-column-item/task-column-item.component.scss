@@ -113,6 +113,7 @@
 				z-index: 10;
 
 				.subtask-list {
+					@include all.fl($flexdir: column, $gap: 0.5rem);
 					@include all.marpad($pad: 0, $mar: 1rem 0 0);
 					list-style: none;
 

@@ -12,28 +12,30 @@
 	<p class="description limiter">{{task().description}}</p>
 
 	@if (isSubtaskProgressVisible) {
-	<div
-	class="subtask-progress-box"
-	(click)="$event.stopPropagation()">
+	<div class="subtask-progress-box" (click)="$event.stopPropagation()">
 
-	<div class="progress-bar-wrapper">
-		<div class="progress-bar-background">
-			<div class="progress-bar-fill" [style.width.%]="subtaskProgressPercentage"></div>
+		<div class="progress-bar-wrapper">
+			<div class="progress-bar-background">
+				<div class="progress-bar-fill" [style.width.%]="subtaskProgressPercentage"></div>
+			</div>
+			<span class="subtask-counter">
+				{{ completedSubtaskCount }}/{{ totalSubtaskCount }} Subtasks
+			</span>
 		</div>
-		<span class="subtask-counter">
-			{{ completedSubtaskCount }}/{{ totalSubtaskCount }} Subtasks
-		</span>
-	</div>
 
-	<div class="subtask-tooltip">
-		<strong>{{ completedSubtaskCount }} von {{ totalSubtaskCount }} Subtasks erledigt</strong>
-		<ul class="subtask-list">
-			<li *ngFor="let sub of task().subtasks" class="subtask-item">
-				<span [class.completed]="sub.finished">{{ sub.name }}</span>
-			</li>
-		</ul>
+		<div class="subtask-tooltip">
+			<strong>{{ completedSubtaskCount }} von {{ totalSubtaskCount }} Subtasks erledigt</strong>
+			<ul class="subtask-list">
+				@for (subtask of task().subtasks; track subtask.id; let i = $index) {
+				@if (task().subtasks[i].editState != SubtaskEditStat.DELETED) {
+				<li class="subtask-item">
+					<span [class.completed]="subtask.finished">{{ subtask.name }}</span>
+				</li>
+				}
+				}
+			</ul>
+		</div>
 	</div>
-</div>
 	}
 	<div class="column-bottom-container">
 		<app-contact-icon-list [contacts]="task().contacts"></app-contact-icon-list>

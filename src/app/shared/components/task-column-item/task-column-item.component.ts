@@ -23,6 +23,7 @@ export class TaskColumnItemComponent {
 
   task: InputSignal<Task> = input.required<Task>();
 
+  SubtaskEditState = SubtaskEditState;
 
   Category = Category;
 
@@ -60,4 +61,5 @@ export class TaskColumnItemComponent {
   onSubtaskToggle(subtask: { finished: boolean }): void {
   subtask.finished = !subtask.finished;
   }
+
 }
