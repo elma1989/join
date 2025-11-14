@@ -32,16 +32,14 @@
                 <img class="formicon" src="/assets/Icons/contact/call.png">
             </div>
             <div class="input-field">
-                <input formControlName="password" type="password"  [ngClass]="{error: errors['password']}" placeholder="Password">
+                <input formControlName="password" type="{{ passwordVisible ? 'text' : 'password'}}"  [ngClass]="{error: errors['password']}" placeholder="Password">
                 <div class="errmsg">{{ errors['password'] ? errors['password'][0] : ''}}</div>
-                <img class="formicon invis" src="/assets/Icons/signon/visibility_off.png">
-                <img class="formicon vis d_none" src="/assets/Icons/signon/visibility.png">
+                <img class="formicon pointer" src="{{ passwordVisible ? '/assets/Icons/signon/visibility_off.png' : '/assets/Icons/signon/visibility.png' }}" (click)="togglePassword()">
             </div>
             <div class="input-field">
-                <input formControlName="passwordConfirm" type="password" [ngClass]="{error: errors['passwordConfirm']}" placeholder="Confirm Password">
+                <input formControlName="passwordConfirm" type="{{ confirmVisible ? 'text' : 'password'}}" [ngClass]="{error: errors['passwordConfirm']}" placeholder="Confirm Password">
                 <div class="errmsg">{{ errors['passwordConfirm'] ? errors['passwordConfirm'][0] : ''}}</div>
-                <img class="formicon" src="/assets/Icons/signon/visibility_off.png">
-                <img class="formicon d_none" src="/assets/Icons/signon/visibility.png">
+                <img class="formicon pointer" src="{{ confirmVisible ? '/assets/Icons/signon/visibility_off.png' : '/assets/Icons/signon/visibility.png' }}" (click)="toggleConfirm()">
             </div>
         </div>
         <div class="check-field">

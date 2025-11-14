@@ -47,8 +47,10 @@ export class SignUpComponent implements OnInit, OnDestroy{
     passwordConfirm: ['', [CustomValidator.strictRequired(), this.val.confirmPassword()]],
     acceptPolicy: [false, [CustomValidator.acceptPolicy()]]
   });
-
   protected errors: Record<string, string[]> = {};
+
+  protected passwordVisible: boolean = true;
+  protected confirmVisible: boolean = false;
   // #endregion
 
   ngOnInit(): void {
@@ -61,6 +63,7 @@ export class SignUpComponent implements OnInit, OnDestroy{
   }
 
   // #region Methods
+  // #region Formmanagement
   /** Submits a form */
   protected async submitForm() {
     this.val.polluteForm('signup');
@@ -94,7 +97,16 @@ export class SignUpComponent implements OnInit, OnDestroy{
       await setDoc(doc(this.fs, 'contacts', contact.id), contact.toJSON());
     }
   }
+  // #endregion
 
+  // #region Visibility
+  /** Shows and hides the passord. */
+  protected togglePassword() {this.passwordVisible = !this.passwordVisible;}
+
+  /** Shows and hides the password confirm. */
+  protected toggleConfirm() {this.confirmVisible = !this.confirmVisible;}
+  // #endregion
+  
   private goToBoard(user: User) {
     this.tms.add('Signup successful', 3000, 'success');
     if (user) {
