@@ -60,7 +60,7 @@
 	// #region dashboard
 	.dashboard-main-container {
 		@include all.fl();
-		@include all.size($w: 80%, $h: 75dvh);
+		@include all.size($w: 100%, $h: 75dvh);
 		margin-top: 2rem;
 
 		@include all.notebook {
