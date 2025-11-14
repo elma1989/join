@@ -1,6 +1,6 @@
 @if(currentSection == SectionType.SIGNUP) {
     <div class="content-sign">
-        <section sign-up (user)="setUser($event)" (section)="changeSection($event)"></section>
+        <section sign-up (user)="setUser($event)" (section)="changeSection($event)" (prevSection)="changePrevSection($event)"></section>
     </div>
 } @else {
     <div class="content"> <!-- display: grid -->
@@ -27,11 +27,11 @@
                 }
 
                 @case (SectionType.PRIVACY) {
-                    <section privacy-policy (back)="changeSection(SectionType.CONTACT)"></section>
+                    <section privacy-policy (back)="changeSection(prevSection)"></section>
                 }
 
                 @case (SectionType.LEGAL) {
-                    <section legal-notice (back)="changeSection(SectionType.CONTACT)"></section>
+                    <section legal-notice (back)="changeSection(prevSection)"></section>
                 }
             }
         </main>

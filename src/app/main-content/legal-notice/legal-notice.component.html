@@ -2,7 +2,7 @@
 	<main class="legal-notice-main-content">
 		<header>
 			<h1>Legal Notice</h1>
-			<button (click)="goBack()"><img src="assets/Icons/contact/arrow-left-line.png" alt=""></button>
+			<button [ngClass]="{'show': !user()}" (click)="goBack()"><img src="assets/Icons/contact/arrow-left-line.png" alt=""></button>
 		</header>
 
 		<h2>Imprint</h2>

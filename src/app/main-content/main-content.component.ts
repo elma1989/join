@@ -1,4 +1,4 @@
-import { Component, input, InputSignal } from '@angular/core';
+import { Component } from '@angular/core';
 import { HeaderComponent } from '../shared/components/header/header.component';
 import { AsideComponent } from "./aside/aside.component";
 import { ContactsComponent } from './contacts/contacts.component';
@@ -31,6 +31,7 @@ import { User } from '../shared/classes/user';
 })
 export class MainContentComponent {
   protected readonly SectionType = SectionType;
+  protected prevSection: SectionType = SectionType.SUMMARY;
   protected currentSection: SectionType = SectionType.SUMMARY;
   protected currentUser: User | null = null;
 
@@ -40,6 +41,10 @@ export class MainContentComponent {
    */
   protected changeSection(section: SectionType) {
     this.currentSection = section;
+  }
+
+  protected changePrevSection(section: SectionType) {
+    this.prevSection = section;
   }
 
   /**

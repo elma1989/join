@@ -89,6 +89,7 @@ input[type=password] {
     border: 1px solid #d1d1d1;
     outline: none;
     font: 1.6rem 'InterRegular', sans-serif;
+    cursor: text;
 
     &:focus {
         border: 1px solid #29abe2;

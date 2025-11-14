@@ -24,6 +24,7 @@ export class SignUpComponent implements OnInit, OnDestroy{
   // #region Attributes
   user: OutputEmitterRef<User> = output<User>();
   section: OutputEmitterRef<SectionType> = output<SectionType>();
+  prevSection: OutputEmitterRef<SectionType> = output<SectionType>();
 
   private fb: FormBuilder = inject(FormBuilder);
   private val: ValidationService = inject(ValidationService);
@@ -49,13 +50,14 @@ export class SignUpComponent implements OnInit, OnDestroy{
   });
   protected errors: Record<string, string[]> = {};
 
-  protected passwordVisible: boolean = true;
+  protected passwordVisible: boolean = false;
   protected confirmVisible: boolean = false;
   // #endregion
 
   ngOnInit(): void {
     this.val.registerForm('signup', this.form);
     this.subFromChanges = this.form.valueChanges.subscribe(() => this.validate());
+    this.load();
   }
 
   ngOnDestroy(): void {
@@ -72,6 +74,7 @@ export class SignUpComponent implements OnInit, OnDestroy{
       const { acceptPolicy, passwordConfirm, ...userdata } = this.form.value;
       const user = new User(userdata);
       user.group = user.firstname[0];
+      this.clear();
       try {
         await this.auth.register(user);
         await this.createContact(user as Contact);
@@ -107,6 +110,38 @@ export class SignUpComponent implements OnInit, OnDestroy{
   protected toggleConfirm() {this.confirmVisible = !this.confirmVisible;}
   // #endregion
   
+  // #region localStorage
+  /** Saves userinputs in localstrorage. */
+  private save() {
+    localStorage.setItem('signup', JSON.stringify(this.form.value));
+  }
+
+  /** Loads formfields form localStorage */
+  private load() {
+    const storaged = localStorage.getItem('signup');
+    if (storaged) {
+      const json = JSON.parse(storaged);
+      Object.entries(json).forEach(([key, value]) => {
+        const child = this.form.get(key);
+        if (child) {
+          child.setValue(value);
+          child.markAsDirty();
+        }
+      });
+    }
+  }
+
+  /** Removes localStorage. */
+  private clear() {
+    localStorage.clear();
+  }
+  // #endregion
+
+  // #region navigation
+  /**
+   * Changes to board.
+   * @param user User, who was logged in.
+   */
   private goToBoard(user: User) {
     this.tms.add('Signup successful', 3000, 'success');
     if (user) {
@@ -114,5 +149,20 @@ export class SignUpComponent implements OnInit, OnDestroy{
       this.section.emit(SectionType.SUMMARY);
     }
   }
+
+  /** Go to privacy policy. */
+  protected goToPolicy() {
+    this.save();
+    this.section.emit(SectionType.PRIVACY);
+    this.prevSection.emit(SectionType.SIGNUP);
+  }
+
+  /** Go to legal notice. */
+  protected goToLegal() {
+    this.save();
+    this.section.emit(SectionType.LEGAL);
+    this.prevSection.emit(SectionType.SIGNUP);
+  }
+  // #endregion
   // #endregion
 }
