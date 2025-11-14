@@ -25,9 +25,8 @@
     }
 }
 
-.content-sign-up {
+.content-sign {
     @include all.fl($jc:center);
     width: 100%;
-    max-width: 1920px;
-    min-height: 100dvh;
+    height: 100dvh;
 }

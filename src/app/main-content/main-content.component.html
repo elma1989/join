@@ -1,5 +1,7 @@
 @if(currentSection == SectionType.SIGNUP) {
-    <section sign-up (user)="setUser($event)" (section)="changeSection($event)"></section>
+    <div class="content-sign">
+        <section sign-up (user)="setUser($event)" (section)="changeSection($event)"></section>
+    </div>
 } @else {
     <div class="content"> <!-- display: grid -->
         <aside app-aside [currentSection]="currentSection" (selectedSection)="changeSection($event)"></aside>
