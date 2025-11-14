@@ -149,7 +149,7 @@ export class SummmaryComponent implements OnInit, OnDestroy {
 
   const todays = tasks.filter(t =>
     t.dueDate.toDate().toDateString() === todayStr &&
-    t.status !== TaskStatusType.DONE
+    t.status !== TaskStatusType.TODO
   );
   if (todays.length) return this.filterPriority(todays);
 
