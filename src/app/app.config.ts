@@ -14,5 +14,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter( routes ), 
     provideAnimations(),
     provideFirebaseApp(() => initializeApp( firebaseConfig )), 
+    provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore())]
 };

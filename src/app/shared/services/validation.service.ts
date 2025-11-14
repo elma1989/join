@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +40,56 @@ export class ValidationService {
       this.collectErrors(form, errors);
     }
     return errors
+  }
+
+  /**
+   * Gets all errors of a form;
+   * @param formType - Name of form.
+   * @returns Record of validation errors
+   */
+  getAllErrors(formType: string): Record<string, any> {
+    const result: Record<string, any> = {};
+    const form = this.forms.get(formType);
+
+    if (form) this.validateAll(form, result)
+    
+    return result;
+  }
+
+  /** Checks, if confirm password matches password. */
+  confirmPassword(): ValidatorFn {
+    return (): ValidationErrors | null => {
+      const form = this.forms.get('signup');
+      if (!form) return null;
+      const passwordControl = form.get('password');
+      const passwordConfirmControl = form.get('passwordConfirm');
+      if (!passwordControl || !passwordConfirmControl) return null;
+      return passwordControl.value == passwordConfirmControl.value ? null : { confirmMissmatch: true };
+    }
+  }
+
+  // #region Helper
+  /**
+   * Gets all errors of a FrormGroup.
+   * @param control - FromGroup or FormControl to validate.
+   * @param path - Path to control
+   * @returns Record of valdation errors
+   */
+  private validateAll(control: AbstractControl, result: Record<string,any>, path: string = ''): void {
+
+    if (control instanceof FormGroup) {
+      Object.keys(control.controls).forEach(key => {
+        const child = control.get(key);
+        if (child) {
+          const childPath = path ? `${path}.${key}` : key;
+          this.validateAll(child, result, childPath);
+        }
+      })
+    } else if (control instanceof FormControl) {
+      if (control.errors) {
+        result[path] = control.errors;
+      }
+    }
   }
 
   /**
@@ -118,39 +168,58 @@ export class ValidationService {
         return 'Field is required.';
 
       case 'subtaskRequired':
-        return 'Subtask is required, if you want to add one.'
+        return 'Subtask is required, if you want to add one.';
 
       case 'firstUpperCase':
-        return 'Use upper case at frist.'
+        return 'Use upper case at frist.';
+
+      case 'upperCase':
+        return 'Use minmal one upper case.';
+
+      case 'lowerCase':
+        return 'Use minimal one lower case';
+
+      case 'number':
+        return 'Use minimal one number.';
+
+      case 'special':
+        return 'Use minimal one special character.';
 
       case 'minlength':
-        return `Minimal ${errorValue.requiredLength} sign required.`;
+        return `Minimal ${errorValue.requiredLength} signs required.`;
 
       case 'customMinLength':
-        return `Minmal ${errorValue.customRequiredLength} sign required.`
+        return `Minimal ${errorValue.customRequiredLength} signs required.`;
 
       case 'email':
         return 'E-Mail format is not correct.';
 
       case 'tel':
-        return 'Use format: 0<prefix phone number> <phone number>';
+        return 'Use format: 0<prefix> <phone number>';
 
       case 'dateFormat':
-        return 'Use format: MM/DD/YYYY.'
+        return 'Use format: MM/DD/YYYY.';
 
       case 'dateInPast':
-        return 'Do not use date in past.'
+        return 'Do not use date in past.';
 
       case 'oneSubtaskOnly':
-        return 'Create another subtask.'
+        return 'Create another subtask.';
 
       case 'subtaskExist':
-        return 'Subtask allready exists.'
+        return 'Subtask allready exists.';
+
+      case 'confirmMissmatch':
+        return 'Password confirm does not match.'
+
+      case 'acceptPolicy':
+        return 'You have to accept the privacy policy.'
 
       case 'pattern':
-        return 'Format is not correct.'
+        return 'Format is not correct.';
     }
     return 'Value is invalid.';
   }
+  // #endregion
   // #endregion
 }

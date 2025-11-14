@@ -4,7 +4,7 @@
     <div class="header-icon-container">
         <img class="help-icon" src="assets/Icons/contact/help.png" alt="" (click)="modalService.openHelpModal()">
         <div class="profile-container">
-            <div class="profile-img" (click)="toggleMenu()"><span>SM</span></div>
+            <div class="profile-img" (click)="toggleMenu()"><span>{{ letters }}</span></div>
 
             <div class="dropdown" *ngIf="isMenuVisible" (click)="$event.stopPropagation()">
                 <a class="help-mobile" (click)="openHelpFromMenu()">Help</a>

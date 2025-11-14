@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input, InputSignal } from '@angular/core';
 import { HeaderComponent } from '../shared/components/header/header.component';
 import { AsideComponent } from "./aside/aside.component";
 import { ContactsComponent } from './contacts/contacts.component';
@@ -8,6 +8,8 @@ import { AddTaskContainerComponent } from "./add-task-container/add-task-contain
 import { PrivacyPolicyComponent } from '../main-content/privacy-policy/privacy-policy.component';
 import { LegalNoticeComponent } from '../main-content/legal-notice/legal-notice.component';
 import { SummmaryComponent } from './summmary/summmary.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
+import { User } from '../shared/classes/user';
 
 
 @Component({
@@ -21,7 +23,8 @@ import { SummmaryComponent } from './summmary/summmary.component';
     AddTaskContainerComponent,
     PrivacyPolicyComponent,
     LegalNoticeComponent,
-    SummmaryComponent
+    SummmaryComponent,
+    SignUpComponent
   ],
   templateUrl: './main-content.component.html',
   styleUrl: './main-content.component.scss'
@@ -29,8 +32,21 @@ import { SummmaryComponent } from './summmary/summmary.component';
 export class MainContentComponent {
   protected readonly SectionType = SectionType;
   protected currentSection: SectionType = SectionType.SUMMARY;
+  protected currentUser: User | null = null;
 
-  changeSection(section: SectionType) {
+  /**
+   * Changes the section
+   * @param section Section for change.
+   */
+  protected changeSection(section: SectionType) {
     this.currentSection = section;
+  }
+
+  /**
+   * Sets current user.
+   * @param user - User or null for current user.
+   */
+  protected setUser(user : User | null) {
+    this.currentUser = user;
   }
 }

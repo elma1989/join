@@ -4,5 +4,6 @@ export enum SectionType {
     BOARD = 'board',
     CONTACT = 'contact',
     PRIVACY = 'privacy',
-    LEGAL = 'legal'
+    LEGAL = 'legal',
+    SIGNUP = 'signup'
 }

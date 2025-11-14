@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, inject, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, inject, input, InputSignal, OnDestroy, OnInit, output, Output, OutputEmitterRef, } from '@angular/core';
 import { onSnapshot, Timestamp, Unsubscribe } from '@angular/fire/firestore';
 import { FirebaseDBService } from '../../shared/services/firebase-db.service';
 import { Task } from '../../shared/classes/task';
@@ -7,6 +7,7 @@ import { TaskStatusType } from '../../shared/enums/task-status-type';
 import { CommonModule } from '@angular/common';
 import { Priority } from '../../shared/enums/priority.enum';
 import { SectionType } from '../../shared/enums/section-type';
+import { User } from '../../shared/classes/user';
 
 @Component({
   selector: 'section[summary]',
@@ -19,7 +20,14 @@ import { SectionType } from '../../shared/enums/section-type';
  * and a list of next tasks sorted by priority.
  */
 export class SummmaryComponent implements OnInit, OnDestroy {
+  //region Attributes
+  /**
+   * Change detector reference used to manually trigger UI updates
+   * when Firestore data changes asynchronously.
+   */
   private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
+
+  user: InputSignal<User | null> = input<User | null>(null);
 
   /**
    * Event emitter to notify parent component when user navigates to a different section.
@@ -43,6 +51,13 @@ export class SummmaryComponent implements OnInit, OnDestroy {
   sortedTasks: Task[] = [];
 
   constructor(private fireDB: FirebaseDBService) {}
+
+  get greating():string {
+    const user = this.user();
+    return user ? user.getFullName() : 'User';
+  }
+
+  // #region Lifecycle Hooks
 
   /**
    * Angular lifecycle hook called after component initialization.
@@ -212,6 +227,9 @@ export class SummmaryComponent implements OnInit, OnDestroy {
 
     return sortedTasks;
   }
-
+  // #endregion
+  
   // #endregion
 }
+
+

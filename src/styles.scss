@@ -27,6 +27,11 @@ input {
     cursor: pointer;
 }
 
+a {
+    font: 1.6rem 'Inter', sans-serif;
+    cursor: pointer;
+}
+
 .content {
     display: grid;
     grid-template-columns: 20rem auto;
@@ -49,7 +54,7 @@ input {
 }
 
 h1 {
-    font-size: 4.2rem;
+    font: bold 4.2rem 'Interbold', sans-serif;
 }
 
 h2 {

@@ -1,33 +1,39 @@
-<div class="content"> <!-- display: grid -->
-    <aside [currentSection]="currentSection" app-aside (selectedSection)="changeSection($event)"></aside>
-    <header app-header (selectedSection)="changeSection($event)"></header>
+@if(currentSection == SectionType.SIGNUP) {
+    <div class="content-sign">
+        <section sign-up (user)="setUser($event)" (section)="changeSection($event)"></section>
+    </div>
+} @else {
+    <div class="content"> <!-- display: grid -->
+        <aside app-aside [currentSection]="currentSection" (selectedSection)="changeSection($event)"></aside>
+        <header app-header [user]="currentUser" (selectedSection)="changeSection($event)"></header>
 
-    <main>
-        @switch (currentSection) {
+        <main>
+            @switch (currentSection) {
 
-            @case (SectionType.TASK) {
-                <app-add-task-container></app-add-task-container>
+                @case (SectionType.TASK) {
+                    <app-add-task-container></app-add-task-container>
+                }
+
+                @case (SectionType.SUMMARY) {
+                    <section [user]="currentUser" summary (selectedSection)="changeSection($event)"></section>
+                }
+
+                @case (SectionType.BOARD) {
+                    <section board></section>
+                }
+
+                @case (SectionType.CONTACT) {
+                    <section contacts></section>
+                }
+
+                @case (SectionType.PRIVACY) {
+                    <section privacy-policy (back)="changeSection(SectionType.CONTACT)"></section>
+                }
+
+                @case (SectionType.LEGAL) {
+                    <section legal-notice (back)="changeSection(SectionType.CONTACT)"></section>
+                }
             }
-
-            @case (SectionType.SUMMARY) {
-                <section summary (selectedSection)="changeSection($event)"></section>
-            }
-
-            @case (SectionType.BOARD) {
-                <section board></section>
-            }
-
-            @case (SectionType.CONTACT) {
-                <section contacts></section>
-            }
-
-            @case (SectionType.PRIVACY) {
-                <section privacy-policy (back)="changeSection(SectionType.CONTACT)"></section>
-            }
-
-            @case (SectionType.LEGAL) {
-                <section legal-notice (back)="changeSection(SectionType.CONTACT)"></section>
-            }
-        }
-    </main>
-</div>
+        </main>
+    </div>
+}
