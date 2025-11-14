@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, inject, OnDestroy, OnInit, output, Output, OutputEmitterRef, } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, inject, input, InputSignal, OnDestroy, OnInit, output, Output, OutputEmitterRef, } from '@angular/core';
 import { onSnapshot, Timestamp, Unsubscribe } from '@angular/fire/firestore';
 import { FirebaseDBService } from '../../shared/services/firebase-db.service';
 import { Task } from '../../shared/classes/task';
@@ -7,6 +7,7 @@ import { TaskStatusType } from '../../shared/enums/task-status-type';
 import { CommonModule } from '@angular/common';
 import { Priority } from '../../shared/enums/priority.enum';
 import { SectionType } from '../../shared/enums/section-type';
+import { User } from '../../shared/classes/user';
 
 @Component({
   selector: 'section[summary]',
@@ -21,6 +22,8 @@ export class SummmaryComponent implements OnInit, OnDestroy {
    * when Firestore data changes asynchronously.
    */
   private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
+
+  user: InputSignal<User | null> = input<User | null>(null);
 
   /**
    * Event emitter used to notify the parent component when
@@ -68,6 +71,11 @@ export class SummmaryComponent implements OnInit, OnDestroy {
    * @param fireDB The service responsible for communicating with Firestore.
    */
   constructor(private fireDB: FirebaseDBService) {}
+
+  get greating():string {
+    const user = this.user();
+    return user ? user.getFullName() : 'User';
+  }
 
   // #region Lifecycle Hooks
 
@@ -241,6 +249,9 @@ export class SummmaryComponent implements OnInit, OnDestroy {
 
     return sortedTasks;
   }
-
+  // #endregion
+  
   // #endregion
 }
+
+

@@ -1,9 +1,9 @@
 @if(currentSection == SectionType.SIGNUP) {
-    <section sign-up></section>
+    <section sign-up (user)="setUser($event)" (section)="changeSection($event)"></section>
 } @else {
     <div class="content"> <!-- display: grid -->
         <aside app-aside [currentSection]="currentSection" (selectedSection)="changeSection($event)"></aside>
-        <header app-header (selectedSection)="changeSection($event)"></header>
+        <header app-header [user]="currentUser" (selectedSection)="changeSection($event)"></header>
 
         <main>
             @switch (currentSection) {
@@ -13,7 +13,7 @@
                 }
 
                 @case (SectionType.SUMMARY) {
-                    <section summary (selectedSection)="changeSection($event)"></section>
+                    <section [user]="currentUser" summary (selectedSection)="changeSection($event)"></section>
                 }
 
                 @case (SectionType.BOARD) {

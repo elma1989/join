@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, HostListener, inject, Output, output, OutputEmitterRef } from '@angular/core';
+import { Component, EventEmitter, HostListener, inject, input, InputSignal, Output } from '@angular/core';
 import { ModalService } from '../../services/modal.service';
 import { SectionType } from '../../enums/section-type';
+import { User } from '../../classes/user';
 
 @Component({
   selector: 'header[app-header]',
@@ -13,6 +14,7 @@ import { SectionType } from '../../enums/section-type';
 export class HeaderComponent {
  //#region Outputs and Services
 
+  user: InputSignal<User | null> = input<User | null>(null);
   /** Emits the currently selected section (e.g., Legal, Privacy). */
   @Output() selectedSection = new EventEmitter<SectionType>();
 
@@ -26,6 +28,11 @@ export class HeaderComponent {
   /** Determines whether the profile menu is currently visible. */
   isMenuVisible = false;
 
+  get letters(): string {
+    const user = this.user();
+    if (user) return `${user.firstname[0]}${user.lastname[0]}`
+    return 'G'
+  }
   //#endregion
 
   //#region Menu Control Methods

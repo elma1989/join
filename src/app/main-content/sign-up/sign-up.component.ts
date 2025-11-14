@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, output, OutputEmitterRef } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ValidationService } from '../../shared/services/validation.service';
 import { CustomValidator } from '../../shared/classes/custom-validator';
@@ -8,6 +8,8 @@ import { User } from '../../shared/classes/user';
 import { AuthService } from '../../shared/services/auth.service';
 import { Contact } from '../../shared/classes/contact';
 import { doc, Firestore, setDoc } from '@angular/fire/firestore';
+import { ToastMsgService } from '../../shared/services/toast-msg.service';
+import { SectionType } from '../../shared/enums/section-type';
 
 @Component({
   selector: 'section[sign-up]',
@@ -20,10 +22,14 @@ import { doc, Firestore, setDoc } from '@angular/fire/firestore';
 })
 export class SignUpComponent implements OnInit, OnDestroy{
   // #region Attributes
+  user: OutputEmitterRef<User> = output<User>();
+  section: OutputEmitterRef<SectionType> = output<SectionType>();
+
   private fb: FormBuilder = inject(FormBuilder);
   private val: ValidationService = inject(ValidationService);
   private auth: AuthService = inject(AuthService);
   private fs: Firestore = inject(Firestore);
+  private tms: ToastMsgService = inject(ToastMsgService);
 
   private subFromChanges!: Subscription;
 
@@ -55,11 +61,6 @@ export class SignUpComponent implements OnInit, OnDestroy{
   }
 
   // #region Methods
-  /** Validates the form. */
-  private validate() {
-    this.errors = this.val.validateForm('signup');
-  }
-
   /** Submits a form */
   protected async submitForm() {
     this.val.polluteForm('signup');
@@ -68,9 +69,20 @@ export class SignUpComponent implements OnInit, OnDestroy{
       const { acceptPolicy, passwordConfirm, ...userdata } = this.form.value;
       const user = new User(userdata);
       user.group = user.firstname[0];
-      await this.auth.register(user);
-      await this.createContact(user as Contact);
+      try {
+        await this.auth.register(user);
+        await this.createContact(user as Contact);
+        this.goToBoard(user);
+      } catch (error) {
+        this.form.reset();
+        this.tms.add('User allready exists', 3000, 'error');
+      }
     }
+  }
+  
+  /** Validates the form. */
+  private validate() {
+    this.errors = this.val.validateForm('signup');
   }
 
   /**
@@ -80,6 +92,14 @@ export class SignUpComponent implements OnInit, OnDestroy{
   private async createContact(contact: Contact): Promise<void> {
     if (contact.id) {
       await setDoc(doc(this.fs, 'contacts', contact.id), contact.toJSON());
+    }
+  }
+
+  private goToBoard(user: User) {
+    this.tms.add('Signup successful', 3000, 'success');
+    if (user) {
+      this.user.emit(user);
+      this.section.emit(SectionType.SUMMARY);
     }
   }
   // #endregion
