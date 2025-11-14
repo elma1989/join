@@ -23,6 +23,18 @@
     border: none;
     box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.2);
 
+    @media(min-width: 3840px) {
+        position: absolute;
+        top: 35rem;
+        left: 25em;
+        width: 50%;
+        padding: 2rem 2rem 2rem 0;
+    }
+
+    @media(min-height: 2160px) {
+        height: 45dvh;
+    }
+
     @include all.notebook {
         box-shadow: 8px 0 8px rgba(0, 0, 0, 0.2), -8px 0 8px rgba(0, 0, 0, 0.2);
     }
@@ -38,6 +50,14 @@
         @include all.marpad($pad: 0 2rem);
         background-color: #2a3647;
         border-radius: 16px 0 0 16px;
+
+        @media(min-width: 3840px) {
+            width: 40%;
+        }
+
+        @media(min-height: 2160px) {
+            height: 45dvh;
+        }
 
         @include all.tablet {
             @include all.size($w: 90dvw, $h: 40%);
@@ -196,6 +216,17 @@ main {
         @include all.fl($flexdir: column);
         width: 60%;
 
+        @media(min-width: 3840px) {
+            position: absolute;
+            top: 20rem;
+            right: 0;
+            width: 70rem;
+        }
+
+        @media(min-height: 2160px) {
+            height: auto;
+        }
+
         @include all.mobile {
             width: 100%;
             margin-top: 0.5rem;
@@ -212,6 +243,10 @@ main {
                 border: 1px solid #d1d1d1;
                 border-radius: 1rem;
                 cursor: text;
+
+                @media(min-width: 3840px) {
+                    width: 70rem;
+                }
 
                 @include all.tablet {
                     width: 100%;

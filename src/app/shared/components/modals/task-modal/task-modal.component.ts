@@ -8,6 +8,7 @@ import { SubTask } from '../../../classes/subTask';
 import { FirebaseDBService } from '../../../services/firebase-db.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { ModalService } from '../../../services/modal.service';
+import { SubtaskEditState } from '../../../enums/subtask-edit-state';
 
 @Component({
   selector: 'app-task-modal',
@@ -62,6 +63,8 @@ export class TaskModalComponent {
 
   /** Output event triggered when a task is deleted, emits the task ID */
   taskDeleted = output<string>();
+
+  SubtaskEditState = SubtaskEditState;
 
   ngAfterViewInit() {
     setTimeout(() => this.isOpen = true, 10); // Animation trigger

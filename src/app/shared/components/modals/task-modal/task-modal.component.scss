@@ -32,12 +32,15 @@
 		border-radius: 2rem;
 		box-shadow: 0 0 5px lightgrey;
 
-		@media screen and (min-width: 1920px) {		
+		@media(min-width: 3840px) {
 			position: absolute;
-			top: 30rem;
+			top: 35rem;
 			left: 100rem;
-			height: 50dvh;
-			width: 20dvw;
+			width: 50rem;
+		}
+
+		@media(min-height: 2160px) {
+			height: 33dvh;
 		}
 
 		@media(max-width: 520px) {
@@ -45,7 +48,8 @@
 		}
 
 		@include all.mobile {
-			height: 75dvh;
+			width: 85dvw;
+			height: 72dvh;
 		}
 
 		.task-modal-header {
@@ -123,11 +127,19 @@
 	.task-modal-dueDate-container {
 		@include all.fl($alit: center, $gap: 2rem);
 		@include all.size($h: 4dvh);
+
+		@media(min-height: 2160px) {
+			height: 2dvh;
+		}
 	}
 
 	.task-modal-priority-container {
 		@include all.fl($alit: center, $gap: 2rem);
 		@include all.size($h: 4dvh);
+
+		@media(min-height: 2160px) {
+			height: 2dvh;
+		}
 
 		.task-modal-priority {
 			@include all.fl($alit: center, $jc: center, $gap: 1rem);
@@ -148,8 +160,12 @@
 			margin-top: 0.5rem;
 			overflow-y: auto;
 
+			@media(min-height: 2160px) {
+				height: 10dvh;
+			}
+
 			@include all.mobile {
-				height: 20rem;
+				height: 15rem;
 			}
 		}
 
@@ -175,7 +191,11 @@
 
 .task-modal-subtasks {
 	@include all.fl($flexdir: column);
-	@include all.marpad($mar: 2rem 0 0 0);
+	@include all.marpad($mar: 3rem 0 0 0);
+
+	@include all.mobile {
+			@include all.marpad($mar: 1rem 0 0 0);
+		}
 
 	.task-modal-subtask-container {
 		@include all.marpad($pad: 1rem);
@@ -184,8 +204,12 @@
 		@include all.size($w: 100%, $h: 12rem);
 		overflow-y: auto;
 
+		@media(min-height: 2160px) {
+			height: 5dvh;
+		}
+
 		@include all.mobile {
-			height: 12rem;
+			height: 8rem;
 		}
 
 		.task-modal-input {
@@ -205,6 +229,10 @@
 	@include all.size($w: 90%, $h: 3rem);
 	@include all.fl($jc: end, $gap: 1rem, $alit: center);
 	@include all.marpad($mar: 0 0 1rem 0);
+
+	@media(min-height: 2160px) {
+		height: 2dvh;
+	}
 
 	@include all.mobile {
 		padding-right: 1.5rem;

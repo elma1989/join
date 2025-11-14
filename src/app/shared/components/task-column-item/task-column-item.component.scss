@@ -6,8 +6,8 @@
 	.task-column-container {
 		@include all.size($w: 26rem, $h: 28rem);
 		@include all.marpad($mar: 0 0 1rem 0, $pad: 1.5rem);
+		@include all.borRad($radius: 1.6rem);
 		background: rgb(254, 253, 253);
-		border-radius: 1.6rem;
 		box-shadow: 0 0 5px lightgrey;
 		cursor: pointer;
 
@@ -16,8 +16,8 @@
 		}
 
 		.task-column-item-header {
-			height: 3.5rem;
-			margin-bottom: 2rem;
+			@include all.size($h: 3.5rem);
+			@include all.marpad($mar: 0 0 2rem 0);
 		}
 
 
@@ -25,10 +25,10 @@
 			@include all.size($w: fit-content, $h: 3rem);
 			@include all.marpad($mar: 0 0 2rem 0, $pad: 0.5rem);
 			@include all.fl($jc: center);
+			@include all.borRad($radius: 0.8rem);
 			font-size: 1.8rem;
 			font-weight: lighter;
 			color: white;
-			border-radius: 0.8rem;
 		}
 
 		.blue {
@@ -73,37 +73,37 @@
 			cursor: pointer;
 
 			.progress-bar-wrapper {
+
 				.progress-bar-background {
+					@include all.size($h: 0.8rem);
+					@include all.borRad($radius: 1rem);
 					background-color: #e0e0e0;
-					border-radius: 4px;
-					height: 6px;
 					overflow: hidden;
 
 					.progress-bar-fill {
-						background-color: #f4b400;
-						height: 100%;
+						@include all.size($h: 100%);
+						background-color: #3694ff;
 						transition: width 0.3s ease;
 					}
 				}
 
 				.subtask-counter {
+					@include all.marpad($mar: 0.3rem 0 0 0);
 					display: block;
 					text-align: right;
 					font-size: 1.2rem;
 					color: #555;
-					margin-top: 0.3rem;
 				}
 			}
 
 			.subtask-tooltip {
-				position: absolute;
-				bottom: 125%;
-				left: 50%;
+				@include all.size($w: max-content);
+				@include all.absolute($bottom: 125%, $left: 50%);
+				@include all.marpad($pad: 0.6rem 1rem);
+				@include all.borRad($radius: 0.7rem);
 				transform: translateX(-50%);
 				background-color: #333;
 				color: #eae9e9;
-				padding: 0.6rem 1rem;
-				border-radius: 8px;
 				box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 				font-size: 1.4rem;
 				white-space: nowrap;
@@ -111,17 +111,14 @@
 				pointer-events: none;
 				transition: opacity 0.2s ease;
 				z-index: 10;
-				width: max-content;
 
 				.subtask-list {
+					@include all.fl($flexdir: column, $gap: 0.5rem);
+					@include all.marpad($pad: 0, $mar: 1rem 0 0);
 					list-style: none;
-					margin: 1rem 0 0;
-					padding: 0;
 
 					.subtask-item {
-						display: flex;
-						align-items: center;
-						gap: 0.4rem;
+						@include all.fl($alit: center, $gap: 0.4rem);
 						font-size: 1.3rem;
 
 						input {

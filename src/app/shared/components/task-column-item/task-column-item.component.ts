@@ -4,9 +4,10 @@ import { ContactIconListComponent } from "../contact-icon-list/contact-icon-list
 import { Category } from '../../enums/category.enum';
 import { CommonModule } from '@angular/common';
 import { ModalService } from '../../services/modal.service';
-import { FirebaseDBService } from '../../services/firebase-db.service';
 import { Firestore } from '@angular/fire/firestore';
+import { SubtaskEditState } from '../../enums/subtask-edit-state';
 import { FormsModule } from '@angular/forms';
+
 
 @Component({
   selector: 'app-task-column-item',
@@ -22,6 +23,7 @@ export class TaskColumnItemComponent {
 
   task: InputSignal<Task> = input.required<Task>();
 
+  SubtaskEditState = SubtaskEditState;
 
   Category = Category;
 
@@ -29,14 +31,14 @@ export class TaskColumnItemComponent {
    * Berechnet die Anzahl der abgeschlossenen Unteraufgaben.
    */
   get completedSubtaskCount(): number {
-    return this.task().subtasks.filter(sub => sub.finished).length;
+    return this.task().subtasks.filter(sub => sub.editState != SubtaskEditState.DELETED && sub.finished).length;
   }
 
   /**
    * Gibt die Gesamtzahl der Unteraufgaben zurück.
    */
   get totalSubtaskCount(): number {
-    return this.task().subtasks.length;
+    return this.task().subtasks.filter (sub => sub.editState != SubtaskEditState.DELETED).length;
   }
 
   /**
@@ -58,6 +60,6 @@ export class TaskColumnItemComponent {
 
   onSubtaskToggle(subtask: { finished: boolean }): void {
   subtask.finished = !subtask.finished;
-  // this.fireDB.updateSubtaskStatus(this.task().id, subtask);
-}
+  }
+
 }

@@ -4,21 +4,12 @@
 input,
 select,
 textarea,
-app-date-picker,
-app-subtask {
+app-date-picker {
     width: 100%;
 }
 
 b {
     color: red;
-}
-
-input[type=text], textarea {
-    font: 1.6rem 'Inter', sans-serif;
-}
-
-h1 {
-    font: 5rem 'InterBold', sans-serif; 
 }
 
 .input-wrapper {
@@ -45,17 +36,18 @@ h1 {
 }
 
 .add-task-section {
-    height: 82dvh;
+    height: 80dvh;
     @include all.marpad($pad: 3dvw);
 
-    @media screen and (min-width: 1900px) {
-			width: 100%;
-			height: auto;
-		}
+    @media(min-height: 2160px) {
+        padding: 0;
+        height: 45dvh;
+    }
 
     @include all.notebook {
         height: 80dvh;
         @include all.scrollbar();
+        padding: 2dvw;
     }
 
     #add-task-form {
@@ -80,16 +72,12 @@ h1 {
     @include all.size($w: 100%, $h: 58dvh);
     @include all.fl($jc: space-between, $alit: start, $gap: 1rem);
 
-    @media screen and (min-width: 1900px) {
-            height: 50dvh;
-		}
-
     @include all.notebook {
         @include all.fl($flexdir: column, $alit: center);
         @include all.scrollbar();
-        height: 50dvh;
+        height: 55dvh;
         overflow-y: auto;
-        @include all.marpad($mar: 2rem 0, $pad: 4rem 0 0 0);
+        margin: 2rem 0;
     }
 
     .add-task-info-block1 {
@@ -111,9 +99,13 @@ h1 {
 
     hr {
         width: 0.2rem;
-        height: 75%;
+        height: 100%;
         margin: 0 1rem;
         border: 1px solid rgba(0, 0, 0, 0.1);
+
+        @media(min-height: 2160px) {
+        height: 58%;
+    }
 
         @include all.notebook {
             display: none;
@@ -148,9 +140,10 @@ h1 {
         }
 
         .add-task-subtask-container {
-            display: flex;
             height: 20rem;
+
             app-subtask {
+                width: 100%;
                 height: 19dvh;
             }
         }
@@ -158,8 +151,18 @@ h1 {
 }
 
 .add-task-footer {
-    margin-top: 3rem;
     @include all.fl($jc: space-between, $alit: end);
+
+    @media(min-width: 3840px) {
+        position: absolute;
+        bottom: 0rem;
+        right: 0;
+        width: 18dvw;
+    }
+
+    @media(min-height: 2160px) {
+        height: 50dvh;
+    }
 
     .required-info-txt {
         font-size: 1.6rem;
@@ -190,6 +193,7 @@ h1 {
     margin: 0.5rem 0;
 }
 
-#due-date {
-    margin-top: 2rem;
+form {
+    width: 100%;
+    height: 35dvh;
 }

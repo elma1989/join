@@ -78,6 +78,10 @@
     border-radius: 0.8rem;
     padding: 0.5rem;
 
+    @media(min-height: 2160px) {
+        height: 5dvh;
+    }
+
     ol {
         width: 100%;
         overflow-y: auto;
