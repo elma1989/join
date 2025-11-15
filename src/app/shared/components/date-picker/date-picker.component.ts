@@ -30,7 +30,6 @@ export class DatePickerComponent implements OnInit, OnDestroy {
 
   selectedTimestamp = input.required<Timestamp>();
   dueDateGroup: InputSignal<FormGroup> = input.required<FormGroup>();
-  dateSelected = output<Timestamp>();
 
   private val: ValidationService = inject(ValidationService);
 
@@ -127,7 +126,6 @@ export class DatePickerComponent implements OnInit, OnDestroy {
 
     this.validate();
     this.showCalendar.set(false);
-    this.dateSelected.emit(day.date);
   }
 
   /**

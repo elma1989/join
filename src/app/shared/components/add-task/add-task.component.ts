@@ -55,6 +55,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
   close: OutputEmitterRef<boolean> = output<boolean>();
   contacts: Array<Contact> = [];
   protected errors: Record<string, string[]> = {};
+  protected tempDate: Timestamp | null = null;
 
   unsubContacts!: Unsubscribe;
   subFormChange!: Subscription;
@@ -187,8 +188,10 @@ export class AddtaskComponent implements OnInit, OnDestroy {
    */
   protected async updateTask(): Promise<void> {
     await this.fireDB.taskUpdateInDB('tasks', this.currentTask());
-    this.closeModal();
-    this.tms.add('Task was updated', 3000, 'success');
+    if (this.formTask.valid) {
+      this.closeModal();
+      this.tms.add('Task was updated', 3000, 'success');
+    }
   }
 
 
@@ -197,8 +200,8 @@ export class AddtaskComponent implements OnInit, OnDestroy {
    * 
    * @param date selected date from date-picker
    */
-  setDate(date: Date) {
-    this.currentTask().dueDate = Timestamp.fromDate(date)
+  setDate(date: Timestamp) {
+    this.tempDate = date;
   }
 
   /**
