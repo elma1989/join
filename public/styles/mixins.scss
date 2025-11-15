@@ -29,7 +29,7 @@
 	right: $right;
 }
 
-@mixin borRad($c: white, $radius: 16px, $thick: 1px, $design: solid) {
+@mixin borRad($c: white, $radius: 1.6rem, $thick: 1px, $design: solid) {
     border: $thick $design $c;
     border-radius: $radius;
 }

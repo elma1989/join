@@ -29,7 +29,7 @@
     @include all.size($w: 80%, $h: 80%);
     @include all.fl($flexdir: column, $jc: center, $alit: start, $gap: 1rem);
     background-color: white;
-    border-radius: 16px;
+    border-radius: 1.6rem;
     box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.2);
     padding: 5rem;
 
@@ -75,7 +75,7 @@
                 margin-bottom: 1rem;
 
                 @include all.mobile {
-                    font-size: 16px;
+                    font-size: 1.6rem;
                 }
             }
 

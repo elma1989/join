@@ -25,7 +25,7 @@ b {
 .add-task-input {
     @include all.borRad($c: rgba(0, 0, 0, 0.2), $radius: 8px);
     @include all.marpad($pad: 1rem);
-    font-size: 16px;
+    font-size: 1.6rem;
     cursor: text;
 
     &:focus-visible {
