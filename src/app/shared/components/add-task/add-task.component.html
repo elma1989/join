@@ -33,8 +33,7 @@
                     <label class="add-task-input-lbl">Due Date <b>*</b></label>
 
                     <app-date-picker [dueDateGroup]="getFormgroup('dueDate')"
-                        [selectedTimestamp]="currentTask().dueDate"
-                        (dateSelected)="currentTask().dueDate = $event"></app-date-picker>
+                        [selectedTimestamp]="currentTask().dueDate"></app-date-picker>
                     <small class="error">
                         @if (errors['deathline']) {
                         {{ errors['deathline'][0]}}

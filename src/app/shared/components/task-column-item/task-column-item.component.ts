@@ -25,6 +25,8 @@ export class TaskColumnItemComponent {
 
   SubtaskEditState = SubtaskEditState;
 
+  isMenuVisible: boolean = false;
+
   Category = Category;
 
   /**
@@ -58,8 +60,13 @@ export class TaskColumnItemComponent {
     return this.totalSubtaskCount >= 2;
   }
 
-  onSubtaskToggle(subtask: { finished: boolean }): void {
-  subtask.finished = !subtask.finished;
+  // #endregion properties
+
+  // #region methods
+
+  /** Shows and hide the mini menu for mobile devices. */
+  toggleMenu(): void {
+    this.isMenuVisible = !this.isMenuVisible;
   }
 
 }

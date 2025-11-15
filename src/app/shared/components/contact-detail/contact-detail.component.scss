@@ -144,7 +144,7 @@
                         }
 
                         img {
-                            @include all.size($w: 16px, $h: 16px);
+                            @include all.size($w: 1.6rem, $h: 1.6rem);
                         }
 
                         &:hover {
@@ -217,7 +217,7 @@
         @include all.size($w: 11rem, $h: 8rem);
         background-color: white;
         border-radius: 8px 8px 0 8px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 4px 1.6rem rgba(0, 0, 0, 0.15);
 
         .menuItem {
             @include all.fl($alit: center);

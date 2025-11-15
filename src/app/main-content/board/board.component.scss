@@ -105,7 +105,7 @@
         }
 
         @include all.mobile {
-            height: 59dvh;
+            height: 57dvh;
         }
 
         .task-list {
@@ -168,7 +168,7 @@
                     p {
                         @include all.size($w: 100%, $h: 5rem);
                         @include all.fl($jc: center, $alit: center);
-                        border-radius: 16px;
+                        border-radius: 1.6rem;
                         background: rgb(226, 226, 226);
                         color: rgb(178, 177, 177);
                         border: 2px dotted rgb(178, 177, 177);
@@ -193,8 +193,8 @@
 }
 
 .cdk-drag-preview {
-    border-radius: 16px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 1.6rem;
+    box-shadow: 0 5px 1.6rem rgba(0, 0, 0, 0.2);
     transform: translate(rotate(15deg));
 }
 

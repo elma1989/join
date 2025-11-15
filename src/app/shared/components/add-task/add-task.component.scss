@@ -25,7 +25,7 @@ b {
 .add-task-input {
     @include all.borRad($c: rgba(0, 0, 0, 0.2), $radius: 8px);
     @include all.marpad($pad: 1rem);
-    font-size: 16px;
+    font-size: 1.6rem;
     cursor: text;
 
     &:focus-visible {
@@ -75,7 +75,7 @@ b {
     @include all.notebook {
         @include all.fl($flexdir: column, $alit: center);
         @include all.scrollbar();
-        height: 55dvh;
+        height: 50dvh;
         overflow-y: auto;
         margin: 2rem 0;
     }

@@ -29,7 +29,7 @@
         }
 
         .arrow {
-          font-size: 12px;
+          font-size: 1.6rem;
         }
     }
 
@@ -54,7 +54,7 @@
         border: none;
         border-bottom: 1px solid #eee;
         outline: none;
-        font-size: 16px;
+        font-size: 1.6rem;
       }
 
       .option {
@@ -74,7 +74,7 @@
           span {
             width: 80%;
             @include all.limiter();
-            font-size: 16px;
+            font-size: 1.6rem;
 
             @include all.notebook {
               width: 40dvw;
@@ -99,6 +99,6 @@
     .no-results{
       padding: 8px 10px;
       color: #888;
-      font-size: 14px;
+      font-size: 1.6rem;
     }
 }

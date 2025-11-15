@@ -29,7 +29,7 @@
 	right: $right;
 }
 
-@mixin borRad($c: white, $radius: 16px, $thick: 1px, $design: solid) {
+@mixin borRad($c: white, $radius: 1.6rem, $thick: 1px, $design: solid) {
     border: $thick $design $c;
     border-radius: $radius;
 }
@@ -46,12 +46,6 @@
 	word-wrap: break-word;
 	overflow: hidden; 
 	text-overflow: ellipsis;
-}
-
-@mixin font-style($size: 1.6rem, $family: string.unquote("Inter, sans-serif"), $weight: none) {
-	font-size: $size;
-	font-family: $family;
-	font-weight: $weight;
 }
 
 @mixin scrollbar() {

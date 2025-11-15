@@ -14,7 +14,7 @@
 			@include all.fl($alit: center, $gap: 3rem);
 
 			@media (max-width: 1200px) {
-				@include all.fl($flexdir: column, $gap: 1rem);
+				@include all.fl($flexdir: column, $gap: 0rem);
 			}
 
 			h1 {
@@ -52,6 +52,7 @@
 
 				@media (max-width: 1200px) {
 					display: block;
+					margin-top: 4rem;
 				}
 			}
 		}
@@ -75,7 +76,7 @@
 		.dashboard {
 			@include all.size($w: 100%, $h: 60dvh);
 			padding: 4rem 0 4rem 0;
-			margin-top: 3rem;
+			// margin-top: 3rem;
 
 			@media(min-width: 3840px) {
 				width: 30dvw;
@@ -98,8 +99,9 @@
 
 			@include all.mobile {
 				width: 100%;
-				height: 55dvh;
-				padding-top: 2rem;
+				height: 50dvh;
+				padding: 0 0 4rem 0;
+				margin: 0;
 			}
 
 			.first-dashboard-row-container {
@@ -152,6 +154,7 @@
 
 					.done-count {
 						@include all.fl($alit: center, $flexdir: column);
+						font-size: 1.6rem;
 					}
 				}
 			}
@@ -162,6 +165,7 @@
 
 				@include all.mobile {
 					height: 35%;
+					padding: 0 0.5rem;
 				}
 
 				.middle-dashboard-row {
@@ -172,7 +176,7 @@
 					cursor: pointer;
 
 					@include all.mobile {
-						gap: 1rem;
+						gap: 0.5rem;
 					}
 
 
@@ -190,10 +194,6 @@
 					.dashboard-priority {
 						@include all.size($h: 6rem);
 						@include all.fl($alit: center, $jc: center);
-
-						@include all.mobile {
-							margin-left: 2rem;
-						}
 
 						.red {
 							background: #ff3c00;
@@ -242,6 +242,10 @@
 						display: flex;
 						align-items: center;
 						flex-direction: column;
+
+						p {
+							font-size: 1.6rem;
+						}
 					}
 
 					hr {
@@ -257,10 +261,15 @@
 							font-weight: bold;
 							columns: #2a3647;
 							font-size: 2.2rem;
+
+							@include all.mobile {
+								font-size: 1.6rem;
+							}
 						}
 
 						p {
 							@include all.marpad($mar: 1rem 0 0 0);
+							font-size: 1.6rem;
 						}
 					}
 				}
@@ -295,12 +304,16 @@
 						}
 					}
 
+					span {
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						height: 60%;
+					}
+
 					p {
 						text-align: center;
-
-						@include all.mobile {
-							font-size: 1.2rem;
-						}
+						font-size: 1.6rem;
 					}
 				}
 			}

@@ -55,6 +55,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
   close: OutputEmitterRef<boolean> = output<boolean>();
   contacts: Array<Contact> = [];
   protected errors: Record<string, string[]> = {};
+  protected tempDate: Timestamp | null = null;
 
   unsubContacts!: Unsubscribe;
   subFormChange!: Subscription;
@@ -127,21 +128,51 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     return `${month}/${day}/${year}`;
   }
 
-  /** Submits a form. */
-  protected submitForm(): void {
-    this.val.polluteForm('task');
-    this.validate();
-    if (this.formTask.valid) {
-      this.currentTask().title = this.formTask.get('title')?.value ?? '';
-      this.currentTask().description = this.formTask.get('description')?.value ?? '';
-      this.currentTask().dueDate = this.formTimestamp;
-      if (this.addMode) {
-        this.addTask();
-      } else {
-        this.updateTask();
-      }
-    }
+  /**
+ * Submits the task form after triggering validation.
+ * Marks the form as touched, validates it, and then
+ * proceeds with the appropriate taskr depending on validity.
+ * @protected
+ * @returns {void}
+ */
+protected submitForm(): void {
+  this.val.polluteForm('task');
+  this.validate();
+  this.formTask.valid ? this.taskValidForm() : this.taskInvalidForm();
+}
+
+/**
+ * tasks the logic when the task form is valid.
+ * Retrieves the current task, updates its properties based on
+ * form values, and either adds or updates the task depending
+ * on the current mode.
+ * @private
+ * @returns {void}
+ */
+private taskValidForm(): void {
+  const task = this.currentTask();
+  task.title = this.formTask.get('title')?.value ?? '';
+  task.description = this.formTask.get('description')?.value ?? '';
+  task.dueDate = this.formTimestamp;
+
+  if (this.addMode) this.addTask();
+  else if (task?.id) this.updateTask();
+}
+
+/**
+ * tasks form submission when the form is invalid.
+ * Shows an error message depending on whether a task
+ * was being created or updated.
+ * @private
+ * @returns {void}
+ */
+private taskInvalidForm(): void {
+  if (this.addMode) {
+    this.tms.add('Task wasn’t created', 3000, 'error');
+  } else {
+    this.tms.add('Task not updated', 3000, 'error');
   }
+}
 
   /**
    * Reset all inputs to default.
@@ -187,18 +218,19 @@ export class AddtaskComponent implements OnInit, OnDestroy {
    */
   protected async updateTask(): Promise<void> {
     await this.fireDB.taskUpdateInDB('tasks', this.currentTask());
-    this.closeModal();
-    this.tms.add('Task was updated', 3000, 'success');
+    if (this.formTask.valid) {
+      this.closeModal();
+      this.tms.add('Task was updated', 3000, 'success');
+    }
   }
-
 
   /**
    * Sets the due date of task. 
    * 
    * @param date selected date from date-picker
    */
-  setDate(date: Date) {
-    this.currentTask().dueDate = Timestamp.fromDate(date)
+  setDate(date: Timestamp) {
+    this.tempDate = date;
   }
 
   /**
@@ -240,7 +272,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
 
   /**
    * if this component is part of a modal
-   * this method emits a close output which can handle by parent.
+   * this method emits a close output which can task by parent.
    */
   closeModal() {
     this.close.emit(true);

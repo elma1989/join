@@ -12,7 +12,7 @@ input {
     position: relative;
     display: inline-block;
     font-family: "InterRegular", sans-serif;
-    font-size: 16px;
+    font-size: 1.6rem;
     width: 100%;
 
     &:focus {
@@ -117,7 +117,7 @@ input {
                 border-radius: 4px;
                 padding: 4px 8px;
                 cursor: pointer;
-                font-size: 13px;
+                font-size: 1.6rem;
 
                 &:hover {
                     background: #145a9d;
