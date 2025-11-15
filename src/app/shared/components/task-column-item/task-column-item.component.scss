@@ -158,8 +158,11 @@
 		}
 
 		.subtask-counter {
-			@include all.font-style($size: 1.5rem);
 			white-space: nowrap;
+
+			p {
+				font-size: 1.6rem;
+			}
 		}
 
 		.column-bottom-container {

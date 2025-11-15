@@ -48,12 +48,6 @@
 	text-overflow: ellipsis;
 }
 
-@mixin font-style($size: 1.6rem, $family: string.unquote("Inter, sans-serif"), $weight: none) {
-	font-size: $size;
-	font-family: $family;
-	font-weight: $weight;
-}
-
 @mixin scrollbar() {
 	scrollbar-width: thin;
     scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
