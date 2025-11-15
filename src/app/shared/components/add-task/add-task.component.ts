@@ -130,19 +130,24 @@ export class AddtaskComponent implements OnInit, OnDestroy {
 
   /** Submits a form. */
   protected submitForm(): void {
-    this.val.polluteForm('task');
-    this.validate();
-    if (this.formTask.valid) {
-      this.currentTask().title = this.formTask.get('title')?.value ?? '';
-      this.currentTask().description = this.formTask.get('description')?.value ?? '';
-      this.currentTask().dueDate = this.formTimestamp;
-      if (this.addMode) {
-        this.addTask();
-      } else {
-        this.updateTask();
-      }
+  this.val.polluteForm('task');
+  this.validate();
+
+  if (this.formTask.valid) {
+    const task = this.currentTask();
+    task.title = this.formTask.get('title')?.value ?? '';
+    task.description = this.formTask.get('description')?.value ?? '';
+    task.dueDate = this.formTimestamp;
+
+    if (this.addMode) {
+      this.addTask();
+    } else if (task && task.id) {
+      this.updateTask();
     }
+  } else {
+    this.tms.add('Task wasn`t created', 3000, 'error');
   }
+}
 
   /**
    * Reset all inputs to default.
@@ -193,7 +198,6 @@ export class AddtaskComponent implements OnInit, OnDestroy {
       this.tms.add('Task was updated', 3000, 'success');
     }
   }
-
 
   /**
    * Sets the due date of task. 

@@ -3,7 +3,7 @@
 :host {
     @include all.fl($flexdir: column);
     width: 100%;
-    font-size: 16px;
+    font-size: 1.6rem;
 }
 
 .errmsg {
@@ -29,7 +29,7 @@
 
     .add-subtask-input {
         width: 100%;
-        font-size: 16px;
+        font-size: 1.6rem;
         padding: 1rem;
         @include all.limiter();
         inset: none;
@@ -91,7 +91,7 @@
         li {
             height: 4.8rem;
             width: 99%;
-            font-size: 16px;
+            font-size: 1.6rem;
             @include all.fl($jc: space-between, $alit: center);
             background: transparent;
         }
