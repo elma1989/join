@@ -1,0 +1,10 @@
+@use '../../../../../public/styles/all_styles' as all;;
+
+:host {
+    display: flex;
+    @include all.size($w: 100%, $h: 16dvh);
+}
+
+img {
+    height: 16dvh;
+}

@@ -10,12 +10,14 @@ import { Contact } from '../../shared/classes/contact';
 import { doc, Firestore, setDoc } from '@angular/fire/firestore';
 import { ToastMsgService } from '../../shared/services/toast-msg.service';
 import { SectionType } from '../../shared/enums/section-type';
+import { HeaderSignComponent } from '../../shared/components/header-sign/header-sign.component';
 
 @Component({
   selector: 'section[sign-up]',
   imports: [
     ReactiveFormsModule,
-    CommonModule
+    CommonModule,
+    HeaderSignComponent
 ],
   templateUrl: './sign-up.component.html',
   styleUrl: './sign-up.component.scss'
