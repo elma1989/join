@@ -12,6 +12,7 @@ import { ToastMsgService } from '../../shared/services/toast-msg.service';
 import { SectionType } from '../../shared/enums/section-type';
 import { HeaderSignComponent } from '../../shared/components/header-sign/header-sign.component';
 import { FooterSignComponent } from '../../shared/components/footer-sign/footer-sign.component';
+import { HeaderFormComponent } from '../../shared/components/header-form/header-form.component';
 
 @Component({
   selector: 'section[sign-up]',
@@ -19,6 +20,7 @@ import { FooterSignComponent } from '../../shared/components/footer-sign/footer-
     ReactiveFormsModule,
     CommonModule,
     HeaderSignComponent,
+    HeaderFormComponent,
     FooterSignComponent
 ],
   templateUrl: './sign-up.component.html',
