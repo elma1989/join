@@ -82,12 +82,6 @@
             margin: 2rem
         }
 
-        @include all.mobile {
-            margin: 6rem 0 0 0 ;
-            // padding: 1rem;
-
-        }
-
         .contact-detail-header-row {
             @include all.fl($alit: center);
             @include all.size($w: 100%);
