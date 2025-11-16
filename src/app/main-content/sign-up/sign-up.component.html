@@ -43,7 +43,7 @@
         <div class="check-field">
             <div class="check-item">
                 <input formControlName="acceptPolicy" type="checkbox" id="chk-privacy-policy">
-                <label for="chk-privacy-policy">I accept</label><a (click)="goToPolicy()">Privacy policy</a>
+                <label for="chk-privacy-policy">I accept</label><a (click)="navigate(SectionType.PRIVACY)">Privacy policy</a>
             </div>
             <div class="errmsg">{{ errors['acceptPolicy'] ? errors['acceptPolicy'][0] : ''}}</div>
         </div>
@@ -52,7 +52,4 @@
         </div>
     </form>
 </main>
-<footer>
-    <a (click)="goToPolicy()">Privacy policy</a>
-    <a (click)="goToLegal()">Legal notice</a>
-</footer>
+<footer sign (section)="navigate($event)"></footer>
