@@ -30,19 +30,34 @@ import { SectionType } from '../../shared/enums/section-type';
   styleUrl: './board.component.scss'
 })
 export class BoardComponent implements OnDestroy, OnInit {
-  // #region Attrbutes
+  // #region Attributes
+
+  /** Emits the currently selected section. */
   @Output() selectedSection = new EventEmitter<SectionType>();
 
+  /** Service for modals. */
   protected modalService: ModalService = inject(ModalService);
+
+  /** Service for Firebase DB operations. */
   private fireDB: FirebaseDBService = inject(FirebaseDBService);
+
+  /** Service to show toast messages. */
   private tms: ToastMsgService = inject(ToastMsgService);
+
+  /** ChangeDetectorRef to manually trigger change detection. */
   private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
+
+  /** Service to detect display size. */
   protected dss: DisplaySizeService = inject(DisplaySizeService);
 
+  /** Enum for display types. */
   DisplayType = DisplayType;
+
   // Primary Data
   tasks: Task[] = [];
   private shownTasks: Task[] = [];
+
+  /** Defines the different task lists with their status. */
   protected taskLists: {
     listName: string,
     status: TaskStatusType
@@ -52,14 +67,17 @@ export class BoardComponent implements OnDestroy, OnInit {
       { listName: 'Await feedback', status: TaskStatusType.REVIEW },
       { listName: 'Done', status: TaskStatusType.DONE }
     ]
+
+  /** Holds tasks grouped by their list for rendering. */
   protected taskItems: Task[][] = [[], [], [], []];
 
-  // Database
+  // Database references
   private contacts: Contact[] = [];
-  private subtasks: SubTask[] = []
+  private subtasks: SubTask[] = [];
   private unsubTasks!: Unsubscribe;
   private unsubContacts!: Unsubscribe;
   private unsubSubtasks!: Unsubscribe;
+
   // #endregion
 
   ngOnInit(): void {
@@ -77,11 +95,12 @@ export class BoardComponent implements OnDestroy, OnInit {
     this.unsubTasks();
   }
 
-  // #region methods
-  // #region database
+  // #region Methods
+  // #region Database
+
   /**
-   * Subscribes the contacts.
-   * @returns - Unsubscribe of Contacts.
+   * Subscribes to the contacts collection in Firestore.
+   * @returns An unsubscribe function for contacts.
    */
   private subscribeContacts(): Unsubscribe {
     return onSnapshot(this.fireDB.getCollectionRef('contacts'), contactsSnap => {
@@ -92,19 +111,19 @@ export class BoardComponent implements OnDestroy, OnInit {
   }
 
   /**
-   * Subscribes the subtasks
-   * @returns - Unsubscribe of Sutasks
+   * Subscribes to the subtasks collection in Firestore.
+   * @returns An unsubscribe function for subtasks.
    */
   private subscribeSubtasks(): Unsubscribe {
     return onSnapshot(this.fireDB.getCollectionRef('subtasks'), subtasksSnap => {
       this.subtasks = [];
       subtasksSnap.docs.map(doc => { this.subtasks.push(new SubTask(doc.data() as SubtaskObject)) })
-    })
+    });
   }
 
   /**
-   * Subscribes the tasks.
-   * @returns - Unsubscribe for Task
+   * Subscribes to the tasks collection in Firestore.
+   * @returns An unsubscribe function for tasks.
    */
   private subscribeTasks(): Unsubscribe {
     return onSnapshot(this.fireDB.getCollectionRef('tasks'), taskSnap => {
@@ -124,25 +143,31 @@ export class BoardComponent implements OnDestroy, OnInit {
   }
 
   /**
-   * Updates a task.
-   * @param task - Task for update.
+   * Updates a task in Firestore.
+   * @param task - The task to update.
    */
   private async updateTask(task: Task) {
     await this.fireDB.taskUpdateInDB('tasks', task);
     this.tms.add('Task was updated', 3000, 'success');
   }
+
   // #endregion
-  // #region taskmgmt
+  // #region Task Management
+
   /**
-   * Filters all Tasks by user input.
-   * @param userSearch - Input from User-Searchbar.
+   * Filters all tasks based on user input.
+   * @param userSearch - The search string entered by the user.
    */
   filterTasks(userSearch: string) {
-    this.shownTasks = userSearch.length == 0 ? this.tasks : this.tasks.filter(task => task.title.toLowerCase().includes(userSearch.toLowerCase()));
+    this.shownTasks = userSearch.length == 0
+      ? this.tasks
+      : this.tasks.filter(task => task.title.toLowerCase().includes(userSearch.toLowerCase()));
     this.splitTasks();
   }
 
-  /** Divides all shwohn Tasks in their lists */
+  /**
+   * Divides all currently shown tasks into their respective lists.
+   */
   private splitTasks() {
     this.taskItems = [[], [], [], []];
     for (let i = 0; i < this.shownTasks.length; i++) {
@@ -162,25 +187,25 @@ export class BoardComponent implements OnDestroy, OnInit {
     }
   }
 
-  /** Gets all Tasks, which has been searched.
-   * If user is not looking for tasks, all tasks are schown.
+  /**
+   * Returns all currently shown tasks.
    */
   getTasks() {
     return this.shownTasks;
   }
 
   /**
-   * Gets tasks from status.
-   * @param status - State of Task
-   * @returns - separete List for status
+   * Gets tasks filtered by status.
+   * @param status - The status to filter by.
+   * @returns Array of tasks with the given status.
    */
   getTaskForList(status: TaskStatusType): Task[] {
-    return this.shownTasks.filter(task => task.status == status)
+    return this.shownTasks.filter(task => task.status == status);
   }
 
   /**
-   * Adds all contacts to a task.
-   * @param index - Positon in Task-Array.
+   * Adds all contacts to a specific task based on assigned IDs.
+   * @param index - The index of the task in the tasks array.
    */
   private addContactsToTask(index: number) {
     this.tasks[index].contacts = [];
@@ -194,8 +219,8 @@ export class BoardComponent implements OnDestroy, OnInit {
   }
 
   /**
-   * Adds all subtasks to a task.
-   * @param index - Position in Task-Array.
+   * Adds all subtasks to a specific task.
+   * @param index - The index of the task in the tasks array.
    */
   private addSubtasktoTask(index: number) {
     for (let i = 0; i < this.subtasks.length; i++) {
@@ -207,7 +232,9 @@ export class BoardComponent implements OnDestroy, OnInit {
     }
   }
 
-  /**Sort contacts by  firstname, lastname. */
+  /**
+   * Sorts the contacts array by firstname, then lastname.
+   */
   private sortContacts(): void {
     this.contacts.sort((a, b) => {
       const firstCompare: number = a.firstname.localeCompare(b.firstname, 'de');
@@ -215,18 +242,21 @@ export class BoardComponent implements OnDestroy, OnInit {
         return a.lastname.localeCompare(b.lastname, 'de');
       }
       return firstCompare;
-    })
+    });
   }
 
   /**
-   * Sort task of a task-list by dueDate ascending.
-   * @param index - Index of task-list
+   * Sorts the tasks in a specific list by due date ascending.
+   * @param index - The index of the task list.
    */
   private sortTasks(index: number): void {
     this.taskItems[index].sort((a, b) => a.dueDate.seconds - b.dueDate.seconds);
   }
-  // #endregion
 
+  /**
+   * Handles drag-and-drop of tasks between lists.
+   * @param e - The drag-drop event.
+   */
   protected drop(e: CdkDragDrop<Task[]>): void {
     const previousList = e.previousContainer.data || [];
     const currentList = e.container.data || [];
@@ -241,5 +271,36 @@ export class BoardComponent implements OnDestroy, OnInit {
       this.updateTask(e.item.data);
     }
   }
-  // #endregion
+
+  /**
+   * Handles status change emitted from a task column item.
+   * @param task - The task to update.
+   * @param newStatus - The new status to assign.
+   */
+  onStatusChange(task: Task, newStatus: TaskStatusType) {
+    task.status = newStatus;
+    this.updateTask(task);
+    this.splitTasks();
+    this.openedTaskDropdownId = null;
+  }
+
+  /** Currently opened task dropdown ID */
+  protected openedTaskDropdownId: string | null = null;
+
+  /**
+   * Toggles a task dropdown menu.
+   * @param taskId - ID of the task to toggle
+   */
+  toggleDropdown(taskId: string) {
+    if (this.openedTaskDropdownId === taskId) {
+      // Clicked the same task → close it
+      this.openedTaskDropdownId = null;
+    } else {
+      // Close previous, open new
+      this.openedTaskDropdownId = taskId;
+    }
+
+
+    // #endregion
+  }
 }

@@ -5,20 +5,21 @@
 			{{ task().category }}
 		</h2>
 
-		<div class="mobile-options-container" id="mobileMenu">
-			<button class="option-btns" (click)="toggleMenu()">
-				<span class="dot"></span>
-				<span class="dot"></span>
-				<span class="dot"></span>
+		<div class="mobile-drop-container" id="mobileMenu">
+			<button class="drop-btns" (click)="toggleMenu()">
+				<img src="assets/Icons/taskBoard/arrow.png" alt="">
 			</button>
 		</div>
 
-		<div class="dropdown" *ngIf="isMenuVisible" (click)="$event.stopPropagation()">
-			<a>To Do</a>
-			<a>In progress</a>
-			<a>Await Feedback</a>
-			<a>Donet</a>
+		@if (isDropdownOpen) {
+		<div class="dropdown" (click)="$event.stopPropagation()">
+			@for (list of availableStatus; track list.status) {
+			<a (click)="changeStatus(list.status)">
+				{{ list.listName }}
+			</a>
+			}
 		</div>
+		}
 	</div>
 	<div class="main-info-container" (click)="modalService.openTaskDetailModal(task())">
 		<h3 class="title">
