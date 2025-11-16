@@ -165,7 +165,7 @@
 			}
 
 			@include all.mobile {
-				height: 13rem;
+				height: 12rem;
 			}
 		}
 
@@ -191,10 +191,12 @@
 
 .task-modal-subtasks {
 	@include all.fl($flexdir: column);
-	@include all.marpad($mar: 3rem 0 0 0);
+	@include all.marpad($mar: 3rem 0 0 0, $pad: 1rem);
+	box-shadow: inset 0 0 0.7rem rgba(0, 0, 0, 0.5);
+	border-radius: 0.8rem;
 
 	@include all.mobile {
-			@include all.marpad($mar: 1rem 0 0 0);
+			@include all.marpad($mar: 1rem 0 0 0, $pad: 0.5rem);
 		}
 
 	.task-modal-subtask-container {
@@ -209,7 +211,7 @@
 		}
 
 		@include all.mobile {
-			height: 8rem;
+			height: 7rem;
 		}
 
 		.task-modal-input {
