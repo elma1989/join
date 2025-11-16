@@ -98,7 +98,7 @@
                 [isDropdownOpen]="openedTaskDropdownId === task.id" (toggleDropdown)="toggleDropdown($event)"
                 (statusChange)="onStatusChange(task, $event)" cdkDrag
                 [cdkDragStartDelay]="(((dss.size() | async) === DisplayType.TABLET) || ((dss.size() | async) === DisplayType.MOBILE))? 500 : 0"
-                [cdkDragData]="task">
+                [cdkDragData]="task" (click)="$event.stopPropagation()">
             </app-task-column-item>
             } } @else {
             <div class="no-entry-container">

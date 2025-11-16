@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, inject, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, HostListener, inject, OnDestroy, OnInit, Output } from '@angular/core';
 import { Task } from '../../shared/classes/task';
 import { onSnapshot, Unsubscribe } from '@angular/fire/firestore';
 import { CommonModule } from '@angular/common';
@@ -79,6 +79,11 @@ export class BoardComponent implements OnDestroy, OnInit {
   private unsubSubtasks!: Unsubscribe;
 
   // #endregion
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    this.openedTaskDropdownId = null;
+  }
 
   ngOnInit(): void {
     this.unsubContacts = this.subscribeContacts();

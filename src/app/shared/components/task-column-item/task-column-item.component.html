@@ -6,7 +6,7 @@
 		</h2>
 
 		<div class="mobile-drop-container" id="mobileMenu">
-			<button class="drop-btns" (click)="toggleMenu()">
+			<button class="drop-btns" (click)="toggleMenu(); $event.stopPropagation()">
 				<img src="assets/Icons/taskBoard/arrow.png" alt="">
 			</button>
 		</div>

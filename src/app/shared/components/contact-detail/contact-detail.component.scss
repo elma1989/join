@@ -1,11 +1,11 @@
 @use "./../../../../../public/styles/all_styles.scss" as all;
 
 :host {
-    
+
     // #region detail-header
     .contact-detail-header {
         @include all.fl($jc: space-between, $alit: center);
-        @include all.size($h: 8rem, $w: 100%);
+        @include all.size($h: 10rem, $w: 100%);
         max-width: 90dvw;
 
         .header-info {
@@ -77,9 +77,14 @@
         @include all.size($w: 100%, $h: 70%);
         @include all.marpad($mar: 6rem 0 0);
 
+        @include all.notebook {
+            padding: 2rem 0 0 0;
+        }
+
         @include all.tablet {
             width: 100%;
-            margin: 2rem
+            height: 55dvh;
+            margin: 2rem;
         }
 
         .contact-detail-header-row {
@@ -152,6 +157,10 @@
         h2 {
             @include all.marpad($mar: 3rem 0);
             font-size: 2.4rem;
+
+            @include all.tablet {
+                @include all.marpad($mar: 1rem 0);
+            }
         }
 
         .emailPhone {
@@ -177,13 +186,14 @@
 
 
     .mobile-options-container {
-        @include all.absolute($bottom: 0, $right: 1rem);
+        @include all.absolute($bottom: 0, $right: 5rem);
         @include all.size($w: 5rem, $h: 5rem);
         display: none;
         z-index: 1;
 
         @include all.tablet {
             display: flex;
+            @include all.absolute($bottom: 0, $right: 3rem);
         }
 
         .option-btns {
