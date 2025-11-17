@@ -1,7 +1,7 @@
 @if(currentSection == SectionType.LOGIN || currentSection == SectionType.SIGNUP) {
     <div class="content-sign">
         @if(currentSection == SectionType.LOGIN) {
-            <section login (section)="changeSection($event)" (prevSection)="changePrevSection($event)"></section>
+            <section login (user)="setUser($event)" (section)="changeSection($event)" (prevSection)="changePrevSection($event)"></section>
         } @else {
             <section sign-up (user)="setUser($event)" (section)="changeSection($event)" (prevSection)="changePrevSection($event)"></section>
         }

@@ -5,6 +5,7 @@ import { FooterSignComponent } from '../../shared/components/footer-sign/footer-
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SectionType } from '../../shared/enums/section-type';
+import { User } from '../../shared/classes/user';
 
 @Component({
   selector: 'section[login]',
@@ -20,6 +21,7 @@ import { SectionType } from '../../shared/enums/section-type';
 })
 export class LoginComponent {
 
+  user: OutputEmitterRef<User | null> = output<User | null>();
   section: OutputEmitterRef<SectionType> = output<SectionType>();
   prevSection: OutputEmitterRef<SectionType> = output<SectionType>();
 
@@ -43,5 +45,12 @@ export class LoginComponent {
   protected navigate(section: SectionType): void {
     this.section.emit(section);
     this.prevSection.emit(SectionType.LOGIN);
+  }
+
+  /** A Login for guests. */
+  protected useGuestLogin(): void {
+    this.user.emit(null);
+    this.section.emit(SectionType.SUMMARY);
+    this.prevSection.emit(SectionType.SUMMARY);
   }
 }
