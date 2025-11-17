@@ -1,7 +1,7 @@
 <header sign></header>
 <main>
     <header form title="Log in"></header>
-    <form [formGroup]="form">
+    <form [formGroup]="form" (ngSubmit)="submitForm()">
         <div class="input-area">
             <div class="input-field">
                 <input type="text" placeholder="E-Mail" formControlName="email">

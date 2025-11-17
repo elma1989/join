@@ -6,6 +6,9 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SectionType } from '../../shared/enums/section-type';
 import { User } from '../../shared/classes/user';
+import { AuthService } from '../../shared/services/auth.service';
+import { LoginData } from '../../shared/interfaces/login-data';
+import { ToastMsgService } from '../../shared/services/toast-msg.service';
 
 @Component({
   selector: 'section[login]',
@@ -25,6 +28,9 @@ export class LoginComponent {
   section: OutputEmitterRef<SectionType> = output<SectionType>();
   prevSection: OutputEmitterRef<SectionType> = output<SectionType>();
 
+  auth: AuthService = inject(AuthService);
+  tms: ToastMsgService = inject(ToastMsgService);
+
   private fb: FormBuilder = inject(FormBuilder);
 
   protected form: FormGroup = this.fb.group({
@@ -37,6 +43,25 @@ export class LoginComponent {
 
   /** Turns visibility of password on and off. */
   protected toggleVisibility():void { this.passwordVisible = !this.passwordVisible };
+
+  protected async submitForm(): Promise<void> {
+    try {
+      const userCred = await this.auth.login(this.form.value as LoginData);
+      if (userCred.user) {
+        const user: User | null = await this.auth.getUser(userCred.user.uid);
+        if (user) {
+          this.user.emit(user);
+          this.section.emit(SectionType.SUMMARY);
+          this.prevSection.emit(SectionType.SUMMARY);
+          this.tms.add('Login successful', 3000, 'success');
+          localStorage.setItem('uid', user.id);
+        }
+      }
+    } catch (err) {
+      this.tms.add('E-Mail or password is not correct', 3000, 'error');
+      this.form.reset();
+    }
+  }
 
   /**
    * Navigates to a section.
