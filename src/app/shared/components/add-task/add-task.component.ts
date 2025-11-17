@@ -159,21 +159,6 @@ private taskValidForm(): void {
   else if (task?.id) this.updateTask();
 }
 
-/**
- * tasks form submission when the form is invalid.
- * Shows an error message depending on whether a task
- * was being created or updated.
- * @private
- * @returns {void}
- */
-private taskInvalidForm(): void {
-  if (this.addMode) {
-    this.tms.add('Task wasn’t created', 3000, 'error');
-  } else {
-    this.tms.add('Task not updated', 3000, 'error');
-  }
-}
-
   /**
    * Reset all inputs to default.
    */
@@ -221,8 +206,23 @@ private taskInvalidForm(): void {
     if (this.formTask.valid) {
       this.closeModal();
       this.tms.add('Task was updated', 3000, 'success');
-    }
+    } else {
+    this.tms.add('Task not updated', 3000, 'error');
   }
+  }
+
+  /**
+ * tasks form submission when the form is invalid.
+ * Shows an error message depending on whether a task
+ * was being created or updated.
+ * @private
+ * @returns {void}
+ */
+private taskInvalidForm(): void {
+  if (this.addMode) {
+    this.tms.add('Task wasn’t created', 3000, 'error');
+  } 
+}
 
   /**
    * Sets the due date of task. 
