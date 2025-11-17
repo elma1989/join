@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, UserCredential } from '@angular/fire/auth';
+import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, UserCredential } from '@angular/fire/auth';
 import { User } from '../classes/user';
 import { LoginData } from '../interfaces/login-data';
-import { Firestore } from '@angular/fire/firestore';
+import { doc, DocumentReference, Firestore, getDoc } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -36,5 +36,28 @@ export class AuthService {
     } catch (err) {
       throw err;
     }
+  }
+
+  /**
+   * Gets a user from database.
+   * @param id - Id of User
+   * @returns Instance of User or null if not found.
+   */
+  async getUser(id: string): Promise<User | null> {
+    const ref: DocumentReference = doc(this.fs, `contacts/${id}`);
+    const snapshot = await getDoc(ref);
+    if (snapshot.exists()) {
+      const user = new User();
+      const data = snapshot.data();
+      user.id = id;
+      user.firstname = data['firstname'];
+      user.group = user.firstname[0];
+      user.lastname = data['lastname'];
+      user.email = data['email'];
+      user.tel = data['tel'];
+      user.iconColor = data['iconColor'];
+      return user;
+    }
+    return null;
   }
 }
