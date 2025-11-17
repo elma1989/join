@@ -80,7 +80,7 @@
             .dropdown {
                 @include all.absolute($top: 7.8rem, $right: 0);
                 @include all.marpad($pad: 1rem);
-                @include all.size($h: 15.5rem);
+                @include all.size($h: auto);
                 @include all.fl($jc: center, $alit: start, $flexdir: column, $gap: 0.5rem);
                 min-width: 14.5rem;
                 background-color: #1f2a3a;
@@ -100,13 +100,13 @@
                     }
                 }
 
-                .help-login {
-                    display: none;
+                // .help-login {
+                //     display: none;
 
-                    @include all.tablet {
-                        display: flex;
-                    }
-                }
+                //     @include all.tablet {
+                //         display: flex;
+                //     }
+                // }
 
                 a {
                     @include all.marpad($pad: 1rem);
