@@ -2,7 +2,7 @@
 
 :host {
     height: 10dvh;
-    @include all.fl($gap: 3.2rem);
+    @include all.fl($gap: 3.2rem, $alit: flex-end);
 }
 
 a {
