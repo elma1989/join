@@ -1,6 +1,27 @@
 <header sign></header>
 <main>
     <header form title="Log in"></header>
-    
+    <form [formGroup]="form">
+        <div class="input-field">
+            <input type="text" placeholder="E-Mail" formControlName="email">
+            <img src="assets/Icons/contact/mail.png">
+        </div>
+        <div class="input-field">
+            <input type="{{ passwordVisible ? 'text' : 'password' }}" placeholder="Password" formControlName="password">
+            @if(form.dirty) {
+                @if (passwordVisible) {
+                    <img src="assets/Icons/signon/visibility_off.png" class="input-img">
+                } @else {
+                    <img src="assets/Icons/signon/visibility.png" class="input-img">
+                }
+            } @else {
+                <img src="assets/Icons/signon/lock.png" class="input-img">
+            }
+        </div>
+        <div class="button-area">
+            <input type="submit" value="Log in" class="btn-set">
+            <input type="button" value="Guest Log in" class="btn-default">
+        </div>
+    </form>
 </main>
 <footer sign></footer>

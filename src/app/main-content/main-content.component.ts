@@ -10,6 +10,7 @@ import { LegalNoticeComponent } from '../main-content/legal-notice/legal-notice.
 import { SummmaryComponent } from './summmary/summmary.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { User } from '../shared/classes/user';
+import { LoginComponent } from './login/login.component';
 
 
 @Component({
@@ -24,15 +25,16 @@ import { User } from '../shared/classes/user';
     PrivacyPolicyComponent,
     LegalNoticeComponent,
     SummmaryComponent,
-    SignUpComponent
+    SignUpComponent,
+    LoginComponent
   ],
   templateUrl: './main-content.component.html',
   styleUrl: './main-content.component.scss'
 })
 export class MainContentComponent {
   protected readonly SectionType = SectionType;
-  protected prevSection: SectionType = SectionType.PRIVACY;
-  protected currentSection: SectionType = SectionType.SIGNUP;
+  protected prevSection: SectionType = SectionType.SUMMARY;
+  protected currentSection: SectionType = SectionType.LOGIN;
   protected currentUser: User | null = null;
 
   /**
