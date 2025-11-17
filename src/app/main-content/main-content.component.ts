@@ -32,7 +32,7 @@ import { User } from '../shared/classes/user';
 export class MainContentComponent {
   protected readonly SectionType = SectionType;
   protected prevSection: SectionType = SectionType.PRIVACY;
-  protected currentSection: SectionType = SectionType.SIGNUP;
+  protected currentSection: SectionType = SectionType.SUMMARY;
   protected currentUser: User | null = null;
 
   /**

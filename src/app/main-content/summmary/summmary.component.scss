@@ -80,11 +80,6 @@
 		.dashboard {
 			@include all.size($w: 100%, $h: 60dvh);
 			padding: 4rem 0 4rem 0;
-			// margin-top: 3rem;
-
-			@media(min-width: 3840px) {
-				width: 30dvw;
-			}
 
 			@media(min-height: 2160px) {
 				height: 40dvh;
@@ -331,7 +326,7 @@
 		@include all.marpad($mar: 0 0 0 8rem);
 
 		@media(min-width: 3840px) {
-				width: 40dvw;
+				width: 100%;
 			}
 
 			@media(min-height: 2160px) {
