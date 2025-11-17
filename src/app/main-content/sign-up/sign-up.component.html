@@ -1,6 +1,6 @@
 <header sign></header>
 <main>
-    <header form title="Sign up"></header>
+    <header form title="Sign up" (section)="navigate($event)"></header>
     <form [formGroup]="form" (ngSubmit)="submitForm()">
         <div class="input-area">
             <div class="input-field">

@@ -22,8 +22,8 @@
         </div>
     </form>
 </main>
-<footer sign></footer>
+<footer sign (section)="navigate($event)"></footer>
 <div class="signup-area">
     <span>Not a Join user?</span>
-    <button class="btn-set">Sign up</button>
+    <button class="btn-set" (click)="navigate(SectionType.SIGNUP)">Sign up</button>
 </div>
