@@ -100,14 +100,6 @@
                     }
                 }
 
-                // .help-login {
-                //     display: none;
-
-                //     @include all.tablet {
-                //         display: flex;
-                //     }
-                // }
-
                 a {
                     @include all.marpad($pad: 1rem);
                     color: #ffffff;
