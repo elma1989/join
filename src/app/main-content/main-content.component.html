@@ -4,8 +4,8 @@
     </div>
 } @else {
     <div class="content"> <!-- display: grid -->
-        <aside app-aside [currentSection]="currentSection" (selectedSection)="changeSection($event)"></aside>
-        <header app-header [user]="currentUser" (selectedSection)="changeSection($event)"></header>
+        <aside app-aside [currentSection]="currentSection" (selectedSection)="changeSection($event)" [user]="currentUser"></aside>
+        <header app-header [user]="currentUser" (selectedSection)="changeSection($event)" [user]="currentUser"></header>
 
         <main>
             @switch (currentSection) {

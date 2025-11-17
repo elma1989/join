@@ -1,9 +1,10 @@
-import { Component, effect, inject, input, InputSignal, output, OutputEmitterRef } from '@angular/core';
+import { Component, effect, inject, Input, input, InputSignal, output, OutputEmitterRef } from '@angular/core';
 import { SectionType } from '../../shared/enums/section-type';
 import { CommonModule } from '@angular/common';
 import { ModalService } from '../../shared/services/modal.service';
 import { NavItemComponent } from '../../shared/components/nav-item/nav-item.component';
 import { MobileNavItemComponent } from '../../shared/components/mobile-nav-item/mobile-nav-item.component';
+import { User } from '../../shared/classes/user';
 
 /**
  * Represents a navigation item in the sidebar.
@@ -57,7 +58,6 @@ export interface MobileNavItemData {
 export class AsideComponent {
       //#region Attributes
 
-      mobileLegalMode: boolean = false;
       /** List of main navigation items displayed in the sidebar */
       protected items: NavItemData[] = [
             {
@@ -117,6 +117,7 @@ export class AsideComponent {
 
       currentSection: InputSignal<SectionType> = input.required<SectionType>();
       selectedSection: OutputEmitterRef<SectionType> = output<SectionType>();
+      user: InputSignal<User | null> = input.required<User | null>();
 
       /** Service for handling modal dialogs */
       protected modalService: ModalService = inject(ModalService);

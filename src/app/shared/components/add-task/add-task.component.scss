@@ -53,19 +53,17 @@ b {
     #add-task-form {
         @include all.size($w: 100%, $h: 100%);
         @include all.fl($flexdir: column, $jc: space-between, $alit: space-between);
+    }
 
-        .add-task-header {
+    .add-task-header {
             height: 10dvh;
             @include all.fl($alit: center);
-            margin-bottom: 2rem;
 
             h1 {
                 font-family: 'Interbold', sans-serif;
                 font-size: 5rem;
             }
         }
-
-    }
 }
 
 .add-task-main-container {
@@ -77,7 +75,7 @@ b {
         @include all.scrollbar();
         height: 70dvh;
         overflow-y: auto;
-        margin: 2rem 0;
+        margin: 2rem;
     }
 
     @include all.tablet {
