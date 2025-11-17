@@ -28,4 +28,7 @@ export class LoginComponent {
 
   protected passwordVisible: boolean = false;
 
+  /** Turns visibility of password on and off. */
+  toggleVisibility():void { this.passwordVisible = !this.passwordVisible };
+
 }

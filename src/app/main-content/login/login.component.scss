@@ -23,6 +23,7 @@ input {
     border-radius: 10px;
     padding: 1.2rem 6.8rem 1.2rem 2.1rem;
     width: 40rem;
+    cursor: text;
     @include all.mobile {
         width: 28rem;
     }
