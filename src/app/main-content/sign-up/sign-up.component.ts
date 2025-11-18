@@ -82,10 +82,12 @@ export class SignUpComponent implements OnInit, OnDestroy{
       const user = new User(userdata);
       user.group = user.firstname[0];
       this.clear();
+      localStorage.clear();
       try {
         await this.auth.register(user);
         await this.createContact(user as Contact);
         this.goToBoard(user);
+        localStorage.setItem('uid', user.id);
       } catch (error) {
         this.form.reset();
         this.tms.add('User allready exists', 3000, 'error');
@@ -120,7 +122,12 @@ export class SignUpComponent implements OnInit, OnDestroy{
   // #region localStorage
   /** Saves userinputs in localstrorage. */
   private save() {
-    localStorage.setItem('signup', JSON.stringify(this.form.value));
+    const storage: Record<string, string> = {};
+    Object.keys(this.form.controls).forEach(key => {
+      const child = this.form.get(key);
+      if (child && child.dirty) storage[key] = child.value;
+    });
+    localStorage.setItem('signup', JSON.stringify(storage));
   }
 
   /** Loads formfields form localStorage */
