@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, UserCredential } from '@angular/fire/auth';
+import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, UserCredential } from '@angular/fire/auth';
 import { User } from '../classes/user';
 import { LoginData } from '../interfaces/login-data';
 import { doc, DocumentReference, Firestore, getDoc } from '@angular/fire/firestore';
@@ -59,5 +59,14 @@ export class AuthService {
       return user;
     }
     return null;
+  }
+
+  /** Signs the user out. */
+  async logout(): Promise<void> {
+    try {
+      await signOut(this.auth)
+    } catch (err) {
+      console.error(err);
+    }
   }
 }
