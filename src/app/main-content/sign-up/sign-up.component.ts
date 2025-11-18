@@ -10,12 +10,18 @@ import { Contact } from '../../shared/classes/contact';
 import { doc, Firestore, setDoc } from '@angular/fire/firestore';
 import { ToastMsgService } from '../../shared/services/toast-msg.service';
 import { SectionType } from '../../shared/enums/section-type';
+import { HeaderSignComponent } from '../../shared/components/header-sign/header-sign.component';
+import { FooterSignComponent } from '../../shared/components/footer-sign/footer-sign.component';
+import { HeaderFormComponent } from '../../shared/components/header-form/header-form.component';
 
 @Component({
   selector: 'section[sign-up]',
   imports: [
     ReactiveFormsModule,
-    CommonModule
+    CommonModule,
+    HeaderSignComponent,
+    HeaderFormComponent,
+    FooterSignComponent
 ],
   templateUrl: './sign-up.component.html',
   styleUrl: './sign-up.component.scss'
@@ -52,6 +58,7 @@ export class SignUpComponent implements OnInit, OnDestroy{
 
   protected passwordVisible: boolean = false;
   protected confirmVisible: boolean = false;
+  protected SectionType = SectionType;
   // #endregion
 
   ngOnInit(): void {
@@ -75,10 +82,12 @@ export class SignUpComponent implements OnInit, OnDestroy{
       const user = new User(userdata);
       user.group = user.firstname[0];
       this.clear();
+      localStorage.clear();
       try {
         await this.auth.register(user);
         await this.createContact(user as Contact);
         this.goToBoard(user);
+        localStorage.setItem('uid', user.id);
       } catch (error) {
         this.form.reset();
         this.tms.add('User allready exists', 3000, 'error');
@@ -113,7 +122,12 @@ export class SignUpComponent implements OnInit, OnDestroy{
   // #region localStorage
   /** Saves userinputs in localstrorage. */
   private save() {
-    localStorage.setItem('signup', JSON.stringify(this.form.value));
+    const storage: Record<string, string> = {};
+    Object.keys(this.form.controls).forEach(key => {
+      const child = this.form.get(key);
+      if (child && child.dirty) storage[key] = child.value;
+    });
+    localStorage.setItem('signup', JSON.stringify(storage));
   }
 
   /** Loads formfields form localStorage */
@@ -150,17 +164,9 @@ export class SignUpComponent implements OnInit, OnDestroy{
     }
   }
 
-  /** Go to privacy policy. */
-  protected goToPolicy() {
+  protected navigate(section: SectionType): void{
     this.save();
-    this.section.emit(SectionType.PRIVACY);
-    this.prevSection.emit(SectionType.SIGNUP);
-  }
-
-  /** Go to legal notice. */
-  protected goToLegal() {
-    this.save();
-    this.section.emit(SectionType.LEGAL);
+    this.section.emit(section);
     this.prevSection.emit(SectionType.SIGNUP);
   }
   // #endregion

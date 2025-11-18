@@ -1,11 +1,15 @@
-@if(currentSection == SectionType.SIGNUP) {
+@if(currentSection == SectionType.LOGIN || currentSection == SectionType.SIGNUP) {
     <div class="content-sign">
-        <section sign-up (user)="setUser($event)" (section)="changeSection($event)" (prevSection)="changePrevSection($event)"></section>
+        @if(currentSection == SectionType.LOGIN) {
+            <section login (user)="setUser($event)" (section)="changeSection($event)" (prevSection)="changePrevSection($event)"></section>
+        } @else {
+            <section sign-up (user)="setUser($event)" (section)="changeSection($event)" (prevSection)="changePrevSection($event)"></section>
+        }
     </div>
 } @else {
     <div class="content"> <!-- display: grid -->
-        <aside app-aside [currentSection]="currentSection" (selectedSection)="changeSection($event)" [user]="currentUser"></aside>
-        <header app-header [user]="currentUser" (selectedSection)="changeSection($event)" [user]="currentUser"></header>
+        <aside app-aside [user]="currentUser" [currentSection]="currentSection" (selectedSection)="changeSection($event)"></aside>
+        <header app-header [user]="currentUser" (userLogout)="setUser($event)"  (selectedSection)="changeSection($event)"></header>
 
         <main>
             @switch (currentSection) {

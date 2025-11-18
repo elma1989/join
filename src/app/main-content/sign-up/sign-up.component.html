@@ -1,51 +1,43 @@
-<header>
-    <img src="/assets/Icons/contact/JoinLogo.png">
-</header>
+<header sign></header>
 <main>
-    <header>
-        <button class="back"><img src="/assets/Icons/contact/arrow-left-line.png"></button>
-        <div class="titlebox">
-            <h1>Sign up</h1>
-            <hr>
-        </div>
-    </header>
+    <header form title="Sign up" (section)="navigate($event)"></header>
     <form [formGroup]="form" (ngSubmit)="submitForm()">
         <div class="input-area">
             <div class="input-field">
                 <input formControlName="firstname" type="text" [ngClass]="{error: errors['firstname']}" placeholder="Frirst name">
                 <div class="errmsg">{{ errors['firstname'] ? errors['firstname'][0] : ''}}</div>
-                <img class="formicon" src="/assets/Icons/signon/person.png">
+                <img class="formicon" src="assets/Icons/signon/person.png">
             </div>
             <div class="input-field">
                 <input formControlName="lastname" type="text" [ngClass]="{error: errors['lastname']}" placeholder="Last name">
                 <div class="errmsg">{{ errors['lastname'] ? errors['lastname'][0] : ''}}</div>
-                <img class="formicon" src="/assets/Icons/signon/person.png">
+                <img class="formicon" src="assets/Icons/signon/person.png">
             </div>
             <div class="input-field">
                 <input formControlName="email" type="text"  [ngClass]="{error: errors['email']}" placeholder="E-Mail">
                 <div class="errmsg">{{ errors['email'] ? errors['email'][0] : ''}}</div>
-                <img class="formicon" src="/assets/Icons/signon/mail.png">
+                <img class="formicon" src="assets/Icons/signon/mail.png">
             </div>
             <div class="input-field">
                 <input formControlName="tel" type="text"  [ngClass]="{error: errors['tel']}" placeholder="Tel-No.">
                 <div class="errmsg">{{ errors['tel'] ? errors['tel'][0] : ''}}</div>
-                <img class="formicon" src="/assets/Icons/contact/call.png">
+                <img class="formicon" src="assets/Icons/contact/call.png">
             </div>
             <div class="input-field">
                 <input formControlName="password" type="{{ passwordVisible ? 'text' : 'password'}}"  [ngClass]="{error: errors['password']}" placeholder="Password">
                 <div class="errmsg">{{ errors['password'] ? errors['password'][0] : ''}}</div>
-                <img class="formicon pointer" src="{{ passwordVisible ? '/assets/Icons/signon/visibility_off.png' : '/assets/Icons/signon/visibility.png' }}" (click)="togglePassword()">
+                <img class="formicon pointer" src="{{ passwordVisible ? 'assets/Icons/signon/visibility_off.png' : 'assets/Icons/signon/visibility.png' }}" (click)="togglePassword()">
             </div>
             <div class="input-field">
                 <input formControlName="passwordConfirm" type="{{ confirmVisible ? 'text' : 'password'}}" [ngClass]="{error: errors['passwordConfirm']}" placeholder="Confirm Password">
                 <div class="errmsg">{{ errors['passwordConfirm'] ? errors['passwordConfirm'][0] : ''}}</div>
-                <img class="formicon pointer" src="{{ confirmVisible ? '/assets/Icons/signon/visibility_off.png' : '/assets/Icons/signon/visibility.png' }}" (click)="toggleConfirm()">
+                <img class="formicon pointer" src="{{ confirmVisible ? 'assets/Icons/signon/visibility_off.png' : 'assets/Icons/signon/visibility.png' }}" (click)="toggleConfirm()">
             </div>
         </div>
         <div class="check-field">
             <div class="check-item">
                 <input formControlName="acceptPolicy" type="checkbox" id="chk-privacy-policy">
-                <label for="chk-privacy-policy">I accept</label><a (click)="goToPolicy()">Privacy policy</a>
+                <label for="chk-privacy-policy">I accept</label><a (click)="navigate(SectionType.PRIVACY)">Privacy policy</a>
             </div>
             <div class="errmsg">{{ errors['acceptPolicy'] ? errors['acceptPolicy'][0] : ''}}</div>
         </div>
@@ -54,7 +46,4 @@
         </div>
     </form>
 </main>
-<footer>
-    <a (click)="goToPolicy()">Privacy policy</a>
-    <a (click)="goToLegal()">Legal notice</a>
-</footer>
+<footer sign (section)="navigate($event)"></footer>

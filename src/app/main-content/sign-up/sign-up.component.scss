@@ -8,68 +8,10 @@
     padding: 3.2rem;
 }
 
-a {
-    color: #a8a8a8;
-}
-
-header {
-    @include all.size($w: 100%, $h: 16dvh);
-
-    img {
-        height: 16dvh;
-    }
-}
-
 main {
     @include all.fl($flexdir: column, $gap: 3.2rem);
     @include all.marpad ($pad: 4.8rem 8.8rem);
     height: 74dvh;
-}
-
-main header {
-    @include all.fl($jc: center, $alit: center);
-    width: 100%;
-
-    button {
-        background-color: transparent;
-        position: absolute;
-        left: -3.2rem;
-
-        @include all.mobile {
-            left: 0;
-        }
-
-        img {
-            width: 3.2rem;
-            height: 3.2rem;
-        }
-    }
-}
-
-footer {
-    height: 10dvh;
-    @include all.fl($gap: 3.2rem);
-}
-
-.titlebox {
-    @include all.fl($flexdir: column, $alit: center);
-
-    hr {
-        width: 15rem;
-        border: 3px solid #29abe2;
-        text-align: center;
-        margin-top: 1.6rem;
-    }
-
-    @include all.mobile {
-        h1 {
-            font-size: 4.8rem;
-        }
-
-        hr {
-            width: 8.8rem;
-        }
-    }
 }
 
 .input-area {

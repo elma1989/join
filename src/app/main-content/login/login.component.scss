@@ -1,0 +1,79 @@
+@use '../../../../public/styles/all_styles' as all;
+@forward '../../../../public/styles/component-styles';
+
+:host {
+    @include all.fl($flexdir: column, $jc: center, $alit: center);
+    @include all.size($w: 100dvw, $h: 100dvh);
+    max-width: 1920px;
+    padding: 3.2rem;
+}
+
+main {
+    @include all.fl($flexdir: column, $alit: center, $jc: center);
+    // @include all.marpad ($pad: 4.8rem 8.8rem);
+    height: 74dvh;
+}
+
+form {
+    @include all.fl($flexdir: column, $alit: center)
+}
+
+input {
+    font: 1.6rem 'Inter', sans-serif;
+    border-radius: 10px;
+    padding: 1.2rem 6.8rem 1.2rem 2.1rem;
+    width: 40rem;
+    cursor: text;
+    @include all.mobile {
+        width: 28rem;
+    }
+}
+
+.input-area {
+    @include all.fl($flexdir: column, $gap: 2.4rem);
+    margin: 3.2rem 0;
+}
+
+.input-img {
+    @include all.size($w: 2.4rem, $h: 2.4rem);
+    position: absolute;
+    top: 1rem;
+    right: 1.2rem
+}
+
+.button-area {
+    @include all.fl($jc: center, $alit: center, $gap: 3.2rem);
+    width: 100%;
+    @include all.mobile {
+        flex-direction: column;
+        width: 50%;
+        gap: 1.6rem;
+    }
+    .btn-set, .btn-default {
+        width: 50%;
+        padding: 0.8rem 1.6rem;
+        @include all.mobile {
+            font-size: 16px;
+            width: 100%;
+        }
+    }
+}
+
+.signup-area {
+    @include all.fl($gap: 1.6rem, $alit: center);
+    position: absolute;
+    top: 3.2rem;
+    right: 3.2rem;
+    font-size: 1.6rem;
+
+    @include all.mobile {
+        top: auto;
+        right: auto;
+        bottom: 8rem;
+    }
+
+    .btn-set {
+        font-size: 1.6rem;
+        padding: 1.6rem;
+    }
+}

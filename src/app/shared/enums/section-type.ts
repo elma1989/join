@@ -5,5 +5,6 @@ export enum SectionType {
     CONTACT = 'contact',
     PRIVACY = 'privacy',
     LEGAL = 'legal',
-    SIGNUP = 'signup'
+    SIGNUP = 'signup',
+    LOGIN = 'login'
 }
