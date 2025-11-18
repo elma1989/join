@@ -164,7 +164,6 @@
 
 				@include all.mobile {
 					height: 35%;
-					padding: 0 0.5rem;
 				}
 
 				.middle-dashboard-row {
@@ -175,7 +174,7 @@
 					cursor: pointer;
 
 					@include all.mobile {
-						gap: 0.5rem;
+						gap: 1.5rem;
 					}
 
 
