@@ -243,7 +243,7 @@ private taskInvalidForm(): void {
     this.currentTask().assignedTo = [];
     chosenContacts.forEach((contact) => {
       this.currentTask().assignedTo.push(contact.id);
-    })
+    });
   }
 
   /**

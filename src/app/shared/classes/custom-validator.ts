@@ -83,8 +83,6 @@ export class CustomValidator {
                 const pastDate = Date.now() - 1000 * 60 * 60 * 24; 
                 const inputDate = new Date(year, month-1, day)
                 if (inputDate.getTime() < pastDate && inputDate.getTime() < created) return { dateInPast: true };
-                console.log('Created: ', created.toString());
-                console.log('Input', inputDate.getTime().toString());
                 return null;
             }
             return { dateInPast: true }
