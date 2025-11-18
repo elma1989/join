@@ -2,9 +2,9 @@
 
 :host {
     display: flex;
-    @include all.size($w: 100%, $h: 16dvh);
+    @include all.size($w: 95%, $h: 22dvh);
 }
 
 img {
-    height: 16dvh;
+    height: 14dvh;
 }

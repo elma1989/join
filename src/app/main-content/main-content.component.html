@@ -1,3 +1,5 @@
+<app-start-screen [ngClass]="{'d_none': !isVisibleLoginLogo}"></app-start-screen>
+
 @if(currentSection == SectionType.LOGIN || currentSection == SectionType.SIGNUP) {
     <div class="content-sign">
         @if(currentSection == SectionType.LOGIN) {
