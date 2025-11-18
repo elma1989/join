@@ -1,0 +1,11 @@
+<div class="relative w-screen h-screen bg-red overflow-hidden">
+	<ng-container *ngIf="showLogo">
+		<div [@logoAnimation]="logoState" class="absolute">
+			<img src="assets/Icons/contact/JoinLogo.png" alt="Logo" class="w-32 h-32 m-4">
+		</div>
+	</ng-container>
+
+	<div *ngIf="!showLogo" class="w-full h-full flex items-center justify-center">
+
+	</div>
+</div>
