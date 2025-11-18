@@ -12,6 +12,12 @@ main {
     @include all.fl($flexdir: column, $gap: 3.2rem);
     @include all.marpad ($pad: 4.8rem 8.8rem);
     height: 74dvh;
+    background: white;
+    border-radius: 1.6rem;
+
+    @include all.tablet {
+        margin: 1rem;
+    }
 }
 
 .input-area {
@@ -115,10 +121,6 @@ input[type=password].error:focus {
         height: 2.4rem;
         background: url(../../../../public/assets/Icons/signon/checked.png) no-repeat center / contain;
     }
-
-    .errmsg {
-        padding-left:4.4rem;
-    }
 }
 
 .submit-field {
@@ -128,6 +130,10 @@ input[type=password].error:focus {
 
     input {
         padding: 1rem 2.4rem;
+    }
+
+    @include all.tablet {
+        margin-top: -2rem;
     }
 }
 

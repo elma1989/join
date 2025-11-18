@@ -1,6 +1,6 @@
 <div class="small-header">
 
-    @if(user()) {
+    @if(user() || guestLogin()) {
 
         <img class="join-logo" src="assets/Icons/contact/JoinLogo.png" alt="">
         <h1>Kanban Project Management Tool</h1>

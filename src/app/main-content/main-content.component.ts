@@ -41,6 +41,8 @@ export class MainContentComponent {
   protected currentSection: SectionType = SectionType.LOGIN;
   protected currentUser: User | null = null;
 
+  guestLoginMain: boolean = false;
+
   constructor() {
     this.loadUser();
   }
@@ -64,7 +66,7 @@ export class MainContentComponent {
    */
   protected setUser(user : User | null) {
     if (!user) localStorage.clear();
-    this.currentUser = user;
+    this.currentUser = user; 
   }
 
   /** Loads the current user, if he has logged in before. */
@@ -76,6 +78,10 @@ export class MainContentComponent {
     } else {
       this.currentUser = null;
     }
+  }
+
+  setGuestLogin(status: boolean) {
+    this.guestLoginMain = status;
   }
   // #endregion
 }

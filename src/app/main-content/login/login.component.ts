@@ -27,6 +27,7 @@ export class LoginComponent {
   user: OutputEmitterRef<User | null> = output<User | null>();
   section: OutputEmitterRef<SectionType> = output<SectionType>();
   prevSection: OutputEmitterRef<SectionType> = output<SectionType>();
+  guestLogin: OutputEmitterRef<boolean> = output<boolean>();
 
   auth: AuthService = inject(AuthService);
   tms: ToastMsgService = inject(ToastMsgService);
@@ -77,5 +78,6 @@ export class LoginComponent {
     this.user.emit(null);
     this.section.emit(SectionType.SUMMARY);
     this.prevSection.emit(SectionType.SUMMARY);
+    this.guestLogin.emit(true);
   }
 }

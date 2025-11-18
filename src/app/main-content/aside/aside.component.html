@@ -1,7 +1,7 @@
 <img src="assets/Icons/contact/JoinLogoWhite.png" alt="das Logo von Join">
 
 <nav class="nav-buttons">
-    @if(user()) {
+    @if(user() || guestLogin()) {
         @for (navItem of items; track navItem.sectionId; let i = $index) {
         <button type="button" nav-item [item]="navItem" 
                 [ngClass]="{ active: navItem.active }"
@@ -22,7 +22,7 @@
 <div class="select-legal-button">
     <ol>
         @for (legalItem of itemLegal; track legalItem.sectionId; let i = $index) {
-        <li>
+        <li class="login-link">
             <button type="button" [ngClass]="{ active: legalItem.active }" 
                     [attr.aria-pressed]="legalItem.active"
                     (click)="selectLegal(i)">

@@ -20,6 +20,8 @@ export class HeaderComponent {
   selectedSection: OutputEmitterRef<SectionType> = output<SectionType>();
   userLogout: OutputEmitterRef<null> = output<null>();
 
+  guestLogin: InputSignal<boolean> = input<boolean>(false);
+
   
   /** Service used to manage modals (e.g., Help modal). */
   protected modalService = inject(ModalService);

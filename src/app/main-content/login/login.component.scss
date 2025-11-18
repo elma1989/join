@@ -10,8 +10,16 @@
 
 main {
     @include all.fl($flexdir: column, $alit: center, $jc: center);
-    // @include all.marpad ($pad: 4.8rem 8.8rem);
-    height: 74dvh;
+    background: white;
+    padding: 2rem;
+    height: 50dvh;
+    border-radius: 1.6rem;
+
+    @include all.tablet {
+        height: 58dvh;
+        width: 90dvw;
+        margin: 2rem;
+    }
 }
 
 form {
@@ -23,6 +31,7 @@ input {
     border-radius: 10px;
     padding: 1.2rem 6.8rem 1.2rem 2.1rem;
     width: 40rem;
+    border: 1px solid lightgrey;
     cursor: text;
     @include all.mobile {
         width: 28rem;
@@ -70,11 +79,11 @@ input {
     @include all.mobile {
         top: auto;
         right: auto;
-        bottom: 8rem;
+        bottom: 7rem;
     }
 
     .btn-set {
         font-size: 1.6rem;
-        padding: 1.6rem;
+        padding: 1rem;
     }
 }

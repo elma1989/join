@@ -58,6 +58,7 @@ export interface MobileNavItemData {
 export class AsideComponent {
       //#region Attributes
 
+      guestLogin: InputSignal<boolean> = input<boolean>(false);
       /** List of main navigation items displayed in the sidebar */
       protected items: NavItemData[] = [
             {
@@ -94,7 +95,7 @@ export class AsideComponent {
             {     sectionId: 'Login',
                   title: 'Login',
                   imagePath: 'assets/Icons/signon/login-arrow-icon.png',
-                  section: SectionType.SIGNUP,
+                  section: SectionType.LOGIN,
                   active: false
             }
       ];
@@ -166,5 +167,7 @@ export class AsideComponent {
                   if (item.section == section) item.active = true;
             })
       }
+
+
       //#endregion
 }
