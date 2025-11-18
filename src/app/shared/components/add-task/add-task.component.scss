@@ -75,7 +75,7 @@ b {
         @include all.scrollbar();
         height: 70dvh;
         overflow-y: auto;
-        margin: 2rem;
+        // margin: 2rem;
     }
 
     @include all.tablet {
