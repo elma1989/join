@@ -12,6 +12,8 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { User } from '../shared/classes/user';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from '../shared/services/auth.service';
+import { StartScreenComponent } from "./start-screen/start-screen.component";
+import { CommonModule, NgClass } from "../../../node_modules/@angular/common/common_module.d-NEF7UaHr";
 
 
 @Component({
@@ -27,8 +29,10 @@ import { AuthService } from '../shared/services/auth.service';
     LegalNoticeComponent,
     SummmaryComponent,
     SignUpComponent,
-    LoginComponent
-  ],
+    LoginComponent,
+    StartScreenComponent,
+    CommonModule
+],
   templateUrl: './main-content.component.html',
   styleUrl: './main-content.component.scss'
 })
@@ -42,6 +46,7 @@ export class MainContentComponent {
   protected currentUser: User | null = null;
 
   guestLoginMain: boolean = false;
+  isVisibleLoginLogo: boolean = true;
 
   constructor() {
     this.loadUser();
@@ -78,6 +83,7 @@ export class MainContentComponent {
     } else {
       this.currentUser = null;
     }
+    this.isVisibleLoginLogo = false;
   }
 
   setGuestLogin(status: boolean) {

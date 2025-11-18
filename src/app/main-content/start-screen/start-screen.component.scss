@@ -1,0 +1,32 @@
+@use '../../../../public/styles/all_styles.scss' as all;
+
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background: white;
+	z-index: 40;
+	transition: opacity 0.7s ease-in-out;
+
+	&.hidden {
+		opacity: 0;
+		pointer-events: none;
+	}
+}
+
+.logo {
+	position: fixed;
+	width: 200px;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	transition: top 1s ease-in-out, left 1s ease-in-out, transform 1s ease-in-out, opacity 0.5s ease-in-out;
+
+	&.slide {
+		top: 20px;
+		left: 20px;
+		transform: scale(0.5);
+	}
+}
