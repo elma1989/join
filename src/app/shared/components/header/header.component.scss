@@ -90,6 +90,7 @@
 
                 @include all.tablet {
                     @include all.size();
+                    @include all.absolute($top: 7rem, $right: 0);
                 }
 
                 .help-mobile {
