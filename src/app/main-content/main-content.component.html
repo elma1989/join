@@ -8,7 +8,7 @@
     </div>
 } @else {
     <div class="content"> <!-- display: grid -->
-        <aside app-aside [currentSection]="currentSection" (selectedSection)="changeSection($event)"></aside>
+        <aside app-aside [user]="currentUser" [currentSection]="currentSection" (selectedSection)="changeSection($event)"></aside>
         <header app-header [user]="currentUser" (userLogout)="setUser($event)"  (selectedSection)="changeSection($event)"></header>
 
         <main>

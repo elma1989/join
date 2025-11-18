@@ -37,7 +37,8 @@ b {
 
 .add-task-section {
     height: 80dvh;
-    @include all.marpad($pad: 3dvw);
+    @include all.marpad($pad: 3rem 1rem);
+    margin: 0 3rem;
 
     @media(min-height: 2160px) {
         padding: 0;
@@ -48,44 +49,44 @@ b {
         height: 80dvh;
         @include all.scrollbar();
         padding: 2dvw;
+        margin: 0;
     }
 
     #add-task-form {
         @include all.size($w: 100%, $h: 100%);
         @include all.fl($flexdir: column, $jc: space-between, $alit: space-between);
+    }
 
-        .add-task-header {
+    .add-task-header {
             height: 10dvh;
             @include all.fl($alit: center);
-            margin-bottom: 2rem;
 
             h1 {
                 font-family: 'Interbold', sans-serif;
                 font-size: 5rem;
             }
         }
-
-    }
 }
 
 .add-task-main-container {
+
     @include all.size($w: 100%, $h: 58dvh);
     @include all.fl($jc: space-between, $alit: start, $gap: 1rem);
 
     @include all.notebook {
         @include all.fl($flexdir: column, $alit: center);
         @include all.scrollbar();
-        height: 70dvh;
+        height: 60dvh;
         overflow-y: auto;
-        margin: 2rem 0;
+        margin-bottom: 1.3rem;
     }
 
     @include all.tablet {
-        height: 60dvh;
+        height: 55dvh;
     }
 
     @include all.mobile {
-        height: 50dvh;
+        height: 53dvh;
     }
 
     .add-task-info-block1 {
@@ -122,6 +123,7 @@ b {
 
     .add-task-info-block2 {
         width: 50%;
+        height: 100%;
         @include all.fl($flexdir: column, $gap: 1rem);
 
         @include all.notebook {

@@ -94,7 +94,7 @@
         @include all.scrollbar();
 
         li {
-            height: 4.8rem;
+            height: auto;
             width: 99%;
             font-size: 1.6rem;
             @include all.fl($jc: space-between, $alit: center);

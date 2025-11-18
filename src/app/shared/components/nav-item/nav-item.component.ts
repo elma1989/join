@@ -3,6 +3,7 @@ import { NavItemData } from '../../../main-content/aside/aside.component';
 
 @Component({
   selector: '[nav-item]',
+  standalone: true,
   imports: [],
   templateUrl: './nav-item.component.html',
   styleUrl: './nav-item.component.scss'

@@ -1,9 +1,10 @@
-import { Component, effect, inject, input, InputSignal, output, OutputEmitterRef } from '@angular/core';
+import { Component, effect, inject, Input, input, InputSignal, output, OutputEmitterRef } from '@angular/core';
 import { SectionType } from '../../shared/enums/section-type';
 import { CommonModule } from '@angular/common';
 import { ModalService } from '../../shared/services/modal.service';
 import { NavItemComponent } from '../../shared/components/nav-item/nav-item.component';
-
+import { MobileNavItemComponent } from '../../shared/components/mobile-nav-item/mobile-nav-item.component';
+import { User } from '../../shared/classes/user';
 
 /**
  * Represents a navigation item in the sidebar.
@@ -35,9 +36,22 @@ export interface LegalLinks {
       active: boolean;
 }
 
+export interface MobileNavItemData {
+      /** Unique section identifier */
+      sectionId: string;
+      /** Display title of the legal section */
+      title: string;
+      /** Path to the section icon */
+      imagePath: string;
+      /** Type of the section (enum) */
+      section: SectionType;
+      /** Indicates whether the section is currently active */
+      active: boolean;
+}
+
 @Component({
       selector: 'aside[app-aside]',
-      imports: [CommonModule, NavItemComponent],
+      imports: [CommonModule, NavItemComponent, MobileNavItemComponent],
       templateUrl: './aside.component.html',
       styleUrl: './aside.component.scss'
 })
@@ -76,6 +90,15 @@ export class AsideComponent {
             }
       ];
 
+      protected item: MobileNavItemData[] = [
+            {     sectionId: 'Login',
+                  title: 'Login',
+                  imagePath: 'assets/Icons/signon/login-arrow-icon.png',
+                  section: SectionType.SIGNUP,
+                  active: false
+            }
+      ];
+
       /** List of legal links (Privacy Policy, Legal Notice, etc.) */
       protected itemLegal: LegalLinks[] = [
             {
@@ -94,6 +117,7 @@ export class AsideComponent {
 
       currentSection: InputSignal<SectionType> = input.required<SectionType>();
       selectedSection: OutputEmitterRef<SectionType> = output<SectionType>();
+      user: InputSignal<User | null> = input.required<User | null>();
 
       /** Service for handling modal dialogs */
       protected modalService: ModalService = inject(ModalService);
@@ -128,6 +152,13 @@ export class AsideComponent {
             this.selectedSection.emit(this.itemLegal[index].section);
       }
 
+      selectLogin(index: number): void {
+            this.item.forEach((item, i) => {
+                  item.active = i === index;
+            });
+            this.selectedSection.emit(this.item[index].section);
+      }
+
       private checkSection() {
             const section: SectionType = this.currentSection();
             this.items.forEach(item => {
@@ -135,6 +166,5 @@ export class AsideComponent {
                   if (item.section == section) item.active = true;
             })
       }
-
       //#endregion
 }

@@ -64,12 +64,11 @@ export class AssignContactsComponent implements OnChanges{
    * @param option to toggle the selection
    */
   toggleSelection(option: Contact) {
-    const current = this.selectedValuesLocal;
-    const index = current.indexOf(option);
+    const index = this.selectedValuesLocal.findIndex(contact => contact.id === option.id);
     if (index === -1) {
       this.selectedValuesLocal.push(option);
     } else {
-      this.selectedValuesLocal = current.filter((contact) => contact !== option);
+      this.selectedValuesLocal.splice(index, 1);
     }
     this.selectionChange.emit(this.selectedValuesLocal);
   }
@@ -80,9 +79,11 @@ export class AssignContactsComponent implements OnChanges{
    * @param option the contact to check if it is selected
    * @returns @boolean true or false
    */
-  isSelected(option: Contact) {
-    return this.selectedValuesLocal.includes(option);
-  }
+
+  isSelected(option: Contact): boolean {
+  return this.selectedValuesLocal.some(contact => contact.id === option.id);
+}
+
 
   /**
    * Click event of onClick outside of content to close pop up.
