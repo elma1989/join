@@ -8,6 +8,7 @@ export interface TaskObject {
     title: string,
     description: string,
     dueDate: Timestamp,
+    created: Timestamp,
     priority: Priority,
     category: Category,
     assignedTo: string[],
