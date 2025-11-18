@@ -58,7 +58,7 @@ export class LoginComponent {
         }
       }
     } catch (err) {
-      this.tms.add('E-Mail or password is not correct', 3000, 'error');
+      this.tms.add('Email or password incorrect', 3000, 'error');
       this.form.reset();
     }
   }

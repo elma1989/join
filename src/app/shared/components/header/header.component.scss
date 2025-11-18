@@ -38,6 +38,11 @@
             }
         }
 
+        .header-login {
+            font-family: 'Inter', sans-serif;
+                font-weight: 400;
+            }
+
         .header-icon-container {
             @include all.fl($alit: center);
             gap: 1rem;
@@ -57,8 +62,7 @@
                 display: inline-block;
             }
 
-            .profile-img,
-            .profile-login-img {
+            .profile-img {
                 @include all.size($w: 6.5rem, $h: 6.5rem);
                 @include all.fl($alit: center, $jc: center);
                 color: #29abe3;
