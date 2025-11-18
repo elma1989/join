@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, HostListener, inject, input, InputSignal, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, inject, input, InputSignal, output, Output, OutputEmitterRef } from '@angular/core';
 import { ModalService } from '../../services/modal.service';
 import { SectionType } from '../../enums/section-type';
 import { User } from '../../classes/user';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'header[app-header]',
@@ -16,10 +17,13 @@ export class HeaderComponent {
 
   user: InputSignal<User | null> = input<User | null>(null);
   /** Emits the currently selected section (e.g., Legal, Privacy). */
-  @Output() selectedSection = new EventEmitter<SectionType>();
+  selectedSection: OutputEmitterRef<SectionType> = output<SectionType>();
+  userLogout: OutputEmitterRef<null> = output<null>();
 
+  
   /** Service used to manage modals (e.g., Help modal). */
   protected modalService = inject(ModalService);
+  private auth: AuthService = inject(AuthService);
 
   //#endregion
 
@@ -48,8 +52,10 @@ export class HeaderComponent {
    * Closes the menu and performs logout actions.
    * In a full implementation, authentication services would handle this logic.
    */
-  logout(): void {
-    console.log('User logged out');
+  async logout(): Promise<void> {
+    await this.auth.logout()
+    this.userLogout.emit(null);
+    this.selectedSection.emit(SectionType.LOGIN);
     this.closeMenu();
   }
 
