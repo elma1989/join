@@ -73,17 +73,17 @@ b {
     @include all.notebook {
         @include all.fl($flexdir: column, $alit: center);
         @include all.scrollbar();
-        height: 70dvh;
+        height: 60dvh;
         overflow-y: auto;
-        // margin: 2rem;
+        margin-bottom: 1.3rem;
     }
 
     @include all.tablet {
-        height: 60dvh;
+        height: 55dvh;
     }
 
     @include all.mobile {
-        height: 50dvh;
+        height: 53dvh;
     }
 
     .add-task-info-block1 {
