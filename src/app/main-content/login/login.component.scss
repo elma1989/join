@@ -14,6 +14,8 @@ main {
     padding: 2rem;
     height: 50dvh;
     border-radius: 1.6rem;
+    z-index: 1;
+    position: relative;
 
     @include all.tablet {
         height: 58dvh;

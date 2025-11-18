@@ -13,7 +13,7 @@ import { ToastMsgService } from '../../shared/services/toast-msg.service';
 @Component({
   selector: 'section[login]',
   imports: [
-    HeaderSignComponent,
+    // HeaderSignComponent,
     HeaderFormComponent,
     FooterSignComponent,
     ReactiveFormsModule,

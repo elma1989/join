@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -8,18 +8,20 @@ import { CommonModule } from '@angular/common';
   templateUrl: './start-screen.component.html',
   styleUrls: ['./start-screen.component.scss']
 })
-export class StartScreenComponent {
+export class StartScreenComponent implements AfterViewInit {
+
   slide = false;
   overlayActive = true;
-  logoVisible = true;
 
-  ngOnInit() {
-    setTimeout(() => this.slide = true, 500);
-    setTimeout(() => this.overlayActive = false, 1500);
-  }
+  ngAfterViewInit() {
+    // Logo schweben lassen
+    setTimeout(() => {
+      this.slide = true;
+    }, 1500);
 
-  hideLogo() {
-    this.overlayActive = false;
-    this.logoVisible = false;
+    // Overlay ausblenden
+    setTimeout(() => {
+      this.overlayActive = false;
+    }, 2500);
   }
 }

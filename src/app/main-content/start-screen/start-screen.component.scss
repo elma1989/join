@@ -1,5 +1,3 @@
-@use '../../../../public/styles/all_styles.scss' as all;
-
 .overlay {
 	position: fixed;
 	top: 0;
@@ -7,7 +5,8 @@
 	width: 100vw;
 	height: 100vh;
 	background: white;
-	z-index: 40;
+	z-index: 50;
+	opacity: 1;
 	transition: opacity 0.7s ease-in-out;
 
 	&.hidden {
@@ -22,7 +21,12 @@
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	transition: top 1s ease-in-out, left 1s ease-in-out, transform 1s ease-in-out, opacity 0.5s ease-in-out;
+	transition:
+		top 1.2s ease-in-out,
+		left 1.2s ease-in-out,
+		transform 1.2s ease-in-out,
+		opacity 0.5s ease-in-out;
+	z-index: 50;
 
 	&.slide {
 		top: 20px;
