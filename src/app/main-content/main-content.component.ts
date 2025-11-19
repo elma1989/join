@@ -58,9 +58,17 @@ export class MainContentComponent {
    * Changes the section
    * @param section Section for change.
    */
-  protected changeSection(section: SectionType) {
-    this.currentSection = section;
-  }
+  protected changeSection(newSection: SectionType) {
+        
+        if (newSection === SectionType.PREV_SECTION) {
+            this.currentSection = this.prevSection;
+        } else {
+            if (this.currentSection !== SectionType.LOGIN && this.currentSection !== SectionType.SIGNUP) {
+                this.prevSection = this.currentSection;
+            }
+            this.currentSection = newSection;
+        }
+    }
 
   protected changePrevSection(section: SectionType) {
     this.prevSection = section;

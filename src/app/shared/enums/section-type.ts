@@ -6,5 +6,6 @@ export enum SectionType {
     PRIVACY = 'privacy',
     LEGAL = 'legal',
     SIGNUP = 'signup',
-    LOGIN = 'login'
+    LOGIN = 'login',
+    PREV_SECTION = 'prev-section'
 }
