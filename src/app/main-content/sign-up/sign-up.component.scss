@@ -18,6 +18,10 @@ main {
     @include all.tablet {
         margin: 1rem;
     }
+
+    @include all.mobile {
+        padding: 4.8rem 0;
+    }
 }
 
 .input-area {
@@ -26,6 +30,12 @@ main {
     overflow-y: auto;
     @include all.scrollbar();
 
+}
+
+@include all.mobile {
+    form {
+        padding: 0 2rem;
+    }
 }
 
 input[type=text],
@@ -44,7 +54,7 @@ input[type=password] {
     }
 
     @include all.mobile {
-        width: 28rem;
+        width: 24rem;
     }
 }
 
