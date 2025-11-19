@@ -31,7 +31,10 @@ main {
 }
 
 form {
-    @include all.fl($flexdir: column, $alit: center)
+    @include all.fl($flexdir: column, $alit: center);
+    @include all.mobile {
+        padding: 0 2rem;
+    }
 }
 
 input {
@@ -43,7 +46,7 @@ input {
     cursor: text;
 
     @include all.mobile {
-        width: 28rem;
+        width: 24rem;
     }
 }
 
