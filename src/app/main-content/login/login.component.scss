@@ -26,7 +26,7 @@ main {
     @include all.mobile {
         height: 58dvh;
         width: 90dvw;
-        margin-top: 7rem;
+        margin-top: 10rem;
     }
 }
 
@@ -93,9 +93,10 @@ input {
     font-size: 1.6rem;
 
     @include all.mobile {
+        position: relative;
         top: auto;
         right: auto;
-        bottom: 9rem;
+        bottom: 7rem;
     }
 
     .btn-set {
@@ -107,7 +108,7 @@ input {
 
 footer {
     height: 5rem;
-    margin-top: 3rem;
+    margin-top: 7rem;
 }
 
 .overlay {
