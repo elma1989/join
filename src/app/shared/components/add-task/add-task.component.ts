@@ -140,9 +140,16 @@ export class AddtaskComponent implements OnInit, OnDestroy {
  * @returns {void}
  */
   protected submitForm(): void {
-    if (this.currentTask().id == '') this.val.polluteForm('task'); 
+    if (this.currentTask().id == '') this.val.polluteForm('task');
+    const dirty: boolean = Object.keys(this.formTask.controls).some(control => {
+      const child = this.formTask.get(control);
+      if (child) return child.dirty;
+      return false;
+    });
+
     this.validate();
-    this.formTask.valid ? this.taskValidForm() : this.taskInvalidForm();
+    if (this.formTask.valid && dirty) this.taskValidForm();
+    else this.taskInvalidForm();
   }
 
   /**
@@ -160,7 +167,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     task.dueDate = this.formTimestamp;
 
     if (this.addMode) this.addTask();
-    else if (task?.id) this.updateTask();
+    else this.updateTask();
   }
 
   /**
@@ -206,18 +213,9 @@ export class AddtaskComponent implements OnInit, OnDestroy {
    * Updates existing task in DB
    */
   protected async updateTask(): Promise<void> {
-    const dirty: boolean = Object.keys(this.formTask.controls).some(control => {
-      const child = this.formTask.get(control);
-      if (child) return child.dirty;
-      return false;
-    });
-    if (this.formTask.valid && dirty) {
-      await this.fireDB.taskUpdateInDB('tasks', this.currentTask());
+    await this.fireDB.taskUpdateInDB('tasks', this.currentTask());
       this.closeModal();
       this.tms.add('Task was updated', 3000, 'success');
-    } else {
-      this.tms.add('Task not updated', 3000, 'error');
-    }
   }
 
   /**
@@ -230,6 +228,8 @@ export class AddtaskComponent implements OnInit, OnDestroy {
   private taskInvalidForm(): void {
     if (this.addMode) {
       this.tms.add('Task wasn’t created', 3000, 'error');
+    } else {
+      this.tms.add('Task was not updated', 3000, 'error');
     }
   }
 
