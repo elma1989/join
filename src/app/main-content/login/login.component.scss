@@ -138,7 +138,7 @@ footer {
     z-index: 51;
 
     @include all.tablet {
-        width: 150px;
+        width: 130px;
     }
 
     @include all.mobile {
@@ -151,13 +151,13 @@ footer {
         transform: scale(0.5);
 
         @include all.tablet {
-            top: 15px;
-            left: 15px;
+            top: 0px;
+            left: 0px;
             transform: scale(0.4);
         }
 
         @include all.mobile {
-            top: 0;
+            top: 10px;
             left: 0;
             transform: scale(0.35);
         }
