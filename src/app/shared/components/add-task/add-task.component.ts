@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, HostListener, inject, input, InputSignal, OnDestroy, OnInit, output, OutputEmitterRef } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FirebaseDBService } from '../../services/firebase-db.service';
 import { Priority } from '../../enums/priority.enum';
 import { Task } from '../../classes/task';
@@ -67,6 +67,21 @@ export class AddtaskComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.addMode = this.currentTask().id == '';
     this.unsubContacts = this.getContactsSnapshot();
+    this.formInit();
+    this.val.registerForm('task', this.formTask);
+    this.subFormChange = this.formTask.valueChanges.subscribe(() => this.validate());
+  }
+
+  ngOnDestroy(): void {
+    this.unsubContacts();
+    this.val.removeForm('task');
+    this.subFormChange.unsubscribe();
+  }
+
+  // #region methods
+  // #region Form methods
+  /** Sets default Values in form. */
+  private formInit(): void {
     const title = this.currentTask().id == '' ? '' : this.currentTask().title;
     const desc = this.currentTask().id == '' ? '' : this.currentTask().description;
     const dueDate = this.currentTask().id == '' ? this.defaultDate : this.convertTimestamp(this.currentTask().dueDate);
@@ -80,20 +95,9 @@ export class AddtaskComponent implements OnInit, OnDestroy {
         subtaskName: ['', [CustomValidator.customMinLength(3), CustomValidator.subtaskExist(() => this.currentTask().subtasks)]]
       })
     });
-    this.val.registerForm('task', this.formTask);
-    this.subFormChange = this.formTask.valueChanges.subscribe(() => this.validate());
   }
-
-  ngOnDestroy(): void {
-    this.unsubContacts();
-    this.val.removeForm('task');
-    this.subFormChange.unsubscribe();
-  }
-
-  // #region methods
-
+  
   /** Validates a form. */
-  // #region Form methods
   private validate(): void {
     this.errors = this.val.validateForm('task');
   }
@@ -135,29 +139,29 @@ export class AddtaskComponent implements OnInit, OnDestroy {
  * @protected
  * @returns {void}
  */
-protected submitForm(): void {
-  this.val.polluteForm('task');
-  this.validate();
-  this.formTask.valid ? this.taskValidForm() : this.taskInvalidForm();
-}
+  protected submitForm(): void {
+    if (this.currentTask().id == '') this.val.polluteForm('task'); 
+    this.validate();
+    this.formTask.valid ? this.taskValidForm() : this.taskInvalidForm();
+  }
 
-/**
- * tasks the logic when the task form is valid.
- * Retrieves the current task, updates its properties based on
- * form values, and either adds or updates the task depending
- * on the current mode.
- * @private
- * @returns {void}
- */
-private taskValidForm(): void {
-  const task = this.currentTask();
-  task.title = this.formTask.get('title')?.value ?? '';
-  task.description = this.formTask.get('description')?.value ?? '';
-  task.dueDate = this.formTimestamp;
+  /**
+   * tasks the logic when the task form is valid.
+   * Retrieves the current task, updates its properties based on
+   * form values, and either adds or updates the task depending
+   * on the current mode.
+   * @private
+   * @returns {void}
+   */
+  private taskValidForm(): void {
+    const task = this.currentTask();
+    task.title = this.formTask.get('title')?.value ?? '';
+    task.description = this.formTask.get('description')?.value ?? '';
+    task.dueDate = this.formTimestamp;
 
-  if (this.addMode) this.addTask();
-  else if (task?.id) this.updateTask();
-}
+    if (this.addMode) this.addTask();
+    else if (task?.id) this.updateTask();
+  }
 
   /**
    * Reset all inputs to default.
@@ -202,13 +206,18 @@ private taskValidForm(): void {
    * Updates existing task in DB
    */
   protected async updateTask(): Promise<void> {
-    await this.fireDB.taskUpdateInDB('tasks', this.currentTask());
-    if (this.formTask.valid) {
+    const dirty: boolean = Object.keys(this.formTask.controls).some(control => {
+      const child = this.formTask.get(control);
+      if (child) return child.dirty;
+      return false;
+    });
+    if (this.formTask.valid && dirty) {
+      await this.fireDB.taskUpdateInDB('tasks', this.currentTask());
       this.closeModal();
       this.tms.add('Task was updated', 3000, 'success');
     } else {
-    this.tms.add('Task not updated', 3000, 'error');
-  }
+      this.tms.add('Task not updated', 3000, 'error');
+    }
   }
 
   /**
@@ -218,11 +227,11 @@ private taskValidForm(): void {
  * @private
  * @returns {void}
  */
-private taskInvalidForm(): void {
-  if (this.addMode) {
-    this.tms.add('Task wasn’t created', 3000, 'error');
-  } 
-}
+  private taskInvalidForm(): void {
+    if (this.addMode) {
+      this.tms.add('Task wasn’t created', 3000, 'error');
+    }
+  }
 
   /**
    * Sets the due date of task. 
