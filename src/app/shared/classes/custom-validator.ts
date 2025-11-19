@@ -30,7 +30,7 @@ export class CustomValidator {
     static tel(): ValidatorFn {
         return (control: AbstractControl): ValidationErrors | null => {
             const value = control.value;
-            const regex: RegExp = /^0\d+ \d+$/;
+            const regex: RegExp = /^0\d+$/;
             if (typeof value != 'string' || !regex.test(value)) return { tel: true }
             return null;
         }
