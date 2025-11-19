@@ -148,7 +148,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     });
 
     this.validate();
-    if (this.formTask.valid && dirty) this.taskValidForm();
+    if (this.formTask.valid && (dirty || this.currentTask().chanage)) this.taskValidForm();
     else this.taskInvalidForm();
   }
 
@@ -165,6 +165,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     task.title = this.formTask.get('title')?.value ?? '';
     task.description = this.formTask.get('description')?.value ?? '';
     task.dueDate = this.formTimestamp;
+    this.currentTask().chanage = true;
 
     if (this.addMode) this.addTask();
     else this.updateTask();
@@ -215,7 +216,9 @@ export class AddtaskComponent implements OnInit, OnDestroy {
   protected async updateTask(): Promise<void> {
     await this.fireDB.taskUpdateInDB('tasks', this.currentTask());
       this.closeModal();
-      this.tms.add('Task was updated', 3000, 'success');
+      if (this.currentTask().chanage) this.tms.add('Task was updated', 3000, 'success');
+      else this.tms.add('Task was updated', 3000, 'success');
+      this.currentTask().chanage = false;
   }
 
   /**
@@ -248,6 +251,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
    * @param chosenContacts Array<Contact> with selected contacts
    */
   updateContacts(chosenContacts: Array<Contact>) {
+    this.currentTask().chanage = true;
     this.currentTask().contacts = chosenContacts;
     this.currentTask().assignedTo = [];
     chosenContacts.forEach((contact) => {
@@ -260,6 +264,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
    * @param category 
    */
   updateCategory(category: Category) {
+    this.currentTask().chanage = true;
     this.currentTask().category = category;
   }
 
@@ -268,6 +273,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
    * @param subtasks 
    */
   updateSubtasks(subtasks: Array<SubTask>) {
+    this.currentTask().chanage = true;
     this.currentTask().subtasks = [];
     subtasks.forEach((subtask) => {
       if (subtask.taskId == '') {

@@ -14,6 +14,7 @@ export class PriorityButtonsComponent {
 
   Priority = Priority;
   protected setPriority(prio: Priority){
+    this.task().chanage = true;
     this.task().priority = prio;
   }
 }

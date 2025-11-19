@@ -49,6 +49,8 @@ export class Task implements DBObject{
 	/** defines the current status of Task */
 	status: TaskStatusType = TaskStatusType.TODO;
 
+	chanage: boolean = false;
+
 	// #endregion properties
 
 	/**
