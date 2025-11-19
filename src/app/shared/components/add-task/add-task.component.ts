@@ -179,6 +179,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     if (this.addMode) {
       this.currentTask().priority = Priority.MEDIUM;
       this.currentTask().contacts = [];
+      this.currentTask().subtasks = [];
     }
   }
   // #endregion
