@@ -16,7 +16,7 @@ export class FooterSignComponent {
      * Navgates to section.
      * @param section - Section for navigation.
      */
-    protected naviagate(section: SectionType) {
+    protected navigate(section: SectionType) {
       this.section.emit(section);
     }
 }
