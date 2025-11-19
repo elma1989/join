@@ -1,3 +1,6 @@
+<div class="overlay" *ngIf="overlayActive" [class.hidden]="!overlayActive"></div>
+
+<img src="assets/Icons/contact/JoinLogo.png" class="logo" [class.slide]="slide" [class.fade-out]="!logoVisible" />
 
 <main>
     <header form title="Log in"></header>
@@ -8,11 +11,15 @@
                 <img src="assets/Icons/contact/mail.png" class="input-img">
             </div>
             <div class="input-field">
-                <input type="{{ passwordVisible ? 'text' : 'password' }}" class="active" placeholder="Password" formControlName="password">
+                <input type="{{ passwordVisible ? 'text' : 'password' }}" class="active" placeholder="Password"
+                    formControlName="password">
                 @if(form.dirty) {
-                    <button type="button" class="input-img" (click)="toggleVisibility()"><img src="{{ passwordVisible ? 'assets/Icons/signon/visibility_off.png' : 'assets/Icons/signon/visibility.png'}}"></button>
+                <button type="button" class="input-img" (click)="toggleVisibility()">
+                    <img
+                        src="{{ passwordVisible ? 'assets/Icons/signon/visibility_off.png' : 'assets/Icons/signon/visibility.png'}}">
+                </button>
                 } @else {
-                    <img src="assets/Icons/signon/lock.png" class="input-img">
+                <img src="assets/Icons/signon/lock.png" class="input-img">
                 }
             </div>
         </div>

@@ -1,5 +1,4 @@
-import { Component, inject, output, OutputEmitterRef } from '@angular/core';
-import { HeaderSignComponent } from '../../shared/components/header-sign/header-sign.component';
+import { Component, inject, output, OutputEmitterRef, AfterViewInit } from '@angular/core';
 import { HeaderFormComponent } from '../../shared/components/header-form/header-form.component';
 import { FooterSignComponent } from '../../shared/components/footer-sign/footer-sign.component';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -13,7 +12,6 @@ import { ToastMsgService } from '../../shared/services/toast-msg.service';
 @Component({
   selector: 'section[login]',
   imports: [
-    HeaderSignComponent,
     HeaderFormComponent,
     FooterSignComponent,
     ReactiveFormsModule,
@@ -22,7 +20,7 @@ import { ToastMsgService } from '../../shared/services/toast-msg.service';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
-export class LoginComponent {
+export class LoginComponent implements AfterViewInit {
 
   user: OutputEmitterRef<User | null> = output<User | null>();
   section: OutputEmitterRef<SectionType> = output<SectionType>();
@@ -41,11 +39,32 @@ export class LoginComponent {
 
   protected passwordVisible: boolean = false;
   protected SectionType = SectionType;
+  
+  // Logo Animation States
+  protected slide = false;
+  protected overlayActive = true;
+  protected logoVisible = true;
+
+  ngAfterViewInit() {
+    // Logo zur oberen linken Ecke bewegen
+    setTimeout(() => {
+      this.slide = true;
+    }, 1500);
+
+    // Overlay ausblenden
+    setTimeout(() => {
+      this.overlayActive = false;
+    }, 2500);
+  }
 
   /** Turns visibility of password on and off. */
-  protected toggleVisibility():void { this.passwordVisible = !this.passwordVisible };
+  protected toggleVisibility():void { 
+    this.passwordVisible = !this.passwordVisible;
+  }
 
   protected async submitForm(): Promise<void> {
+    this.logoVisible = false;
+    
     try {
       const userCred = await this.auth.login(this.form.value as LoginData);
       if (userCred.user) {
@@ -59,6 +78,7 @@ export class LoginComponent {
         }
       }
     } catch (err) {
+      this.logoVisible = true;
       this.tms.add('Email or password incorrect', 3000, 'error');
       this.form.reset();
     }
@@ -75,6 +95,8 @@ export class LoginComponent {
 
   /** A Login for guests. */
   protected useGuestLogin(): void {
+    this.logoVisible = false;
+    
     this.user.emit(null);
     this.section.emit(SectionType.SUMMARY);
     this.prevSection.emit(SectionType.SUMMARY);

@@ -12,8 +12,7 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { User } from '../shared/classes/user';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from '../shared/services/auth.service';
-import { StartScreenComponent } from "./start-screen/start-screen.component";
-import { CommonModule, NgClass } from "../../../node_modules/@angular/common/common_module.d-NEF7UaHr";
+import { CommonModule } from '@angular/common';
 
 
 @Component({
@@ -30,7 +29,6 @@ import { CommonModule, NgClass } from "../../../node_modules/@angular/common/com
     SummmaryComponent,
     SignUpComponent,
     LoginComponent,
-    StartScreenComponent,
     CommonModule
 ],
   templateUrl: './main-content.component.html',
