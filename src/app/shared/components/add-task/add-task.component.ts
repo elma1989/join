@@ -74,7 +74,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
       title: [title, [CustomValidator.strictRequired(), Validators.minLength(3)]],
       description: [desc],
       dueDate: this.fb.group({
-        deathline: [dueDate, [CustomValidator.strictRequired(), CustomValidator.dateFormat(), CustomValidator.dateInPast()]]
+        deathline: [dueDate, [CustomValidator.strictRequired(), CustomValidator.dateFormat(), CustomValidator.dateInPast(() => this.currentTask().created.toDate())]]
       }),
       createSubtask: this.fb.group({
         subtaskName: ['', [CustomValidator.customMinLength(3), CustomValidator.subtaskExist(() => this.currentTask().subtasks)]]
@@ -243,7 +243,7 @@ private taskInvalidForm(): void {
     this.currentTask().assignedTo = [];
     chosenContacts.forEach((contact) => {
       this.currentTask().assignedTo.push(contact.id);
-    })
+    });
   }
 
   /**

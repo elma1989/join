@@ -26,6 +26,8 @@ export class Task implements DBObject{
 	/** definition of date until task hast to be done, (not in past) */
 	dueDate: Timestamp = Timestamp.now();
 
+	created: Timestamp = Timestamp.now();
+
 	/** priority of task, defines how important is task */
 	priority: Priority = Priority.MEDIUM;
 
@@ -67,6 +69,7 @@ export class Task implements DBObject{
 			this.title = data.title;
 			this.description = data.description;
 			this.dueDate = data.dueDate;
+			this.created = data.created;
 			this.priority = data.priority;
 			this.category = data.category;
 			this.assignedTo = data.assignedTo;
@@ -86,6 +89,7 @@ export class Task implements DBObject{
 			title: this.title,
 			description: this.description,
 			dueDate: this.dueDate,
+			created: this.created,
 			priority: this.priority,
 			category: this.category,
 			assignedTo: this.assignedTo,

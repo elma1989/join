@@ -26,6 +26,7 @@ export class LoginComponent implements AfterViewInit {
   section: OutputEmitterRef<SectionType> = output<SectionType>();
   prevSection: OutputEmitterRef<SectionType> = output<SectionType>();
   guestLogin: OutputEmitterRef<boolean> = output<boolean>();
+  ready: OutputEmitterRef<boolean> = output<boolean>();
 
   auth: AuthService = inject(AuthService);
   tms: ToastMsgService = inject(ToastMsgService);
@@ -54,6 +55,7 @@ export class LoginComponent implements AfterViewInit {
     // Overlay ausblenden
     setTimeout(() => {
       this.overlayActive = false;
+      this.ready.emit(true);
     }, 2500);
   }
 

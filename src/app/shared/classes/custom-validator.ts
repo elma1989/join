@@ -74,14 +74,15 @@ export class CustomValidator {
      * Checks if date in past.
      * @returns ValidationError or null.
      */
-    static dateInPast(): ValidatorFn {
+    static dateInPast(getCreate: () => Date): ValidatorFn {
+        const created = getCreate().setHours(0, 0, 0 ,0);
         return (control: AbstractControl): ValidationErrors | null => {
             const value = control.value;
             if (typeof value == 'string') {
                 const [month = 0, day = 0, year = 0] = value.split('/').map(x => Number(x));
                 const pastDate = Date.now() - 1000 * 60 * 60 * 24; 
                 const inputDate = new Date(year, month-1, day)
-                if (inputDate.getTime() < pastDate) return { dateInPast: true };
+                if (inputDate.getTime() < pastDate && inputDate.getTime() < created) return { dateInPast: true };
                 return null;
             }
             return { dateInPast: true }
