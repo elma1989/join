@@ -194,9 +194,6 @@ export class ValidationService {
       case 'email':
         return 'E-Mail format is not correct.';
 
-      case 'tel':
-        return 'Use format: 0<prefix> <phone number>';
-
       case 'dateFormat':
         return 'Use format: MM/DD/YYYY.';
 
@@ -207,7 +204,7 @@ export class ValidationService {
         return 'Create another subtask.';
 
       case 'subtaskExist':
-        return 'Subtask allready exists.';
+        return 'Subtask already exists.';
 
       case 'confirmMissmatch':
         return 'Password confirm does not match.'
