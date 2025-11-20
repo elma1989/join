@@ -21,6 +21,7 @@ main {
 
     @include all.mobile {
         padding: 4.8rem 0;
+        height: 80dvh;
     }
 }
 
@@ -144,6 +145,10 @@ input[type=password].error:focus {
 
     @include all.tablet {
         margin-top: -2rem;
+    }
+
+    @include all.mobile {
+        margin-top: 2rem;
     }
 }
 
