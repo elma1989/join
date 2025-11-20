@@ -4,7 +4,7 @@
     <form [formGroup]="form" (ngSubmit)="submitForm()">
         <div class="input-area">
             <div class="input-field">
-                <input formControlName="firstname" type="text" [ngClass]="{error: errors['firstname']}" placeholder="Frirst name">
+                <input formControlName="firstname" type="text" [ngClass]="{error: errors['firstname']}" placeholder="First name">
                 <div class="errmsg">{{ errors['firstname'] ? errors['firstname'][0] : ''}}</div>
                 <img class="formicon" src="assets/Icons/signon/person.png">
             </div>
