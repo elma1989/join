@@ -1,0 +1,75 @@
+@use '../../../../../../public/styles/all_styles' as all;
+@forward '../../../../../../public/styles/component-styles';
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 12;
+}
+
+.add-task-modal-container {
+    @include all.size($w: 90dvw, $h: 80dvh);
+    max-width: 110rem;
+    @include all.fl($jc: center, $alit: center);
+    padding: 2rem 0;
+    background-color: white;
+    border-radius: 1.6rem;
+    border: none;
+    box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.2);
+
+    @media(min-width: 3840px) {
+        position: absolute;
+        top: 40rem;
+        left: 70rem;
+        width: 20dvw;
+        padding: 0;
+    }
+
+    @media(min-height: 2160px) {
+        height: 40dvh;
+    }
+
+    @include all.notebook {
+        box-shadow: 8px 0 8px rgba(0, 0, 0, 0.2), -8px 0 8px rgba(0, 0, 0, 0.2);
+    }
+
+    @include all.tablet {
+        @include all.size($w: 90dvw, $h: 80dvh);
+        max-width: 90rem;
+        @include all.fl($flexdir: column, $jc: center, $alit: center);
+    }
+
+    #add-task-close-btn {
+        position: absolute;
+        top: 2rem;
+        right: 2rem;
+        z-index: 2;
+        font-size: 24px;
+        background: transparent;
+
+        &:hover {
+            color: #29ABE2;
+        }
+    }
+
+    #add-task-modal-content {
+        width: 100%;
+        @include all.marpad($pad: 2rem);
+
+        @media(min-width: 3840px) {
+            width: 20dvw;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        @media(min-height: 2160px) {
+            height: 10dvh;
+        }
+    }
+
+}

@@ -1,0 +1,152 @@
+@use '../../../../public/styles/all_styles' as all;
+@forward '../../../../public/styles/component-styles';
+
+:host {
+    @include all.fl($flexdir: column, $jc: center, $alit: center);
+    @include all.size($w: 100dvw, $h: 100dvh);
+    max-width: 1920px;
+    padding: 3.2rem;
+}
+
+main {
+    @include all.fl($flexdir: column, $gap: 3.2rem);
+    @include all.marpad ($pad: 4.8rem 8.8rem);
+    height: 74dvh;
+    background: white;
+    border-radius: 1.6rem;
+
+    @include all.tablet {
+        margin: 1rem;
+    }
+
+    @include all.mobile {
+        padding: 4.8rem 0;
+    }
+}
+
+.input-area {
+    margin-bottom: 1.6rem;
+    height: 32dvh;
+    overflow-y: auto;
+    @include all.scrollbar();
+
+}
+
+@include all.mobile {
+    form {
+        padding: 0 2rem;
+    }
+}
+
+input[type=text],
+input[type=password] {
+    width: 42rem;
+    height: 4.8rem;
+    border-radius: 1rem;
+    padding: 1.2rem 6.4rem 1.2rem 2rem;
+    border: 1px solid #d1d1d1;
+    outline: none;
+    font: 1.6rem 'InterRegular', sans-serif;
+    cursor: text;
+
+    &:focus {
+        border: 1px solid #29abe2;
+    }
+
+    @include all.mobile {
+        width: 24rem;
+    }
+}
+
+.formicon {
+    width: 2.4rem;
+    height: 2.4rem;
+    position: absolute;
+    right: 2rem;
+    top: 1.2rem;
+}
+
+input[type=text].error,
+input[type=password].error,
+input[type=text].error:focus,
+input[type=password].error:focus {
+    border: 1px solid #e60026;
+}
+
+.errmsg {
+    display: flex;
+    align-items: center;
+    height: 2rem;
+    color: #e60026;
+    font: 1.6rem 'Inter', sans-serif;
+    @include all.marpad($mar: 0.5rem 0, $pad: 0.2rem 2rem);
+}
+
+.check-field {
+    @include all.fl($flexdir: column, $jc: center, $gap: 0.5rem);
+
+    [type=checkbox] {
+        opacity: 0;
+        width: 2.4rem;
+        height: 2.4rem;
+        margin-right: 2rem;
+    }
+
+    .check-item {
+        @include all.fl($alit: center);
+    }
+
+    label {
+        position: static;
+        font: 1.6rem 'Inter', sans-serif;
+        margin-right: 0.5rem;
+    }
+
+    a {
+        color: #29abe2;
+    }
+
+
+    [type=checkbox]+label {
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    [type=checkbox]+label::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 2.4rem;
+        height: 2.4rem;
+        background: url(../../../../public/assets/Icons/signon/check.png) no-repeat center / contain;
+    }
+
+    [type=checkbox]:checked+label::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 2.4rem;
+        height: 2.4rem;
+        background: url(../../../../public/assets/Icons/signon/checked.png) no-repeat center / contain;
+    }
+}
+
+.submit-field {
+    @include all.fl($jc: center);
+    width: 100%;
+    margin-top: 1.6rem;
+
+    input {
+        padding: 1rem 2.4rem;
+    }
+
+    @include all.tablet {
+        margin-top: -2rem;
+    }
+}
+
+.pointer {
+    cursor: pointer
+}

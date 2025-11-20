@@ -1,0 +1,14 @@
+@use '../../../../../public/styles/all_styles' as all;
+
+:host {
+    height: 10dvh;
+    @include all.fl($gap: 3.2rem, $alit: flex-end);
+}
+
+a {
+    color: #a8a8a8;
+
+    &:hover {
+        color: #29abe3;
+    }
+}

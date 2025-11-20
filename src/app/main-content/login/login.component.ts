@@ -1,0 +1,107 @@
+import { Component, inject, output, OutputEmitterRef, AfterViewInit } from '@angular/core';
+import { HeaderFormComponent } from '../../shared/components/header-form/header-form.component';
+import { FooterSignComponent } from '../../shared/components/footer-sign/footer-sign.component';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { SectionType } from '../../shared/enums/section-type';
+import { User } from '../../shared/classes/user';
+import { AuthService } from '../../shared/services/auth.service';
+import { LoginData } from '../../shared/interfaces/login-data';
+import { ToastMsgService } from '../../shared/services/toast-msg.service';
+
+@Component({
+  selector: 'section[login]',
+  imports: [
+    HeaderFormComponent,
+    FooterSignComponent,
+    ReactiveFormsModule,
+    CommonModule
+  ],
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.scss'
+})
+export class LoginComponent implements AfterViewInit {
+
+  user: OutputEmitterRef<User | null> = output<User | null>();
+  section: OutputEmitterRef<SectionType> = output<SectionType>();
+  prevSection: OutputEmitterRef<SectionType> = output<SectionType>();
+  guestLogin: OutputEmitterRef<boolean> = output<boolean>();
+  ready: OutputEmitterRef<boolean> = output<boolean>();
+
+  auth: AuthService = inject(AuthService);
+  tms: ToastMsgService = inject(ToastMsgService);
+
+  private fb: FormBuilder = inject(FormBuilder);
+
+  protected form: FormGroup = this.fb.group({
+    email: [''],
+    password: ['']
+  });
+
+  protected passwordVisible: boolean = false;
+  protected SectionType = SectionType;
+  
+  // Logo Animation States
+  protected slide = false;
+  protected overlayActive = true;
+  protected logoVisible = true;
+
+  ngAfterViewInit() {
+    // Logo zur oberen linken Ecke bewegen
+    setTimeout(() => {
+      this.slide = true;
+    }, 1500);
+
+    // Overlay ausblenden
+    setTimeout(() => {
+      this.overlayActive = false;
+      this.ready.emit(true);
+    }, 2500);
+  }
+
+  /** Turns visibility of password on and off. */
+  protected toggleVisibility():void { 
+    this.passwordVisible = !this.passwordVisible;
+  }
+
+  protected async submitForm(): Promise<void> {
+    this.logoVisible = false;
+    
+    try {
+      const userCred = await this.auth.login(this.form.value as LoginData);
+      if (userCred.user) {
+        const user: User | null = await this.auth.getUser(userCred.user.uid);
+        if (user) {
+          this.user.emit(user);
+          this.section.emit(SectionType.SUMMARY);
+          this.prevSection.emit(SectionType.SUMMARY);
+          this.tms.add('Login successful', 3000, 'success');
+          localStorage.setItem('uid', user.id);
+        }
+      }
+    } catch (err) {
+      this.logoVisible = true;
+      this.tms.add('Email or password incorrect', 3000, 'error');
+      this.form.reset();
+    }
+  }
+
+  /**
+   * Navigates to a section.
+   * @param section Section to navigate.
+   */
+  protected navigate(section: SectionType): void {
+    this.section.emit(section);
+    this.prevSection.emit(SectionType.LOGIN);
+  }
+
+  /** A Login for guests. */
+  protected useGuestLogin(): void {
+    this.logoVisible = false;
+    
+    this.user.emit(null);
+    this.section.emit(SectionType.SUMMARY);
+    this.prevSection.emit(SectionType.SUMMARY);
+    this.guestLogin.emit(true);
+  }
+}

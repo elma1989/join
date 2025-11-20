@@ -1,0 +1,152 @@
+@use '../../../../../public/styles/all_styles' as all;
+
+:host {
+    @include all.fl($flexdir: column);
+    width: 100%;
+    font-size: 1.6rem;
+}
+
+.errmsg {
+    color: #d32f2f;
+    height: 1.8rem;
+    font-size: 1.6rem;
+    width: 100%;
+}
+
+.main-add-subtask {
+    @include all.fl($flexdir: column);
+    width: 100%;
+}
+
+// #region input field
+.add-subtask-container {
+    width: 100%;
+    @include all.fl($jc: space-between, $alit: center);
+    padding: 0 0.5rem;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    background: white;
+
+    .add-subtask-input {
+        width: 100%;
+        font-size: 1.6rem;
+        padding: 1rem;
+        @include all.limiter();
+        inset: none;
+        outline: none;
+        background: white;
+        cursor: text;
+    }
+
+    &.active {
+        outline: 1px solid #29ABE2;
+    }
+}
+
+.add-subtask-input-btns-container {
+    @include all.fl($alit: center);
+
+    .add-subtask-input-btn {
+        @include all.size($w: 3rem, $h: 3rem);
+        background: transparent;
+
+        .edit-icon {
+            @include all.size($w: 3rem, $h: 3rem);
+            background: transparent;
+
+            &:hover {
+                @include all.size($w: 3.2rem, $h: 3.2rem);
+            }
+        }
+    }
+
+    hr {
+        @include all.size($w: 0.2rem, $h: 3rem);
+        background: rgb(0, 0, 0, 0.3);
+        border: none
+    }
+}
+
+// #endregion input field
+
+// #region ordered list
+
+.subtask-shown {
+    width: 100%;
+    height: 11dvh;
+    box-shadow: inset 0 0 0.7rem rgba(0, 0, 0, 0.5);
+    border-radius: 0.8rem;
+    padding: 0.5rem;
+    margin-top: 1rem;
+
+    @media(min-height: 2160px) {
+        height: 5dvh;
+    }
+
+    @include all.tablet {
+        height: 25dvh;
+    }
+
+    ol {
+        width: 100%;
+        overflow-y: auto;
+        max-height: 8rem;
+        @include all.scrollbar();
+
+        li {
+            height: auto;
+            width: 99%;
+            font-size: 1.6rem;
+            @include all.fl($jc: space-between, $alit: center);
+            background: transparent;
+        }
+    }
+}
+
+// #endregion ordered list
+
+#region display item .regular {
+    font-size: 1.6rem;
+    cursor: pointer;
+
+    &:hover {
+        background: rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+
+    &:hover .hover-btns {
+        @include all.fl($alit: center);
+    }
+
+    .add-subtask-input-btns-container {
+        display: none;
+        background: transparent;
+        padding-right: 1rem;
+
+        .add-subtask-input-btn {
+            @include all.size($w: 1.5rem, $h: 2rem);
+
+            .edit-icon {
+                @include all.size($w: 2rem, $h: 2rem);
+
+                &:hover {
+                    @include all.size($w: 3.2rem, $h: 3.2rem);
+                }
+            }
+        }
+
+        hr {
+            @include all.size($w: 0.2rem, $h: 3rem);
+            background: rgb(0, 0, 0, 0.3);
+            border: none
+        }
+    }
+
+    &:hover {
+        .add-subtask-input-btns-container {
+            @include all.fl($alit: center);
+        }
+    }
+}
+
+// #endregion display item

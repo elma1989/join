@@ -1,0 +1,84 @@
+<section class="add-task-section">
+    <form [formGroup]="formTask" (ngSubmit)="submitForm()" (reset)="clear()">
+        <header class="add-task-header">
+            @if(currentTask().id == '' || addMode) {
+            <h1 id="add-task-headline">Add Task</h1>
+            }
+            @else {
+            <h1 id="add-task-headline">Edit Task</h1>
+            }
+        </header>
+
+        <main class="add-task-main-container">
+            <div class="add-task-info-block1">
+
+                <div class="input-wrapper">
+                    <label class="add-task-input-lbl" for="title">Title <b>*</b></label>
+                    <input class="add-task-input" type="text" id="title" placeholder="Enter a title"
+                        formControlName="title" />
+                    <small class="error">
+                        @if (errors['title']) {
+                        {{ errors['title'][0]}}
+                        }
+                    </small>
+                </div>
+
+                <div class="input-wrapper">
+                    <label class="add-task-input-lbl" for="descr">Description</label>
+                    <textarea name="descr" id="descr" class="add-task-input" placeholder="Enter a Description ..."
+                        formControlName="description"></textarea>
+                </div>
+
+                <div class="input-wrapper" id="due-date">
+                    <label class="add-task-input-lbl">Due Date <b>*</b></label>
+
+                    <app-date-picker [dueDateGroup]="getFormgroup('dueDate')"
+                        [selectedTimestamp]="currentTask().dueDate"></app-date-picker>
+                    <small class="error">
+                        @if (errors['deathline']) {
+                        {{ errors['deathline'][0]}}
+                        }
+                    </small>
+
+                </div>
+            </div>
+
+            <hr />
+
+            <div class="add-task-info-block2">
+                <div class="input-wrapper add-task-priority-container">
+                    <label class="add-task-input-lbl">Priority</label>
+                    <app-priority-buttons [task]="currentTask()"></app-priority-buttons>
+                </div>
+
+                <div class="input-wrapper add-task-assigned-to-container">
+                    <label class="add-task-input-lbl">Assigned to</label>
+                    <app-assign-contacts [options]="contacts" [selectedValues]="currentTask().contacts"
+                        (selectionChange)="updateContacts($event)"></app-assign-contacts>
+                </div>
+
+                <div class="input-wrapper add-task-category-container">
+                    <label class="add-task-input-lbl">Category <b>*</b></label>
+                    <app-category-drop #category [currentCategory]="currentTask().category"
+                        (newCategory)="updateCategory($event)"></app-category-drop>
+                </div>
+
+                <div class="input-wrapper add-task-subtask-container">
+                    <label class="add-task-input-lbl">Subtasks</label>
+                    <app-subtask [createSubtaskGroup]="getFormgroup('createSubtask')"
+                        [subtasks]="currentTask().subtasks" (outSubtasks)="updateSubtasks($event)"></app-subtask>
+                </div>
+            </div>
+        </main>
+
+        <footer class="add-task-footer">
+            <span class="required-info-txt"><b>*</b> this field is required</span>
+            <div class="add-task-btn-container">
+            @if (addMode) { <input class="btn-default" type="reset" value="Clear">}
+                <input class="btn-set" type="submit" value="{{ addMode ? 'Create' : 'Edit'}} Task" (click)="closeModal()">
+            </div>
+        </footer>
+        
+    </form>
+
+</section>

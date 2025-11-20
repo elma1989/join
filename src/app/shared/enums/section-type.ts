@@ -1,0 +1,11 @@
+export enum SectionType {
+    SUMMARY = 'summary',
+    TASK = 'task',
+    BOARD = 'board',
+    CONTACT = 'contact',
+    PRIVACY = 'privacy',
+    LEGAL = 'legal',
+    SIGNUP = 'signup',
+    LOGIN = 'login',
+    PREV_SECTION = 'prev-section'
+}
