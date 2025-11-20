@@ -194,6 +194,9 @@ export class ValidationService {
       case 'email':
         return 'E-Mail format is not correct.';
 
+      case 'tel':
+        return '';
+
       case 'dateFormat':
         return 'Use format: MM/DD/YYYY.';
 
