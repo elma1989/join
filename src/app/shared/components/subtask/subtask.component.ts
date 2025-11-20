@@ -155,7 +155,6 @@ export class SubtaskComponent implements OnInit, OnDestroy {
     else {
       allSubtasks[index].editMode = true;
     }
-    this.outSubtasks.emit(allSubtasks);
   }
 
   /** 

@@ -141,6 +141,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
  */
   protected submitForm(): void {
     if (this.currentTask().id == '') this.val.polluteForm('task');
+    this.formTask.get('createSubtask.subtaskName')?.markAsPristine();
     const dirty: boolean = Object.keys(this.formTask.controls).some(control => {
       const child = this.formTask.get(control);
       if (child) return child.dirty;
@@ -274,6 +275,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
    * @param subtasks 
    */
   updateSubtasks(subtasks: Array<SubTask>) {
+    console.log('Update Subatask')
     this.currentTask().chanage = true;
     this.currentTask().subtasks = [];
     subtasks.forEach((subtask) => {
