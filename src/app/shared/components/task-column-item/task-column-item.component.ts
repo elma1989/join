@@ -65,7 +65,7 @@ export class TaskColumnItemComponent {
    * Determines if the subtask progress bar should be visible.
    */
   get isSubtaskProgressVisible(): boolean {
-    return this.totalSubtaskCount >= 2;
+    return this.totalSubtaskCount >= 1;
   }
 
   /**

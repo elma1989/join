@@ -275,16 +275,16 @@ export class AddtaskComponent implements OnInit, OnDestroy {
    * @param subtasks 
    */
   updateSubtasks(subtasks: Array<SubTask>) {
-    console.log('Update Subatask')
-    this.currentTask().chanage = true;
-    this.currentTask().subtasks = [];
+    const task = this.currentTask();
+    task.chanage = true;
+    task.hasSubtasks = subtasks.length > 0;
+    task.subtasks = [];
     subtasks.forEach((subtask) => {
       if (subtask.taskId == '') {
-        subtask.taskId = this.currentTask().id;
+        subtask.taskId = task.id;
       }
-      this.currentTask().subtasks.push(subtask);
+      task.subtasks.push(subtask);
     });
-    this.currentTask().hasSubtasks = this.currentTask().subtasks.length >= 1;
   }
   // #endregion
 
