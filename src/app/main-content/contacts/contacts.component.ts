@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { DisplaySizeService, DisplayType } from '../../shared/services/display-size.service';
 import { FirebaseDBService } from '../../shared/services/firebase-db.service';
@@ -20,7 +20,6 @@ import { Contact } from '../../shared/classes/contact';
   imports: [
     ContactListComponent,
     ContactDetailComponent,
-    AsyncPipe
   ],
   templateUrl: './contacts.component.html',
   styleUrl: './contacts.component.scss'
@@ -29,11 +28,15 @@ export class ContactsComponent {
 
   //#region Dependencies
   contact: Contact | null = null;
+  windowWidth: number = window.innerWidth;
 
-  contactDetail: boolean = false;
+  @HostListener('window:resize')
+  onResize() {
+    this.windowWidth = window.innerWidth;
+  }
   
   /** Service providing access to Firebase database operations. */
-  protected fireDB: FirebaseDBService = inject(FirebaseDBService);
+  // protected fireDB: FirebaseDBService = inject(FirebaseDBService);
 
   /** Service managing display behavior based on current screen size. */
   protected dss: DisplaySizeService = inject(DisplaySizeService);

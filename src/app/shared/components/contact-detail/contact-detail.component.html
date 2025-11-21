@@ -5,11 +5,11 @@
         <h2>Better with a team</h2>
         <hr id="bottom-line" />
     </div>
-    <button class="contact-detail-back" ><img src="assets/Icons/contact/arrow-left-line.png"
+    <button class="contact-detail-back" (click)="unselectContact()" ><img src="assets/Icons/contact/arrow-left-line.png"
             alt=""></button>
 </div>
 
-@if (fireDB.currentContact$ | async; as contact ) {
+@if (contact ) {
 @if(contact.id != '') {
 
 <div class="contact-info-container">

@@ -60,9 +60,9 @@ export class ContactListComponent implements OnDestroy {
       contact.selected = false;
       if(contact.id == contactToSelect.id) {
         contact.selected = true;
-        this.currentContact.emit(contact);
       }
     });
+    this.currentContact.emit(contactToSelect);
   }
 
   /**
