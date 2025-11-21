@@ -180,13 +180,18 @@ export class FirebaseDBService {
    * @param collectionName address of collection in database and
    * @param object The object with data to update.
    */
-  async updateInDB(collectionName: string, object: DBObject) {
+
+async updateInDB(collectionName: string, object: DBObject) {
     if( object instanceof Contact ) {
-      object.group = object.firstname[0];
+        object.group = object.firstname[0];
     }
-    const docRef  = this.getDocRef(collectionName, object.id);
+    const docRef = this.getDocRef(collectionName, object.id);
     await updateDoc(docRef, object.toJSON());
-  }
+    
+    if (collectionName === 'contacts' && object instanceof Contact) {
+        this.setCurrentContact(object);
+    }
+}
 
   /**
    * Updates a task with his subtasks in database.

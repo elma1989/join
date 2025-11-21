@@ -3,6 +3,9 @@
 :host {
     display: flex;
     @include all.size($w: 95%, $h: 22dvh);
+    @include all.mobile {
+        height: 9dvh;
+    }
 }
 
 img {

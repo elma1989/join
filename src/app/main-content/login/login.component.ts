@@ -1,13 +1,14 @@
 import { Component, inject, output, OutputEmitterRef, AfterViewInit } from '@angular/core';
 import { HeaderFormComponent } from '../../shared/components/header-form/header-form.component';
 import { FooterSignComponent } from '../../shared/components/footer-sign/footer-sign.component';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SectionType } from '../../shared/enums/section-type';
 import { User } from '../../shared/classes/user';
 import { AuthService } from '../../shared/services/auth.service';
 import { LoginData } from '../../shared/interfaces/login-data';
 import { ToastMsgService } from '../../shared/services/toast-msg.service';
+import { CustomValidator } from '../../shared/classes/custom-validator';
 
 @Component({
   selector: 'section[login]',
@@ -34,8 +35,8 @@ export class LoginComponent implements AfterViewInit {
   private fb: FormBuilder = inject(FormBuilder);
 
   protected form: FormGroup = this.fb.group({
-    email: [''],
-    password: ['']
+    email: ['',[CustomValidator.strictRequired(), Validators.email]],
+    password: ['',[CustomValidator.strictRequired(), Validators.minLength(6)]]
   });
 
   protected passwordVisible: boolean = false;
@@ -57,6 +58,8 @@ export class LoginComponent implements AfterViewInit {
       this.overlayActive = false;
       this.ready.emit(true);
     }, 2500);
+
+    this.loadStorage();
   }
 
   /** Turns visibility of password on and off. */
@@ -66,23 +69,45 @@ export class LoginComponent implements AfterViewInit {
 
   protected async submitForm(): Promise<void> {
     this.logoVisible = false;
-    
-    try {
-      const userCred = await this.auth.login(this.form.value as LoginData);
-      if (userCred.user) {
-        const user: User | null = await this.auth.getUser(userCred.user.uid);
-        if (user) {
-          this.user.emit(user);
-          this.section.emit(SectionType.SUMMARY);
-          this.prevSection.emit(SectionType.SUMMARY);
-          this.tms.add('Login successful', 3000, 'success');
-          localStorage.setItem('uid', user.id);
+    if (this.form.valid) {
+      try {
+        const userCred = await this.auth.login(this.form.value as LoginData);
+        if (userCred.user) {
+          const user: User | null = await this.auth.getUser(userCred.user.uid);
+          if (user) {
+            this.user.emit(user);
+            this.section.emit(SectionType.SUMMARY);
+            this.prevSection.emit(SectionType.SUMMARY);
+            this.tms.add('Login successful', 3000, 'success');
+            localStorage.setItem('uid', user.id);
+          }
         }
+      } catch (err) {
+        this.logoVisible = true;
+        this.tms.add('Email or password incorrect', 3000, 'error');
+        this.form.reset();
       }
-    } catch (err) {
+    } else {
       this.logoVisible = true;
-      this.tms.add('Email or password incorrect', 3000, 'error');
-      this.form.reset();
+        this.tms.add('Email or password incorrect', 3000, 'error');
+        this.form.reset();
+    }
+  }
+
+  saveStorage(): void {
+    localStorage.setItem('loginInput', JSON.stringify(this.form.value));
+  }
+
+  loadStorage(): void {
+    const saved = localStorage.getItem('loginInput');
+    if(saved) {
+      const valueInput = JSON.parse(saved);
+      Object.keys(this.form.controls).forEach(key => {
+        const child = this.form.get(key);
+        if(child) {
+          child.setValue(valueInput[key]);
+        }
+      }) 
     }
   }
 
@@ -93,6 +118,7 @@ export class LoginComponent implements AfterViewInit {
   protected navigate(section: SectionType): void {
     this.section.emit(section);
     this.prevSection.emit(SectionType.LOGIN);
+    this.saveStorage();
   }
 
   /** A Login for guests. */
@@ -103,5 +129,6 @@ export class LoginComponent implements AfterViewInit {
     this.section.emit(SectionType.SUMMARY);
     this.prevSection.emit(SectionType.SUMMARY);
     this.guestLogin.emit(true);
+    
   }
 }

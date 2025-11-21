@@ -9,6 +9,7 @@ import { FirebaseDBService } from '../../../services/firebase-db.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { ModalService } from '../../../services/modal.service';
 import { SubtaskEditState } from '../../../enums/subtask-edit-state';
+import { doc, DocumentReference, Firestore, updateDoc } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-task-modal',
@@ -40,6 +41,7 @@ import { SubtaskEditState } from '../../../enums/subtask-edit-state';
  */
 export class TaskModalComponent {
 
+  fs: Firestore = inject(Firestore);
   /** FirebaseDBService instance injected for database operations */
   fireDB: FirebaseDBService = inject(FirebaseDBService);
 
@@ -97,9 +99,9 @@ export class TaskModalComponent {
    */
   async updateSubTaskStatus(subtask: SubTask, event: Event): Promise<void> {
     const checked = (event.target as HTMLInputElement).checked;
+    const ref: DocumentReference = doc(this.fs, `subtasks/${subtask.id}`)
     subtask.finished = checked;
-
-    await this.fireDB.updateInDB('subtasks', subtask);
+    await updateDoc(ref, subtask.toJSON());
   }
 
   /**

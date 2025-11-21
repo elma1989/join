@@ -103,6 +103,7 @@ export class MainContentComponent {
   protected setUser(user: User | null) {
     if (!user) localStorage.clear();
     this.currentUser = user;
+    this.guestLoginMain = false;
   }
 
   /** Loads the current user, if he has logged in before. */
@@ -135,8 +136,9 @@ export class MainContentComponent {
   }
 
   setGuestLogin(status: boolean) {
-    this.guestLoginMain = status;
+    this.guestLoginMain = status;  
   }
+
   // #endregion
   // #endregion
 }

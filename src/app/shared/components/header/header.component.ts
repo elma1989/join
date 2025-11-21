@@ -21,6 +21,7 @@ export class HeaderComponent {
   userLogout: OutputEmitterRef<null> = output<null>();
 
   guestLogin: InputSignal<boolean> = input<boolean>(false);
+  guestLogout: OutputEmitterRef<boolean> = output<boolean>();
 
   
   /** Service used to manage modals (e.g., Help modal). */
@@ -55,11 +56,14 @@ export class HeaderComponent {
    * In a full implementation, authentication services would handle this logic.
    */
   async logout(): Promise<void> {
-    await this.auth.logout()
+    await this.auth.logout();
     this.userLogout.emit(null);
+    this.guestLogout.emit(false);
     this.selectedSection.emit(SectionType.LOGIN);
     this.closeMenu();
+    
   }
+
 
   /**
    * Closes the profile menu.

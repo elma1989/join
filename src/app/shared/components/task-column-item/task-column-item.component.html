@@ -42,7 +42,7 @@
 			<div class="subtask-tooltip">
 				<strong>{{ completedSubtaskCount }} von {{ totalSubtaskCount }} Subtasks erledigt</strong>
 				<ul class="subtask-list">
-					@for (subtask of task().subtasks; track subtask.id; let i = $index) {
+					@for (subtask of task().subtasks; track i; let i = $index) {
 					@if (task().subtasks[i].editState != SubtaskEditState.DELETED) {
 					<li class="subtask-item">
 						<span [class.completed]="subtask.finished">{{ subtask.name }}</span>
