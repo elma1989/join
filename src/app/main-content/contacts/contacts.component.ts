@@ -44,7 +44,6 @@ export class ContactsComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.fireDB.setCurrentContact(null);
-    console.log('ContactsComponent zerstört. Ausgewählter Kontakt im Service wurde zurückgesetzt.');
   }
 }
 
