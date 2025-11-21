@@ -17,8 +17,9 @@ export class FirebaseDBService {
 
   private firestore: Firestore = inject(Firestore);
 
-  private currentContactBS: BehaviorSubject<Contact> = new BehaviorSubject<Contact>(new Contact());
-  currentContact$: Observable<Contact> = this.currentContactBS.asObservable();
+  private currentContactBS: BehaviorSubject<Contact | null> = new BehaviorSubject<Contact | null>(null);
+  currentContact$: Observable<Contact | null> = this.currentContactBS.asObservable();
+
 
   private tms: ToastMsgService = inject(ToastMsgService);
   
@@ -244,7 +245,7 @@ async updateInDB(collectionName: string, object: DBObject) {
    * 
    * @param contact the contact which is selected.
    */
-  setCurrentContact(contact: Contact) {
+  setCurrentContact(contact: Contact | null) {
     this.currentContactBS.next(contact);
   }
 

@@ -1,10 +1,10 @@
+@if (fireDB.currentContact$ | async; as contact) {
 @if (windowWidth >= 1024) {
-    <section contact-list class="contact-list" (currentContact)="setContact($event)"></section>
-    @if (contact) {
-        <section contact-detail [currentContact]="contact" (unselect)="setContact(null)" class="contact-detail"></section>
-    }
-} @else if (contact) {
-    <section contact-detail [currentContact]="contact" (unselect)="setContact(null)" class="contact-detail"></section>
+<section contact-list class="contact-list" (currentContact)="setContact($event)"></section>
+<section contact-detail [currentContact]="contact" (unselect)="setContact(null)" class="contact-detail"></section>
 } @else {
-    <section contact-list class="contact-list" (currentContact)="setContact($event)"></section>
+<section contact-detail [currentContact]="contact" (unselect)="setContact(null)" class="contact-detail"></section>
+}
+} @else {
+<section contact-list class="contact-list" (currentContact)="setContact($event)"></section>
 }

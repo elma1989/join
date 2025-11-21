@@ -1,4 +1,4 @@
-import { Component, HostListener, inject } from '@angular/core';
+import { Component, HostListener, inject, OnDestroy } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { DisplaySizeService, DisplayType } from '../../shared/services/display-size.service';
 import { FirebaseDBService } from '../../shared/services/firebase-db.service';
@@ -20,14 +20,13 @@ import { Contact } from '../../shared/classes/contact';
   imports: [
     ContactListComponent,
     ContactDetailComponent,
+    AsyncPipe, // Hinzugefügt
   ],
   templateUrl: './contacts.component.html',
   styleUrl: './contacts.component.scss'
 })
-export class ContactsComponent {
+export class ContactsComponent implements OnDestroy {
 
-  //#region Dependencies
-  contact: Contact | null = null;
   windowWidth: number = window.innerWidth;
 
   @HostListener('window:resize')
@@ -35,24 +34,18 @@ export class ContactsComponent {
     this.windowWidth = window.innerWidth;
   }
   
-  /** Service providing access to Firebase database operations. */
-  // protected fireDB: FirebaseDBService = inject(FirebaseDBService);
-
-  /** Service managing display behavior based on current screen size. */
+  protected fireDB: FirebaseDBService = inject(FirebaseDBService);
   protected dss: DisplaySizeService = inject(DisplaySizeService);
-
-  /** Enum reference for responsive display handling (e.g., Mobile, Tablet, Desktop). */
   DisplayType = DisplayType;
 
   setContact(contact: Contact | null) {
-    this.contact = contact;
+    this.fireDB.setCurrentContact(contact); 
   }
 
-  // closeContactDetail() {
-  //   this.contactDetail
-  // }
-
-  //#endregion
+  ngOnDestroy(): void {
+    this.fireDB.setCurrentContact(null);
+    console.log('ContactsComponent zerstört. Ausgewählter Kontakt im Service wurde zurückgesetzt.');
+  }
 }
 
 //#endregion
