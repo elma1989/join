@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, input, InputSignal } from '@angular/core';
 import { Contact } from './../../../shared/classes/contact';
 import { ContactIconComponent } from '../../../shared/components/contact-icon/contact-icon.component';
 import { CommonModule } from '@angular/common';
@@ -22,6 +22,8 @@ export class ContactDetailComponent {
 
   isMenuVisible: boolean = false;
 
+  currentContact: InputSignal<Contact | null> = input<Contact | null>(null);
+
   // #endregion properties
 
   // #region methods
@@ -29,15 +31,6 @@ export class ContactDetailComponent {
   /** Shows and hide the mini menu for mobile devices. */
   toggleMenu(): void {
     this.isMenuVisible = !this.isMenuVisible;
-  }
-
-  /**
-   * Sets the current contact to a new one, which hides contact information
-   * 
-   * There is a binding in html to id of current contact.
-   */
-  unselectContact() {
-    this.fireDB.setCurrentContact(new Contact);
   }
 
   /**

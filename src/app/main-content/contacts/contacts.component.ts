@@ -4,6 +4,7 @@ import { DisplaySizeService, DisplayType } from '../../shared/services/display-s
 import { FirebaseDBService } from '../../shared/services/firebase-db.service';
 import { ContactListComponent } from '../../shared/components/contact-list/contact-list.component';
 import { ContactDetailComponent } from '../../shared/components/contact-detail/contact-detail.component';
+import { Contact } from '../../shared/classes/contact';
 
 //#region Component
 
@@ -27,7 +28,10 @@ import { ContactDetailComponent } from '../../shared/components/contact-detail/c
 export class ContactsComponent {
 
   //#region Dependencies
+  contact: Contact | null = null;
 
+  contactDetail: boolean = false;
+  
   /** Service providing access to Firebase database operations. */
   protected fireDB: FirebaseDBService = inject(FirebaseDBService);
 
@@ -36,6 +40,14 @@ export class ContactsComponent {
 
   /** Enum reference for responsive display handling (e.g., Mobile, Tablet, Desktop). */
   DisplayType = DisplayType;
+
+  setContact(contact: Contact | null) {
+    this.contact = contact;
+  }
+
+  // closeContactDetail() {
+  //   this.contactDetail
+  // }
 
   //#endregion
 }

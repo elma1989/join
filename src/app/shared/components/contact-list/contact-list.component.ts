@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnDestroy } from '@angular/core';
+import { Component, inject, OnDestroy, output, OutputDecorator, OutputEmitterRef } from '@angular/core';
 import { Contact } from '../../../shared/classes/contact';
 import { FormsModule } from "@angular/forms";
 import { ContactIconComponent } from "./../../../shared/components/contact-icon/contact-icon.component";
@@ -23,6 +23,8 @@ export class ContactListComponent implements OnDestroy {
   
   private fireDB: FirebaseDBService = inject(FirebaseDBService);
   private modalService: ModalService = inject(ModalService);
+
+  currentContact: OutputEmitterRef<Contact | null> = output<Contact | null>();
 
   contacts: Array<Contact> = [];
   groups: Array<string> = [];
@@ -58,7 +60,7 @@ export class ContactListComponent implements OnDestroy {
       contact.selected = false;
       if(contact.id == contactToSelect.id) {
         contact.selected = true;
-        this.fireDB.setCurrentContact(contact);
+        this.currentContact.emit(contact);
       }
     });
   }
