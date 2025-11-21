@@ -9,14 +9,16 @@
     #add-contact-button {
         @include all.size($w: 100%);
         @include all.marpad ($mar: 1rem 0, $pad: 1rem 0);
-        z-index: 1;
+        z-index: 2;
         @include all.tablet {
             @include all.size($w: 4.5rem, $h: 4.5rem);
             border-radius: 50%;
             position: absolute;
-            right: 1rem;
-
-
+            right: 2rem;
+            bottom: 0;
+            @media (max-width: 422px) {
+                right: 1.5rem;
+            }
             span {
                 display: none;
             }
