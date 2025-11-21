@@ -44,7 +44,7 @@ export class SignUpComponent implements OnInit, OnDestroy{
     firstname: ['', [CustomValidator.strictRequired(), Validators.minLength(3), CustomValidator.firstUpperCase()]],
     lastname: ['', [CustomValidator.strictRequired(), Validators.minLength(3), CustomValidator.firstUpperCase()]],
     email: ['', [CustomValidator.strictRequired(), Validators.email, Validators.minLength(10)]],
-    tel: ['', [CustomValidator.strictRequired(), CustomValidator.tel(), Validators.minLength(10)]],
+    tel: ['', [CustomValidator.strictRequired(), Validators.minLength(10)]],
     password: ['', [CustomValidator.strictRequired(), 
       CustomValidator.includes('upperCase'), 
       CustomValidator.includes('lowerCase'), 
@@ -81,6 +81,7 @@ export class SignUpComponent implements OnInit, OnDestroy{
       const { acceptPolicy, passwordConfirm, ...userdata } = this.form.value;
       const user = new User(userdata);
       user.group = user.firstname[0];
+      user.tel = user.tel.trim();
       this.clear();
       localStorage.clear();
       try {

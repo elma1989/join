@@ -58,6 +58,8 @@ export class LoginComponent implements AfterViewInit {
       this.overlayActive = false;
       this.ready.emit(true);
     }, 2500);
+
+    this.loadStorage();
   }
 
   /** Turns visibility of password on and off. */
@@ -92,6 +94,23 @@ export class LoginComponent implements AfterViewInit {
     }
   }
 
+  saveStorage(): void {
+    localStorage.setItem('loginInput', JSON.stringify(this.form.value));
+  }
+
+  loadStorage(): void {
+    const saved = localStorage.getItem('loginInput');
+    if(saved) {
+      const valueInput = JSON.parse(saved);
+      Object.keys(this.form.controls).forEach(key => {
+        const child = this.form.get(key);
+        if(child) {
+          child.setValue(valueInput[key]);
+        }
+      }) 
+    }
+  }
+
   /**
    * Navigates to a section.
    * @param section Section to navigate.
@@ -99,6 +118,7 @@ export class LoginComponent implements AfterViewInit {
   protected navigate(section: SectionType): void {
     this.section.emit(section);
     this.prevSection.emit(SectionType.LOGIN);
+    this.saveStorage();
   }
 
   /** A Login for guests. */
@@ -109,5 +129,6 @@ export class LoginComponent implements AfterViewInit {
     this.section.emit(SectionType.SUMMARY);
     this.prevSection.emit(SectionType.SUMMARY);
     this.guestLogin.emit(true);
+    
   }
 }

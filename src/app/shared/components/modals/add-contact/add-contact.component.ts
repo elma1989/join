@@ -9,6 +9,7 @@ import { ToastMsgService } from '../../../services/toast-msg.service';
 import { ValidationService } from '../../../services/validation.service';
 import { Subscription } from 'rxjs';
 import { CustomValidator } from '../../../classes/custom-validator';
+import { Firestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-add-contact',
@@ -52,6 +53,7 @@ export class AddContactComponent implements OnInit, AfterViewInit, OnDestroy {
   private tms: ToastMsgService = inject(ToastMsgService);
   private fb: FormBuilder = inject(FormBuilder);
   private val: ValidationService = inject(ValidationService);
+  private firestore: Firestore = inject(Firestore);
   
   isOpen = false;
 
@@ -129,6 +131,10 @@ export class AddContactComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /** Submit the entered data as add or as update after validation */
+  // async submitForm() {
+  //   this.validateForm();
+  //   console.log(this.contact());
+    
   async submitForm() {
     this.validateForm();
     if (this.contactForm.valid) {
@@ -145,6 +151,9 @@ export class AddContactComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   // #endregion
   
+  async updateContact() {
+    
+  }
   /**
    * Closes the modal
    * 
