@@ -92,7 +92,7 @@ export class AddContactComponent implements OnInit, AfterViewInit, OnDestroy {
     this.contactForm.setValue(formdata);
     this.val.registerForm('contact', this.contactForm);
     this.subFormCahange = this.contactForm.valueChanges.subscribe(() => {this.validateForm();});
-    
+    console.log('Original Contact ID (ngOnInit):', this.contact().id);
   }
 
   ngAfterViewInit() {
@@ -148,12 +148,10 @@ export class AddContactComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       this.closeModal();
     }
+    console.log('Original Contact ID (ngOnInit):', this.contact().id);
   }
   // #endregion
   
-  async updateContact() {
-    
-  }
   /**
    * Closes the modal
    * 
