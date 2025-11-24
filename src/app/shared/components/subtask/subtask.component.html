@@ -33,7 +33,7 @@
         <li>
             <div class="add-subtask-container active">
                 <input #editsub type="text" class="add-subtask-input" name="add-subtask-input"
-                    placeholder="Edit name..." [(ngModel)]="subtask.name" autocomplete="off">
+                    placeholder="Edit name..." [(ngModel)]="changedName" autocomplete="off">
 
                 <div class="add-subtask-input-btns-container">
                     <button class="add-subtask-input-btn" type="button" (click)="reset($index)">
@@ -41,7 +41,7 @@
                             alt="">
                     </button>
                     <hr>
-                    <button class="add-subtask-input-btn" type="button" (click)="updateSub($index)">
+                    <button class="add-subtask-input-btn" type="button" (click)="submitChanges($index)">
                         <img class="edit-icon edit-icon-check" id="add-check-icon"
                             src="assets/Icons/taskBoard/check.png" alt="">
                     </button>

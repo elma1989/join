@@ -26,6 +26,7 @@ export class SubtaskComponent implements OnInit, OnDestroy {
   protected newSubtask = new SubTask();
   protected SubtaskEditState = SubtaskEditState;
   protected errorsCreate: Record<string, string[]> = {};
+  protected changedName: string = '';
 
   cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
   rd2: Renderer2 = inject(Renderer2);
@@ -79,6 +80,25 @@ export class SubtaskComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Submits changes of update.
+   * @param index - Index of subtask.
+   */
+  submitChanges(index: number) {
+    const subtasks: SubTask[] = this.subtasks();
+
+    if (subtasks.length > index) {
+      const subtask: SubTask = subtasks[subtasks.length - 1 - index];
+      if (this.changedName.length > 0) {
+        subtask.name = this.changedName;
+        subtask.editState = SubtaskEditState.CHANGED;
+      } else subtask.editState = SubtaskEditState.DELETED;
+
+      subtask.editMode = false;
+      this.outSubtasks.emit(subtasks);
+    }
+  }
+
+  /**
    * Updates an existing subtask. 
    * 
    * @param index index of subtask array.
@@ -116,7 +136,10 @@ export class SubtaskComponent implements OnInit, OnDestroy {
    * @param index - Index of subtaskarray
    */
   protected selectEditInput(index: number) {
-    this.endbleEditMode(this.subtasks().length - index - 1);
+    const subtasks: SubTask[] = this.subtasks();
+    const subtask = subtasks[subtasks.length - index - 1];
+    subtask.editMode = true;
+    this.changedName = subtask.name;
     this.focusEdit();
   }
 
@@ -175,21 +198,6 @@ export class SubtaskComponent implements OnInit, OnDestroy {
    */
   private sendErrMsg(msg: string): void {
     this.rd2.setProperty(this.errmsg.nativeElement, 'innerText', msg)
-  }
-
-  /**
-   * Counts name of same subtask.
-   * @param subtask - Instance of Subtask.
-   * @returns - Number of same Subtask.
-   */
-  private countSubtaskName(subtask: SubTask): number {
-    let counter: number = 0;
-    this.subtasks().forEach(cSubtask => {
-      if (cSubtask.name == subtask.name && cSubtask.editState != SubtaskEditState.DELETED) {
-        counter++;
-      }
-    });
-    return counter;
   }
 
   /**
