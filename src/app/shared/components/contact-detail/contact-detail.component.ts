@@ -28,7 +28,7 @@ export class ContactDetailComponent {
   // #endregion properties
 
   // #region methods
-  get contact(): Contact | null {return this.currentContact()};
+  get contact(): Contact | null { return this.currentContact() };
 
   /** Shows and hide the mini menu for mobile devices. */
   toggleMenu(): void {
@@ -40,9 +40,16 @@ export class ContactDetailComponent {
    * @param docId the contact id to delete in database.
    */
   async deleteContact(doc: Contact) {
-    this.fireDB.deleteInDB('contacts', doc);
-    this.fireDB.setCurrentContact(new Contact());
-    this.tms.add('Contact deleted', 3000, 'success');
+    try {
+      await this.fireDB.deleteInDB('contacts', doc);
+
+      this.tms.add('Contact deleted', 3000, 'success');
+      this.unselectContact();
+
+    } catch (error) {
+      console.error("Fehler beim Löschen des Kontakts:", error);
+      this.tms.add('Error deleting contact', 3000, 'error');
+    }
   }
 
   /** Closes the Menu. */
@@ -68,7 +75,7 @@ export class ContactDetailComponent {
     this.closeMenu();
   }
 
-  unselectContact() {this.unselect.emit(null);}
+  unselectContact() { this.unselect.emit(null); }
 
   // #endregion methods
 }
