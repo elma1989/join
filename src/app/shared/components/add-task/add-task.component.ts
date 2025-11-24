@@ -280,6 +280,7 @@ export class AddtaskComponent implements OnInit, OnDestroy {
     task.hasSubtasks = subtasks.length > 0;
     task.subtasks = [];
     subtasks.forEach((subtask) => {
+      subtask.editMode = false;
       if (subtask.taskId == '') {
         subtask.taskId = task.id;
       }
@@ -293,6 +294,9 @@ export class AddtaskComponent implements OnInit, OnDestroy {
    * this method emits a close output which can task by parent.
    */
   closeModal() {
+    const subtasks: SubTask[] = this.currentTask().subtasks;
+    subtasks.forEach(subtask => {
+      subtask.editMode = false});
     this.close.emit(true);
   }
   // #endregion methods

@@ -1,4 +1,4 @@
-import { Component, HostListener, inject, input, InputSignal, output } from '@angular/core';
+import { Component, HostListener, inject, input, InputSignal, output, OutputEmitterRef } from '@angular/core';
 import { Task } from '../../../classes/task';
 import { Category } from '../../../enums/category.enum';
 import { CommonModule } from '@angular/common';
@@ -49,7 +49,9 @@ export class TaskModalComponent {
   modalService: ModalService = inject(ModalService);
 
   /** Input signal representing the current task (required) */
-  task: InputSignal<Task> = input.required<Task>();
+  task: InputSignal<Task | null> = input.required<Task | null>();
+
+  modelClosed: OutputEmitterRef<boolean> = output<boolean>();
 
   /** Flag indicating if the modal is currently open */
   isOpen = false;
@@ -70,6 +72,10 @@ export class TaskModalComponent {
 
   ngAfterViewInit() {
     setTimeout(() => this.isOpen = true, 10); // Animation trigger
+  } 
+
+  get currentTask() : Task | null {
+    return this.task();
   }
 
   /**
@@ -79,6 +85,7 @@ export class TaskModalComponent {
   closeTaskModal() {
     this.isOpen = false;
     setTimeout(() => this.dissolve?.(), 400);
+    this.modelClosed.emit(true);
   }
 
   /** Enum or constant representing categories of tasks */

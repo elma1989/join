@@ -1,4 +1,6 @@
 <!-- Modal Overlay -->
+@if (currentTask) {
+
 <div class="modal-overlay" (mousedown)="overlayMouseDown($event)">
 
 	<!-- Modal Container -->
@@ -6,8 +8,9 @@
 		(click)="$event.stopPropagation()">
 
 		<div class="task-modal-header">
-			<h2 [ngClass]="{ blue: task().category === Category.USERSTORY, green: task().category === Category.TECHNICAL, yellow: task().category === Category.TASK}">
-				{{ task().category }}
+			<h2
+				[ngClass]="{ blue: currentTask.category === Category.USERSTORY, green: currentTask.category === Category.TECHNICAL, yellow: currentTask.category === Category.TASK}">
+				{{ currentTask.category }}
 			</h2>
 
 			<button class="close" type="button" (click)="closeTaskModal()">X</button>
@@ -17,22 +20,22 @@
 
 			<!-- Title + Description -->
 			<section class="title-description-container">
-				<div class="title">{{ task().title }}</div>
-				<div class="description">{{ task().description }}</div>
+				<div class="title">{{ currentTask.title }}</div>
+				<div class="description">{{ currentTask.description }}</div>
 			</section>
 
 			<!-- Due Date -->
 			<section class="task-modal-dueDate-container">
 				<h3>Due date:</h3>
-				<p>{{ task().dueDate.toDate() | date: 'dd.MM.yyyy' }}</p>
+				<p>{{ currentTask.dueDate.toDate() | date: 'dd.MM.yyyy' }}</p>
 			</section>
 
 			<!-- Priority -->
 			<section class="task-modal-priority-container">
 				<h3>Priority:</h3>
 				<div class="task-modal-priority">
-					<p>{{ task().priority }}</p>
-					<img [src]="'assets/Icons/taskBoard/' + (task().priority | lowercase) + 'Task.png'"
+					<p>{{ currentTask.priority }}</p>
+					<img [src]="'assets/Icons/taskBoard/' + (currentTask.priority | lowercase) + 'Task.png'"
 						alt="Priority Icon" />
 				</div>
 			</section>
@@ -42,7 +45,7 @@
 				<h3>Assigned To:</h3>
 				<div class="task-modal-assigned">
 					<div class="task-modal-assigned-detail">
-						@for (contact of task().contacts; track contact.id) {
+						@for (contact of currentTask.contacts; track contact.id) {
 						<div class="contact-item">
 							<app-contact-icon class="contact-icon {{ contact.iconColor }}"
 								[contact]="contact"></app-contact-icon>
@@ -59,20 +62,20 @@
 			<section class="task-modal-subtasks">
 				<h3>Subtasks:</h3>
 				<div class="task-modal-subtask-container">
-					@for (subtask of task().subtasks; track subtask.id) {
-						@if (subtask.editState != SubtaskEditState.DELETED) {
-							<label class="task-modal-input">
-								<input type="checkbox" [checked]="subtask.finished"
-									(change)="updateSubTaskStatus(subtask, $event)" />
-								<span [title]="subtask.name">
-									{{
-									subtask.name.length > 30
-									? (subtask.name | slice: 0: 30) + '...'
-									: subtask.name
-									}}
-								</span>
-						</label>
-						}
+					@for (subtask of currentTask.subtasks; track subtask.id) {
+					@if (subtask.editState != SubtaskEditState.DELETED) {
+					<label class="task-modal-input">
+						<input type="checkbox" [checked]="subtask.finished"
+							(change)="updateSubTaskStatus(subtask, $event)" />
+						<span [title]="subtask.name">
+							{{
+							subtask.name.length > 30
+							? (subtask.name | slice: 0: 30) + '...'
+							: subtask.name
+							}}
+						</span>
+					</label>
+					}
 					}
 				</div>
 			</section>
@@ -80,14 +83,14 @@
 		</div>
 
 		<footer class="task-option-container">
-			<button (click)="fireDB.deleteTaskInDB('tasks', task()); closeTaskModal()">
+			<button (click)="fireDB.deleteTaskInDB('tasks', currentTask); closeTaskModal()">
 				<img class="delete-btn" src="assets/Icons/taskBoard/delete.png" alt="Delete" />
 				Delete
 			</button>
 
 			<hr />
 
-			<button (click)="modalService.openAddTaskModal(task()); closeTaskModal()">
+			<button (click)="modalService.openAddTaskModal(currentTask); closeTaskModal()">
 				<img src="assets/Icons/taskBoard/edit.png" alt="Edit" />
 				Edit
 			</button>
@@ -95,3 +98,4 @@
 
 	</div>
 </div>
+}
