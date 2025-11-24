@@ -95,7 +95,7 @@ export class AsideComponent {
             {     sectionId: 'Login',
                   title: 'Login',
                   imagePath: 'assets/Icons/signon/login-arrow-icon.png',
-                  section: SectionType.PREV_SECTION,
+                  section: SectionType.LOGIN,
                   active: false
             }
       ];
