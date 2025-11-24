@@ -130,9 +130,6 @@ export class AddContactComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /** Submit the entered data as add or as update after validation */
-  // async submitForm() {
-  //   this.validateForm();
-  //   console.log(this.contact());
     
   async submitForm() {
     this.validateForm();
