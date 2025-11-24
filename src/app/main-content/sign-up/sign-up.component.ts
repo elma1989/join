@@ -80,7 +80,7 @@ export class SignUpComponent implements OnInit, OnDestroy{
     if (this.form.valid) {
       const { acceptPolicy, passwordConfirm, ...userdata } = this.form.value;
       const user = new User(userdata);
-      user.group = user.firstname[0];
+      user.group = user.firstname[0].toUpperCase();
       user.tel = user.tel.trim();
       this.clear();
       localStorage.clear();

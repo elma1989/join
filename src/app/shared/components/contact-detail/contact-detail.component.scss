@@ -137,6 +137,7 @@
 
                     button {
                         @include all.fl($alit: center, $gap: 0.7rem);
+                        font-size: 1.6rem;
 
                         .delete-btn {
                             @include all.size($w: 20px, $h: 20px);

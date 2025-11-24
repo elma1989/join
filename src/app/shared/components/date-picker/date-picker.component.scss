@@ -58,6 +58,11 @@ input {
         z-index: 10;
         width: 260px;
 
+        @include all.mobile {
+            width: 212px;
+            top: -250px;
+        }
+
         .calendar-header {
             display: flex;
             justify-content: space-between;

@@ -184,7 +184,7 @@ export class FirebaseDBService {
 
 async updateInDB(collectionName: string, object: DBObject) {
     if( object instanceof Contact ) {
-        object.group = object.firstname[0];
+        object.group = object.firstname[0].toUpperCase();
     }
     const docRef = this.getDocRef(collectionName, object.id);
     await updateDoc(docRef, object.toJSON());

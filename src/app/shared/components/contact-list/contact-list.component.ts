@@ -79,7 +79,7 @@ export class ContactListComponent implements OnDestroy {
    * @returns an @type Unsubscribe.
    */
   private getContactsSnapshot(): Unsubscribe {
-    const q: Query = query(this.fireDB.getCollectionRef('contacts'), where('id', '!=', 'null'));
+    const q: Query = query(this.fireDB.getCollectionRef('contacts'));
   
     return onSnapshot(q, (list) => {
       this.contacts = [];
