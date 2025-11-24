@@ -71,16 +71,11 @@
         flex-grow: 1;
         @include all.size($w: 100%);
         @include all.marpad($mar: 2rem 0 0);
-        overflow-y: auto;
-
-        @include all.notebook {
-            padding: 2rem 0 0 0;
-        }
+        overflow-y: hidden;
 
         @include all.tablet {
             width: 100%;
             height: auto;
-            margin: 2rem;
         }
 
         .contact-detail-header-row {
