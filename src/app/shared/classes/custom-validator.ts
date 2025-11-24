@@ -27,14 +27,6 @@ export class CustomValidator {
      * Format: 0<prefix> <phone number>
      * @returns - ValidationError or null.
      */
-    // static tel(): ValidatorFn {
-    //     return (control: AbstractControl): ValidationErrors | null => {
-    //         const value = control.value;
-    //         const regex: RegExp = /^0\d+$/;
-    //         if (typeof value != 'string' || !regex.test(value)) return { tel: true }
-    //         return null;
-    //     }
-    // }
 
     static tel(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
