@@ -54,7 +54,7 @@ export class SummmaryComponent implements OnInit, OnDestroy {
 
   get greating():string {
     const user = this.user();
-    return user ? user.getFullName() : 'User';
+    return user ? user.getFullName() : 'Guest';
   }
 
   // #region Lifecycle Hooks
