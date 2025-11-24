@@ -1,12 +1,17 @@
 @use "./../../../../../public/styles/all_styles.scss" as all;
 
 :host {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
 
     // #region detail-header
     .contact-detail-header {
         @include all.fl($jc: space-between, $alit: center);
         @include all.size($h: 10rem, $w: 100%);
-        max-width: 90dvw;
+        max-width: 100%;
 
         .header-info {
             @include all.fl($alit: center, $gap: 2rem);
@@ -16,43 +21,32 @@
             }
 
             h1 {
-                font-family: 'Interbold', sans-serif;
                 font-size: 5rem;
             }
 
             h2 {
-                width: 100%;
-                font-weight: lighter;
-                letter-spacing: 2px;
-            }
-
-            @media (max-width: 455px) {
-                h1 {
-                    font-size: 3.2rem;
+                @media(max-width: 1150px) {
+                    margin: 0;
                 }
-                h2 {
-                    font-size: 1.8rem;
-                }
-            }
-
-            hr {
-                background: rgb(17, 148, 213);
             }
 
             #middle-line {
-                display: block;
-                @include all.size($w: 3px, $h: 6rem);
+                background: #4ea0ed;
+                width: 0.2rem;
+                height: 8rem;
 
-                @media (max-width: 1200px) {
+                @media(max-width: 1150px) {
                     display: none;
                 }
             }
 
             #bottom-line {
+                background: #4ea0ed;
+                width: 8rem;
+                height: 0.2rem;
                 display: none;
-                @include all.size($w: 12rem, $h: 3px);
 
-                @media (max-width: 1200px) {
+                @media(max-width: 1150px) {
                     display: flex;
                 }
             }
@@ -61,21 +55,23 @@
         .contact-detail-back {
             display: none;
             background: transparent;
+
             @include all.notebook {
                 @include all.marpad($mar: 0 2rem);
                 display: block;
             }
         }
     }
-// #endregion
 
     // #endregion
 
     // #region contact-info
     .contact-info-container {
         @include all.slightInFromRightAnimation();
-        @include all.size($w: 100%, $h: 70%);
-        @include all.marpad($mar: 6rem 0 0);
+        flex-grow: 1;
+        @include all.size($w: 100%);
+        @include all.marpad($mar: 2rem 0 0);
+        overflow-y: auto;
 
         @include all.notebook {
             padding: 2rem 0 0 0;
@@ -83,14 +79,14 @@
 
         @include all.tablet {
             width: 100%;
-            height: 55dvh;
+            height: auto;
             margin: 2rem;
         }
 
         .contact-detail-header-row {
             @include all.fl($alit: center);
             @include all.size($w: 100%);
-            
+
             .contact-icon {
                 height: 12rem;
                 width: 12rem;
@@ -109,6 +105,9 @@
                 }
 
                 .name {
+                    min-width: 0;
+                    overflow-wrap: break-word;
+
                     display: -webkit-box;
                     -webkit-line-clamp: 3;
                     -webkit-box-orient: vertical;
@@ -118,7 +117,7 @@
                     line-clamp: 2;
                     max-height: 10rem;
                     line-height: 3rem;
-                    
+
                     font: 3.2rem 'InterBold', sans-serif;
 
                     @media(max-width: 400px) {
@@ -135,53 +134,57 @@
                         display: none;
                     }
 
-                    button {
-                        @include all.fl($alit: center, $gap: 0.7rem);
-                        font-size: 1.6rem;
-
-                        .delete-btn {
-                            @include all.size($w: 20px, $h: 20px);
-                        }
-
-                        img {
-                            @include all.size($w: 1.6rem, $h: 1.6rem);
-                        }
-
-                        &:hover {
-                            color: rgb(31, 135, 246);
-                        }
-                    }
                 }
             }
         }
 
-        h2 {
-            @include all.marpad($mar: 3rem 0);
-            font-size: 2.4rem;
+        button {
+            @include all.fl($alit: center, $gap: 0.7rem);
+            font-size: 1.6rem;
 
-            @include all.tablet {
-                @include all.marpad($mar: 1rem 0);
-            }
-        }
-
-        .emailPhone {
-            @include all.limiter();
-
-            h3 {
-                @include all.marpad($mar: 1.5rem 0);
-                font-size: 2rem;
+            .delete-btn {
+                @include all.size($w: 20px, $h: 20px);
             }
 
-            a {
-                font-size: 2rem;
-                color: #007bed;
+            img {
+                @include all.size($w: 1.6rem, $h: 1.6rem);
             }
 
-            .tel-ref {
-                color: black;
+            &:hover {
+                color: rgb(31, 135, 246);
             }
         }
     }
+
+
+
+    h2 {
+        @include all.marpad($mar: 3rem 0);
+        font-size: 2.4rem;
+
+        @include all.tablet {
+            @include all.marpad($mar: 1rem 0);
+        }
+    }
+
+    .emailPhone {
+        @include all.limiter();
+
+        h3 {
+            @include all.marpad($mar: 1.5rem 0);
+            font-size: 2rem;
+        }
+
+        a {
+            font-size: 2rem;
+            color: #007bed;
+        }
+
+        .tel-ref {
+            color: black;
+        }
+    }
+
 
     // #endregion
 
