@@ -57,9 +57,15 @@ input {
         padding: 8px;
         z-index: 10;
         width: 260px;
+        transform-origin: top left;
+
+        @include all.notebook {
+            transform: scale(0.9);
+            top: -265px;
+        }
 
         @include all.mobile {
-            width: 212px;
+            transform: scale(0.82);
             top: -250px;
         }
 
