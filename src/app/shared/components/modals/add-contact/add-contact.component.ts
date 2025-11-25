@@ -162,7 +162,7 @@ export class AddContactComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   async deleteContact() {
     await this.fireDB.deleteInDB('contacts', this.contact());
-    this.tms.add('Contct deleted', 3000, 'success');
+    this.tms.add('Contact deleted', 3000, 'success');
     this.closeModal();
   }
 
