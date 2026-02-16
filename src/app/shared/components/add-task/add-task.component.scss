@@ -36,7 +36,7 @@ b {
 }
 
 .add-task-section {
-    height: 85dvh;
+    height: 100%;
     @include all.marpad($pad: 3rem 1rem);
     margin: 0 3rem;
 
@@ -162,7 +162,7 @@ b {
 
 .add-task-footer {
     @include all.fl($jc: space-between, $alit: end);
-    margin-top: 2rem;
+    margin-top: 6rem;
 
     @media(min-width: 3840px) {
         position: absolute;
