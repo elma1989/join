@@ -86,13 +86,12 @@
 
     // #region task-list-container
     .task-list-wrapper {
-        @include all.size($w: 100%);
+        @include all.size($w: 100%, $h: 70dvh);
         @include all.fl($gap: 2rem);
         justify-content: space-evenly;
-        height: 74dvh;
 
         @media(max-width: 1280px) {
-            @include all.size($h: 72dvh);
+            @include all.size($h: 70dvh);
             @include all.fl($flexdir: column);
             @include all.scrollbar();
             padding: 0 1rem 4rem 1rem;
@@ -109,7 +108,7 @@
         }
 
         .task-list {
-            @include all.size($w: 100%, $h: 73.5dvh);
+            @include all.size($w: 100%, $h: 70dvh);
             max-width: 28rem;
             display: flex;
             flex-direction: column;
