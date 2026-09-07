@@ -70,14 +70,14 @@ b {
 
 .add-task-main-container {
 
-    @include all.size($w: 100%, $h: 58dvh);
+    @include all.size($w: 100%, $h: 43dvh);
     @include all.fl($jc: space-between, $alit: start, $gap: 1rem);
+    overflow-y: auto;
 
     @include all.notebook {
         @include all.fl($flexdir: column, $alit: center);
         @include all.scrollbar();
         height: 60dvh;
-        overflow-y: auto;
         margin-bottom: 1.3rem;
     }
 
