@@ -155,7 +155,7 @@
 		@include all.marpad($mar: 0.8rem 0 0 0);
 
 		.task-modal-assigned {
-			@include all.size($h: 18dvh);
+			@include all.size($h: 14dvh);
 			@include all.scrollbar();
 			margin-top: 0.5rem;
 			overflow-y: auto;
@@ -203,7 +203,7 @@
 
 	.task-modal-subtask-container {
 		@include all.marpad($pad: 1rem);
-		@include all.fl($alit: center, $flexdir: column, $gap: 0.7rem);
+		@include all.fl($jc: center, $flexdir: column, $gap: 0.7rem);
 		@include all.scrollbar();
 		@include all.size($w: 100%, $h: 12rem);
 		overflow-y: auto;
@@ -215,16 +215,47 @@
 		@include all.mobile {
 			height: 7rem;
 		}
-
-		.task-modal-input {
-			@include all.size($w: 100%, $h: 2rem);
-			@include all.fl($alit: center, $gap: 1rem);
-
-			input {
-				@include all.fl($alit: center);
-			}
-		}
 	}
+}
+
+.check-item {
+	position: relative;
+	[type=checkbox] {
+		outline: none;
+		opacity: 0;
+		z-index: 1;
+		position: absolute;
+		top:0;
+		left:0;
+		width: 2.4rem;
+		height: 2.4rem;
+	}
+
+	[type=checkbox]+label {
+		padding-left: 3rem;
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    [type=checkbox]+label::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 2.4rem;
+        height: 2.4rem;
+        background: url(../../../../../../public/assets/Icons/signon/check.png) no-repeat center / contain;
+    }
+
+    [type=checkbox]:checked+label::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 2.4rem;
+        height: 2.4rem;
+        background: url(../../../../../../public/assets/Icons/signon/checked.png) no-repeat center / contain;
+    }
 }
 
 .task-option-container {
