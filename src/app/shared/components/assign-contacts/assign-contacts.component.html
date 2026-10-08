@@ -26,11 +26,14 @@
         @for (option of filteredOptions(); track option.id) {
         <div class="option">
             <div class="contact-container">
-                <app-contact-icon class="{{option.iconColor}}" [contact]="option"></app-contact-icon>
+                <app-contact-icon [class]="option.iconColor" [contact]="option"></app-contact-icon>
                 <span>{{ option.getFullName() }}</span>
             </div>
-            <input id="add-contact-chb-{{option.id}}" type="checkbox" [checked]="isSelected(option)"
-                (click)="toggleSelection(option); $event.stopPropagation()" />
+            <div class="check-container">
+                <input id="add-contact-chb-{{option.id}}" type="checkbox" [checked]="isSelected(option)"
+                    (click)="toggleSelection(option); $event.stopPropagation()" />
+                <label for="add-contact-chb-{{option.id}}"></label>
+            </div>
         </div>
         }
         } @else {
