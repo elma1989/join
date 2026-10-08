@@ -3,12 +3,6 @@
 .icon-list-container {
 	@include all.fl($alit: center);
 
-	.icon-list-item {
-		@include all.size($w: 3.5rem, $h: 3.5rem);
-		@include all.marpad($mar: 0 -0.6rem 0 0);
-		border: 1px solid white;
-	}
-
 	.icon-counter {
 		@include all.fl($jc: center, $alit: center);
 		@include all.size($w: 3rem, $h: 3rem);

@@ -23,17 +23,20 @@ export class FirebaseDBService {
 
   private tms: ToastMsgService = inject(ToastMsgService);
   
-  tasks: Array<Task> = [];
-  subTasks: Array<SubTask> = [];
+  tasks: Task[] = [];
+  subTasks: SubTask[] = [];
+  contacts: Contact[] = [];
 
   unsubTasks: Unsubscribe;
   unsubSubTasks: Unsubscribe;
+  unsubContacts: Unsubscribe;
 
   // #endregion properties
 
   constructor() {
       this.unsubTasks = this.getTasksSnapshot();
       this.unsubSubTasks = this.getSubTasksSnapshot();
+      this.unsubContacts = this.getContactsSnapshot();
   }
 
   // #region methods
@@ -70,6 +73,14 @@ export class FirebaseDBService {
         this.subTasks.push(this.mapResponseToSubTask({ ...docRef.data(), id: docRef.id}));
       });
     });
+  }
+
+  getContactsSnapshot(): Unsubscribe {
+    const q: Query = query(this.getCollectionRef('contacts'), where('id', '!=', 'null'));
+    return onSnapshot(q, (list) => {
+      this.contacts = [];
+      list.forEach(docRef => this.contacts.push(this.mapResponseToContact({ ...docRef.data(), id: docRef.id})));
+    })
   }
 
   // #endregion snapshots
@@ -119,6 +130,8 @@ export class FirebaseDBService {
    * @returns a single task instance.
    */
   mapResponseToTask(obj: any): Task {
+    const task = new Task(obj);
+    task.contacts = this.mapContactIdsToContacs(task.assignedTo);
     return new Task(obj);
   }
 
@@ -129,6 +142,12 @@ export class FirebaseDBService {
    */
   mapResponseToSubTask(obj: any): SubTask {
     return new SubTask(obj);
+  }
+
+  mapContactIdsToContacs(ids: string[]): Contact[] {
+    return ids
+      .map(id => this.contacts.find(contact => contact.id == id))
+      .filter(foundContact => foundContact != undefined)
   }
 
   // #endregion helpers

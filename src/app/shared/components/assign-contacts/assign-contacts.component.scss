@@ -1,5 +1,7 @@
 @use '../../../../../public/styles/all_styles' as all;
 
+$check-size: 2rem;
+
 :host {
     width: 100%;
 }
@@ -101,4 +103,38 @@
       color: #888;
       font-size: 1.6rem;
     }
+}
+
+.check-container {
+  position: relative;
+  @include all.size($w: $check-size, $h: $check-size);
+  [type=checkbox] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    @include all.size($w: $check-size, $h: $check-size);
+    opacity: 0;
+  }
+
+  label {
+    cursor:pointer;
+  }
+
+  label::before {
+    content: '';
+    @include all.size($w: $check-size, $h: $check-size);
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: url(../../../../../public/assets/Icons/signon/check.png) no-repeat center / contain;
+  }
+
+  [type=checkbox]:checked + label:before {
+    content: '';
+    @include all.size($w: $check-size, $h: $check-size);
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: url(../../../../../public/assets/Icons/signon/checked.png) no-repeat center / contain;
+  }
 }

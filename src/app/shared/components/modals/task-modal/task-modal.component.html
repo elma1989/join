@@ -61,17 +61,19 @@
 				<div class="task-modal-subtask-container">
 					@for (subtask of task().subtasks; track subtask.id) {
 						@if (subtask.editState != SubtaskEditState.DELETED) {
-							<label class="task-modal-input">
+							<p class="check-item">
 								<input type="checkbox" [checked]="subtask.finished"
-									(change)="updateSubTaskStatus(subtask, $event)" />
-								<span [title]="subtask.name">
-									{{
-									subtask.name.length > 30
-									? (subtask.name | slice: 0: 30) + '...'
-									: subtask.name
-									}}
-								</span>
-						</label>
+								(change)="updateSubTaskStatus(subtask, $event)" />
+								<label class="task-modal-input">
+									<span [title]="subtask.name">
+										{{
+											subtask.name.length > 30
+											? (subtask.name | slice: 0: 30) + '...'
+											: subtask.name
+										}}
+									</span>
+								</label>
+							</p>
 						}
 					}
 				</div>

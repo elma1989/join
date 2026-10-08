@@ -38,7 +38,7 @@ export class Task implements DBObject{
 	assignedTo: string[] = [];
 
 	/** All contacts of  Task */
-	contacts: Contact[] = [];
+	_contacts: Contact[] = [];
 
 	/** an indicator wether this task has subtasks */
 	hasSubtasks: boolean = false;
@@ -79,6 +79,10 @@ export class Task implements DBObject{
 			this.status = data.status;
 		}
 	}
+
+	get contacts() { return this._contacts; }
+
+	set contacts(contacts: Contact[]) { this._contacts = contacts; }
 
 	/**
      * Returns a JSON-string from tast.
